@@ -2,6 +2,7 @@
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
+import Link from "next/link";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -20,38 +21,38 @@ export default function Navbar() {
         <div className="mx-auto max-w-7xl px-6">
           <div className="flex h-16 items-center justify-between">
             {/* Brand */}
-            <a
+            <Link
               href="/"
               className="text-xl font-bold text-white tracking-wide"
             >
               YourBrand
-            </a>
+            </Link>
 
             {/* Desktop Menu */}
             <div className="hidden md:flex items-center gap-8">
               {links.map((link) => (
-                <a
+                <Link
                   key={link.name}
                   href={link.href}
                   className="text-sm font-medium text-slate-200 hover:text-white transition"
                 >
                   {link.name}
-                </a>
+                </Link>
               ))}
 
-              <a
+              <Link
                 href="/login"
                 className="text-sm font-medium text-slate-200 hover:text-white transition"
               >
                 Login
-              </a>
+              </Link>
 
-              <a
-                href="/app/auth"
+              <Link
+                href="/signup"
                 className="rounded-lg bg-blue-500 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-600 transition"
               >
                 Signup
-              </a>
+              </Link>
             </div>
 
             {/* Mobile Toggle */}
@@ -69,23 +70,23 @@ export default function Navbar() {
           <div className="md:hidden backdrop-blur-md bg-black/60 border-t border-white/10">
             <div className="px-6 py-4 space-y-4">
               {[...links, { name: "Login", href: "/login" }].map((item) => (
-                <a
+                <Link
                   key={item.name}
                   href={item.href}
                   className="block text-slate-200 hover:text-white transition"
                   onClick={() => setOpen(false)}
                 >
                   {item.name}
-                </a>
+                </Link>
               ))}
 
-              <a
+              <Link
                 href="/app/auth"
                 className="block text-center rounded-lg bg-blue-500 py-2 font-semibold text-white hover:bg-blue-600 transition"
                 onClick={() => setOpen(false)}
               >
                 Signup
-              </a>
+              </Link>
             </div>
           </div>
         )}
