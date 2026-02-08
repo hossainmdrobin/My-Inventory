@@ -6,14 +6,14 @@ export const productEndpoints = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
         getProducts: builder.query<Product[], { key?: string }>({
             query: ({ key }) => ({
-                url: `/products?key=${key || ""}`,
+                url: `/app/dashboard/products/api?key=${key || ""}`,
                 method: 'GET',
             }),
             providesTags: ["GETALLPOST"],
         }),
         createProduct: builder.mutation<any, { data: any }>({
             query: ({ data }) => ({
-                url: '/products',
+                url: `/app/dashboard/products/api`,
                 method: 'POST',
                 body: data,
             }),
@@ -21,7 +21,7 @@ export const productEndpoints = apiSlice.injectEndpoints({
         }),
         updateProduct: builder.mutation<any, { id: string; data: any }>({
             query: ({ id, data }) => ({
-                url: `/products/${id}`,
+                url: `/app/dashboard/products/api/${id}`,
                 method: 'PUT',
                 body: data,
             }),
@@ -29,7 +29,7 @@ export const productEndpoints = apiSlice.injectEndpoints({
         }),
         deleteProduct: builder.mutation<any, { id: string }>({
             query: ({ id }) => ({
-                url: `/products/${id}`,
+                url: `/app/dashboard/products/api/${id}`,
                 method: 'DELETE',
             }),
             invalidatesTags: ["GETALLPOST"],
