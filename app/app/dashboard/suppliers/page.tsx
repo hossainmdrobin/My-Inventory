@@ -1,13 +1,18 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import SearchBar from "./SearchBar";
+import { useCreateSupplierMutation, useGetSuppliersQuery } from "@/redux/slices/api.slices";
+import CreateSuppilerForm from "./CreateSuppilerForm";
+import SupplierTable from "./SupplierTable";
+// import Pagination from "./pagination";
 
 type Supplier = {
-  id: number;
+  id?: number;
   name: string;
   phone: string;
   address: string;
-  addedAt: string;
+  addedAt?: string;
 };
 
 const ITEMS_PER_PAGE = 5;
@@ -18,8 +23,12 @@ export default function SuppliersPage() {
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState<Supplier | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const { data: supplierData, error, isLoading } = useGetSuppliersQuery({ key: search })
+  const [createSupplier,{data:createSupplierData, error:createErr, isLoading:createLoading}] = useCreateSupplierMutation()
+  console.log(supplierData, "Supplier data arived")
+console.log(createSupplierData,"Create")
 
-  const [form, setForm] = useState<Omit<Supplier, "id" | "addedAt">>({
+  const [form, setForm] = useState({
     name: "",
     phone: "",
     address: "",
@@ -66,14 +75,7 @@ export default function SuppliersPage() {
         )
       );
     } else {
-      setSuppliers((prev) => [
-        ...prev,
-        {
-          id: Date.now(),
-          ...form,
-          addedAt: new Date().toISOString(),
-        },
-      ]);
+      createSupplier({ data: form })
     }
     setOpen(false);
   }
@@ -97,152 +99,19 @@ export default function SuppliersPage() {
       </div>
 
       {/* Search */}
-      <input
-        type="text"
-        placeholder="Search supplier..."
-        value={search}
-        onChange={(e) => {
-          setSearch(e.target.value);
-          setCurrentPage(1);
-        }}
-        className="w-full rounded-lg bg-slate-900 border border-slate-700 px-4 py-2 outline-none"
-      />
+      <SearchBar search={search} setSearch={setSearch} setCurrentPage={setCurrentPage} />
 
       {/* Table (X scroll only here) */}
-      <div className="overflow-x-auto rounded-xl border border-slate-800">
-        <table className="min-w-[900px] w-full text-sm">
-          <thead className="bg-slate-900 text-slate-300">
-            <tr>
-              <th className="p-3 text-left">Name</th>
-              <th className="p-3 text-left">Phone</th>
-              <th className="p-3 text-left">Address</th>
-              <th className="p-3 text-left">Added</th>
-              <th className="p-3 text-center">Actions</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {paginatedSuppliers.length === 0 && (
-              <tr>
-                <td colSpan={5} className="p-4 text-center text-slate-400">
-                  No suppliers found
-                </td>
-              </tr>
-            )}
-
-            {paginatedSuppliers.map((supplier) => (
-              <tr
-                key={supplier.id}
-                className="border-t border-slate-800 hover:bg-slate-900/50"
-              >
-                <td className="p-3">{supplier.name}</td>
-                <td className="p-3">{supplier.phone}</td>
-                <td className="p-3 max-w-xs truncate">
-                  {supplier.address}
-                </td>
-                <td className="p-3">
-                  {new Date(supplier.addedAt).toLocaleDateString()}
-                </td>
-                <td className="p-3 text-center space-x-3">
-                  <button
-                    onClick={() => openEditModal(supplier)}
-                    className="text-blue-400 hover:underline"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    onClick={() => handleDelete(supplier.id)}
-                    className="text-red-400 hover:underline"
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      {/* <SupplierTable paginatedSuppliers={paginatedSuppliers} openEditModal={openEditModal} handleDelete={handleDelete} /> */}
 
       {/* Pagination */}
-      {totalPages > 1 && (
-        <div className="flex flex-wrap justify-end items-center gap-2">
-          <button
-            disabled={currentPage === 1}
-            onClick={() => setCurrentPage((p) => p - 1)}
-            className="px-3 py-1 rounded-lg border border-slate-700 disabled:opacity-40"
-          >
-            Prev
-          </button>
-
-          {[...Array(totalPages)].map((_, i) => (
-            <button
-              key={i}
-              onClick={() => setCurrentPage(i + 1)}
-              className={`px-3 py-1 rounded-lg border ${
-                currentPage === i + 1
-                  ? "bg-blue-600 border-blue-600 text-white"
-                  : "border-slate-700"
-              }`}
-            >
-              {i + 1}
-            </button>
-          ))}
-
-          <button
-            disabled={currentPage === totalPages}
-            onClick={() => setCurrentPage((p) => p + 1)}
-            className="px-3 py-1 rounded-lg border border-slate-700 disabled:opacity-40"
-          >
-            Next
-          </button>
-        </div>
-      )}
+      {/* {totalPages > 1 && (
+        <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage} totalPages={totalPages} />
+      )} */}
 
       {/* Modal */}
       {open && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
-          <div className="w-full max-w-md rounded-xl bg-slate-900 p-6 space-y-4">
-            <h2 className="text-xl font-semibold">
-              {editing ? "Edit Supplier" : "Add Supplier"}
-            </h2>
-
-            <input
-              placeholder="Supplier Name"
-              value={form.name}
-              onChange={(e) => setForm({ ...form, name: e.target.value })}
-              className="w-full rounded-lg bg-slate-800 border border-slate-700 px-4 py-2"
-            />
-
-            <input
-              placeholder="Phone"
-              value={form.phone}
-              onChange={(e) => setForm({ ...form, phone: e.target.value })}
-              className="w-full rounded-lg bg-slate-800 border border-slate-700 px-4 py-2"
-            />
-
-            <textarea
-              placeholder="Address"
-              value={form.address}
-              onChange={(e) => setForm({ ...form, address: e.target.value })}
-              className="w-full rounded-lg bg-slate-800 border border-slate-700 px-4 py-2"
-            />
-
-            <div className="flex justify-end gap-3 pt-4">
-              <button
-                onClick={() => setOpen(false)}
-                className="px-4 py-2 rounded-lg border border-slate-600"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleSubmit}
-                className="px-4 py-2 rounded-lg bg-blue-600 font-semibold"
-              >
-                Save
-              </button>
-            </div>
-          </div>
-        </div>
+        <CreateSuppilerForm {...{ editing, form, setForm, setOpen, handleSubmit }} />
       )}
     </div>
   );

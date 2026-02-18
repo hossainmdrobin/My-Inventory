@@ -2,6 +2,7 @@
 
 import { ReactNode, useState } from "react";
 import Sidebar from "./sidebar";
+import ReduxProvider from "@/redux/provider"
 
 export default function InnerLayout({ children }: { children: ReactNode }) {
   const [collapsed, setCollapsed] = useState(false);
@@ -16,11 +17,12 @@ export default function InnerLayout({ children }: { children: ReactNode }) {
 
         {/* Main Content */}
         <main
-          className={`flex-1 transition-all duration-300 p-6 ${
-            collapsed ? "ml-20" : "ml-64"
-          }`}
+          className={`flex-1 transition-all duration-300 p-6 ${collapsed ? "ml-20" : "ml-64"
+            }`}
         >
-          {children}
+          <ReduxProvider>
+            {children}
+          </ReduxProvider>
         </main>
       </div>
     </div>
