@@ -17,7 +17,6 @@ const SECRETKEY = new TextEncoder().encode(process.env.JWT_SECRET || "myinventor
 
 export async function hashPassword(password: string): Promise<string> {
     const saltRounds = 10;
-    console.log(password, "Provided passsword");
     try {
         return await bcrypt.hash(password, saltRounds);
     } catch (error) {
