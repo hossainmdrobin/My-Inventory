@@ -1,6 +1,6 @@
 "use client";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import Link from "next/link";
 
@@ -8,11 +8,26 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname(); // /dashboard/employees
   const isApp = pathname.split('/').includes('app');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  useEffect(() => {
+    // Check if the user is logged in by calling the /api/auth/me endpoint
+    fetch("/api/auth/me")
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data, "The login data")
+        if (data.user) setIsLoggedIn(true);
+        else setIsLoggedIn(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setIsLoggedIn(false)
+      });
+  }, []);
+
 
   const links = [
     { name: "About", href: "/about" },
     { name: "Contact", href: "/contact" },
-    { name: "Dashboard", href: "/app/dashboard" },
   ];
 
   return isApp ? <></> : (
@@ -25,7 +40,7 @@ export default function Navbar() {
               href="/"
               className="text-xl font-bold text-white tracking-wide"
             >
-              YourBrand
+              Sathi Enterprise
             </Link>
 
             {/* Desktop Menu */}
@@ -39,20 +54,26 @@ export default function Navbar() {
                   {link.name}
                 </Link>
               ))}
+              {isLoggedIn &&
+                <Link
+                  className="text-sm font-medium text-slate-200 hover:text-white transition"
+                  href="/app/dashboard">Dashboard</Link>
+              }
+              {!isLoggedIn && <>
+                <Link
+                  href="/login"
+                  className="text-sm font-medium text-slate-200 hover:text-white transition"
+                >
+                  Login
+                </Link>
 
-              <Link
-                href="/login"
-                className="text-sm font-medium text-slate-200 hover:text-white transition"
-              >
-                Login
-              </Link>
-
-              <Link
-                href="/signup"
-                className="rounded-lg bg-blue-500 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-600 transition"
-              >
-                Signup
-              </Link>
+                <Link
+                  href="/signup"
+                  className="rounded-lg bg-blue-500 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-600 transition"
+                >
+                  Signup
+                </Link>
+              </>}
             </div>
 
             {/* Mobile Toggle */}

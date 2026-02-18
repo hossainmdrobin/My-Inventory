@@ -21,7 +21,7 @@ export default function HeroSection() {
                     className="text-4xl md:text-6xl font-extrabold tracking-tight text-white"
                 >
                     <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
-                        YourBrand
+                        Sathi Enterprise
                     </span>
                 </motion.h1>
 
