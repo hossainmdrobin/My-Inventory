@@ -1,6 +1,8 @@
+import { useDeleteSupplierMutation } from "@/redux/slices/api.slices";
 import { Supplier } from "@/types/supplier";
 
 export default function SupplierTable({ paginatedSuppliers, openEditModal, handleDelete }: { paginatedSuppliers: Supplier[], openEditModal: (supplier: Supplier) => void, handleDelete: (id: string) => void }) {
+
     return (
         <div className="overflow-x-auto rounded-xl border border-slate-800">
             <table className="min-w-[900px] w-full text-sm">
@@ -36,19 +38,16 @@ export default function SupplierTable({ paginatedSuppliers, openEditModal, handl
                             <td className="p-3">
                                 {supplier?.createdAt ? new Date(supplier.createdAt).toLocaleDateString() : 'N/A'}
                             </td>
-                            <td className="p-3 text-center space-x-3">
+                            <td className="p-3  text-center flex items-center justify-center space-x-3">
                                 <button
                                     onClick={() => openEditModal(supplier)}
                                     className="text-blue-400 hover:underline"
                                 >
                                     Edit
                                 </button>
-                                <button
-                                    onClick={() => supplier._id && handleDelete(supplier._id)}
-                                    className="text-red-400 hover:underline"
-                                >
-                                    Delete
-                                </button>
+                                {supplier._id && <DeleteButton id={supplier._id} />}
+
+
                             </td>
                         </tr>
                     ))}
@@ -57,3 +56,26 @@ export default function SupplierTable({ paginatedSuppliers, openEditModal, handl
         </div>
     )
 }
+
+
+function DeleteButton({ id }: { id: string }) {
+    const [deleteSupplier, { isLoading }] = useDeleteSupplierMutation()
+
+    return (
+        <>
+            {!isLoading && <button
+                onClick={() => id && deleteSupplier({ id })}
+                className="text-red-400 hover:underline"
+            >
+                Delete
+            </button>}
+            {isLoading && <button className="flex items-center justify-center space-x-1">
+                <span className="w-2 h-2 bg-purple-800 rounded-full animate-bounce delay-0"></span>
+                <span className="w-2 h-2 bg-yellow-800 rounded-full animate-bounce delay-150"></span>
+                <span className="w-2 h-2 bg-green-800 rounded-full animate-bounce delay-300"></span>
+            </button>}
+
+        </>
+    )
+}
+

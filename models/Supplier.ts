@@ -24,7 +24,6 @@ const SupplierSchema = new Schema(
     { timestamps: true }
 );
 
-const Supplier =
-    models.Supplier || model("Supplier", SupplierSchema);
+const Supplier = models.Supplier || model("Supplier", SupplierSchema);
 
 export default Supplier;

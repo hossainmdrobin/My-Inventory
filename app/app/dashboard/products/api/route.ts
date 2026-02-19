@@ -11,6 +11,7 @@ export async function POST(req: Request) {
     const product = await Product.create(body);
     return NextResponse.json(product, { status: 201 });
   } catch (error: any) {
+    console.log("Error creating product:", error);
     return NextResponse.json(
       { error: error.message },
       { status: 400 }
@@ -22,9 +23,10 @@ export async function POST(req: Request) {
 export async function GET() {
   try {
     await connectToDB();
-    const products = await Product.find().sort({ createdAt: -1 }).lean();
+    const products = await Product.find().sort({ createdAt: -1 }).lean().populate("supplier");
     return NextResponse.json(products);
-  } catch {
+  } catch(e) {
+    console.log("Error fetching products:", e);
     return NextResponse.json(
       { error: "Failed to fetch products" },
       { status: 500 }

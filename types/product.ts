@@ -1,11 +1,13 @@
 export interface Product {
-  _id: string;
+  _id?: string;
   name: string;
   sku?: string;
-  category: string;
+  category?: string;
   stock: number;
   costPrice?: number;
   sellingPrice?: number;
-  createdAt: string;
-  updatedAt: string;
+  supplier?: string; // This can be the supplier's name or ID depending on how you implement it
+  unit: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
