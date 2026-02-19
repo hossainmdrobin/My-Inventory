@@ -1,11 +1,6 @@
-type Supplier = {
-    id: number;
-    name: string;
-    phone: string;
-    address: string;
-    addedAt: string;
-};
-export default function SupplierTable({ paginatedSuppliers, openEditModal, handleDelete }: { paginatedSuppliers: Supplier[], openEditModal: (supplier: Supplier) => void, handleDelete: (id: number) => void }) {
+import { Supplier } from "@/types/supplier";
+
+export default function SupplierTable({ paginatedSuppliers, openEditModal, handleDelete }: { paginatedSuppliers: Supplier[], openEditModal: (supplier: Supplier) => void, handleDelete: (id: string) => void }) {
     return (
         <div className="overflow-x-auto rounded-xl border border-slate-800">
             <table className="min-w-[900px] w-full text-sm">
@@ -30,7 +25,7 @@ export default function SupplierTable({ paginatedSuppliers, openEditModal, handl
 
                     {paginatedSuppliers.map((supplier) => (
                         <tr
-                            key={supplier.id}
+                            key={supplier._id}
                             className="border-t border-slate-800 hover:bg-slate-900/50"
                         >
                             <td className="p-3">{supplier.name}</td>
@@ -39,7 +34,7 @@ export default function SupplierTable({ paginatedSuppliers, openEditModal, handl
                                 {supplier.address}
                             </td>
                             <td className="p-3">
-                                {new Date(supplier.addedAt).toLocaleDateString()}
+                                {supplier?.createdAt ? new Date(supplier.createdAt).toLocaleDateString() : 'N/A'}
                             </td>
                             <td className="p-3 text-center space-x-3">
                                 <button
@@ -49,7 +44,7 @@ export default function SupplierTable({ paginatedSuppliers, openEditModal, handl
                                     Edit
                                 </button>
                                 <button
-                                    onClick={() => handleDelete(supplier.id)}
+                                    onClick={() => supplier._id && handleDelete(supplier._id)}
                                     className="text-red-400 hover:underline"
                                 >
                                     Delete

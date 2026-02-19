@@ -7,9 +7,10 @@ export async function GET(
     _: Request,
     { params }: { params: { id: string } }
 ) {
+    const { id } = await params
     await connectToDB();
 
-    const supplier = await Supplier.findById(params.id)
+    const supplier = await Supplier.findById(id)
         .populate("addedBy", "email")
         .lean();
 
@@ -28,14 +29,17 @@ export async function PUT(
     req: Request,
     { params }: { params: { id: string } }
 ) {
+    const { id } = await params
     await connectToDB();
     const body = await req.json();
+    console.log(body)
 
     const updated = await Supplier.findByIdAndUpdate(
-        params.id,
+        id,
         body,
         { new: true, runValidators: true }
     );
+    console.log(updated)
 
     if (!updated) {
         return NextResponse.json(
@@ -52,9 +56,11 @@ export async function DELETE(
     _: Request,
     { params }: { params: { id: string } }
 ) {
+    const { id } = await params
+
     await connectToDB();
 
-    const deleted = await Supplier.findByIdAndDelete(params.id);
+    const deleted = await Supplier.findByIdAndDelete(id);
 
     if (!deleted) {
         return NextResponse.json(

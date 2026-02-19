@@ -2,31 +2,23 @@
 
 import { useState, useMemo } from "react";
 import SearchBar from "./SearchBar";
-import { useCreateSupplierMutation, useGetSuppliersQuery } from "@/redux/slices/api.slices";
+import { useCreateSupplierMutation, useGetSuppliersQuery, useUpdateSupplierMutation } from "@/redux/slices/api.slices";
 import CreateSuppilerForm from "./CreateSuppilerForm";
 import SupplierTable from "./SupplierTable";
+import { Supplier } from "@/types/supplier";
+import SkeletonTable from "@/reusable/skeletone";
+import ErrorState from "@/reusable/ErrorState";
 // import Pagination from "./pagination";
 
-type Supplier = {
-  id?: number;
-  name: string;
-  phone: string;
-  address: string;
-  addedAt?: string;
-};
-
-const ITEMS_PER_PAGE = 5;
 
 export default function SuppliersPage() {
-  const [suppliers, setSuppliers] = useState<Supplier[]>([]);
+  // const [suppliers, setSuppliers] = useState<Supplier[]>([]);
   const [search, setSearch] = useState("");
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState<Supplier | null>(null);
-  const [currentPage, setCurrentPage] = useState(1);
-  const { data: supplierData, error, isLoading } = useGetSuppliersQuery({ key: search })
-  const [createSupplier,{data:createSupplierData, error:createErr, isLoading:createLoading}] = useCreateSupplierMutation()
-  console.log(supplierData, "Supplier data arived")
-console.log(createSupplierData,"Create")
+  const { data: suppliers, error, isLoading } = useGetSuppliersQuery({ key: search })
+  const [createSupplier, {  }] = useCreateSupplierMutation()
+  const [updateSupplier, { }] = useUpdateSupplierMutation()
 
   const [form, setForm] = useState({
     name: "",
@@ -34,18 +26,6 @@ console.log(createSupplierData,"Create")
     address: "",
   });
 
-  const filteredSuppliers = useMemo(() => {
-    return suppliers.filter((s) =>
-      s.name.toLowerCase().includes(search.toLowerCase())
-    );
-  }, [suppliers, search]);
-
-  const totalPages = Math.ceil(filteredSuppliers.length / ITEMS_PER_PAGE);
-
-  const paginatedSuppliers = useMemo(() => {
-    const start = (currentPage - 1) * ITEMS_PER_PAGE;
-    return filteredSuppliers.slice(start, start + ITEMS_PER_PAGE);
-  }, [filteredSuppliers, currentPage]);
 
   function openAddModal() {
     setEditing(null);
@@ -62,26 +42,22 @@ console.log(createSupplierData,"Create")
     setForm({
       name: supplier.name,
       phone: supplier.phone,
-      address: supplier.address,
+      address: supplier.address || "",
     });
     setOpen(true);
   }
 
   function handleSubmit() {
-    if (editing) {
-      setSuppliers((prev) =>
-        prev.map((s) =>
-          s.id === editing.id ? { ...s, ...form } : s
-        )
-      );
+    if (editing && editing._id) {
+      updateSupplier({id:editing._id,data:form})
     } else {
       createSupplier({ data: form })
     }
     setOpen(false);
   }
 
-  function handleDelete(id: number) {
-    setSuppliers((prev) => prev.filter((s) => s.id !== id));
+  function handleDelete(_id: string) {
+    // setSuppliers((prev) => prev.filter((s) => s.id !== id));
   }
 
   return (
@@ -99,11 +75,11 @@ console.log(createSupplierData,"Create")
       </div>
 
       {/* Search */}
-      <SearchBar search={search} setSearch={setSearch} setCurrentPage={setCurrentPage} />
-
+      <SearchBar search={search} setSearch={setSearch} />
+      {isLoading && <SkeletonTable />}
       {/* Table (X scroll only here) */}
-      {/* <SupplierTable paginatedSuppliers={paginatedSuppliers} openEditModal={openEditModal} handleDelete={handleDelete} /> */}
-
+      {suppliers && <SupplierTable paginatedSuppliers={suppliers} openEditModal={openEditModal} handleDelete={handleDelete} />}
+      {error && <ErrorState />}
       {/* Pagination */}
       {/* {totalPages > 1 && (
         <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage} totalPages={totalPages} />
