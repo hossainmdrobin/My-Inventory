@@ -1,6 +1,11 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import PurchaseForm from "./PurchaseForm";
+import Pagination from "./Pagination";
+import PurchaseTable from "./PurchaseTable";
+import SearchBar from "./SearchBar";
+import PurchaseCart from "./PurchaseCart";
 
 type Purchase = {
   id: number;
@@ -74,151 +79,23 @@ export default function PurchasesPage() {
         </button>
       </div>
 
+      <PurchaseCart />
+      <hr />
+
       {/* Search */}
-      <input
-        type="text"
-        placeholder="Search purchase..."
-        value={search}
-        onChange={(e) => {
-          setSearch(e.target.value);
-          setCurrentPage(1);
-        }}
-        className="w-full rounded-lg bg-slate-900 border border-slate-700 px-4 py-2 outline-none"
-      />
+      <SearchBar search={search} setSearch={setSearch} setCurrentPage={setCurrentPage} />
 
       {/* Table (scroll X only here) */}
-      <div className="overflow-x-auto rounded-xl border border-slate-800">
-        <table className="min-w-[900px] w-full text-sm">
-          <thead className="bg-slate-900 text-slate-300">
-            <tr>
-              <th className="p-3 text-left">Name</th>
-              <th className="p-3 text-left">Supplier</th>
-              <th className="p-3 text-right">Items</th>
-              <th className="p-3 text-right">Total Price</th>
-              <th className="p-3 text-left">Created By</th>
-              <th className="p-3 text-center">Actions</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {paginatedPurchases.length === 0 && (
-              <tr>
-                <td colSpan={6} className="p-4 text-center text-slate-400">
-                  No purchases found
-                </td>
-              </tr>
-            )}
-
-            {paginatedPurchases.map((purchase) => (
-              <tr
-                key={purchase.id}
-                className="border-t border-slate-800 hover:bg-slate-900/50"
-              >
-                <td className="p-3">{purchase.name}</td>
-                <td className="p-3">{purchase.supplier}</td>
-                <td className="p-3 text-right">{purchase.items}</td>
-                <td className="p-3 text-right">{purchase.totalPrice}</td>
-                <td className="p-3">{purchase.createdBy}</td>
-                <td className="p-3 text-center">
-                  <button
-                    onClick={() => handleDelete(purchase.id)}
-                    className="text-red-400 hover:underline"
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <PurchaseTable paginatedPurchases={paginatedPurchases} handleDelete={handleDelete} />
 
       {/* Pagination */}
       {totalPages > 1 && (
-        <div className="flex flex-wrap justify-end items-center gap-2">
-          <button
-            disabled={currentPage === 1}
-            onClick={() => setCurrentPage((p) => p - 1)}
-            className="px-3 py-1 rounded-lg border border-slate-700 disabled:opacity-40"
-          >
-            Prev
-          </button>
-
-          {[...Array(totalPages)].map((_, i) => (
-            <button
-              key={i}
-              onClick={() => setCurrentPage(i + 1)}
-              className={`px-3 py-1 rounded-lg border ${
-                currentPage === i + 1
-                  ? "bg-blue-600 border-blue-600 text-white"
-                  : "border-slate-700"
-              }`}
-            >
-              {i + 1}
-            </button>
-          ))}
-
-          <button
-            disabled={currentPage === totalPages}
-            onClick={() => setCurrentPage((p) => p + 1)}
-            className="px-3 py-1 rounded-lg border border-slate-700 disabled:opacity-40"
-          >
-            Next
-          </button>
-        </div>
+        <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage} totalPages={totalPages} />
       )}
 
       {/* Modal */}
       {open && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
-          <div className="w-full max-w-md rounded-xl bg-slate-900 p-6 space-y-4">
-            <h2 className="text-xl font-semibold">Add Purchase</h2>
-
-            {[
-              ["name", "Purchase Name"],
-              ["supplier", "Supplier"],
-              ["items", "Items"],
-              ["totalPrice", "Total Price"],
-              ["createdBy", "Created By"],
-            ].map(([key, label]) => (
-              <input
-                key={key}
-                type={
-                  key === "items" || key === "totalPrice"
-                    ? "number"
-                    : "text"
-                }
-                placeholder={label}
-                value={(form as any)[key]}
-                onChange={(e) =>
-                  setForm({
-                    ...form,
-                    [key]:
-                      key === "items" || key === "totalPrice"
-                        ? Number(e.target.value)
-                        : e.target.value,
-                  })
-                }
-                className="w-full rounded-lg bg-slate-800 border border-slate-700 px-4 py-2"
-              />
-            ))}
-
-            <div className="flex justify-end gap-3 pt-4">
-              <button
-                onClick={() => setOpen(false)}
-                className="px-4 py-2 rounded-lg border border-slate-600"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleSubmit}
-                className="px-4 py-2 rounded-lg bg-blue-600 font-semibold"
-              >
-                Save
-              </button>
-            </div>
-          </div>
-        </div>
+        <PurchaseForm form={form} setForm={setForm} handleSubmit={handleSubmit} setOpen={setOpen} />
       )}
     </div>
   );

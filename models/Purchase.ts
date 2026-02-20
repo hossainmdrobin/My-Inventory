@@ -22,11 +22,11 @@ const PurchaseSchema = new Schema(
       type: String,
       required: true,
     },
-    supplierId: {
-      type: Schema.Types.ObjectId,
-      ref: "Supplier",
-      required: true,
-    },
+    // supplierId: {
+    //   type: Schema.Types.ObjectId,
+    //   ref: "Supplier",
+    //   required: true,
+    // },
     items: {
       type: [PurchaseItemSchema],
       required: true,
