@@ -1,6 +1,9 @@
+import { useDeleteProductMutation } from '@/redux/slices/product'
 import React from 'react'
 
-export default function ProductTable({ paginatedProducts, openEditModal, handleDelete }: { paginatedProducts: any[], openEditModal: (product: any) => void, handleDelete: (id: number) => void }) {
+export default function ProductTable({ paginatedProducts, openEditModal }: { paginatedProducts: any[], openEditModal: (product: any) => void}) {
+
+    const [deleteProduct,{data}] = useDeleteProductMutation()
     return (
         <div className="overflow-x-auto rounded-xl border border-slate-800">
             <table className="min-w-[900px] w-full text-sm">
@@ -26,7 +29,7 @@ export default function ProductTable({ paginatedProducts, openEditModal, handleD
 
                     {paginatedProducts.map((product) => (
                         <tr
-                            key={product.id}
+                            key={product._id}
                             className="border-t border-slate-800 hover:bg-slate-900/50"
                         >
                             <td className="p-3">{product.name}</td>
@@ -42,7 +45,7 @@ export default function ProductTable({ paginatedProducts, openEditModal, handleD
                                     Edit
                                 </button>
                                 <button
-                                    onClick={() => handleDelete(product.id)}
+                                    onClick={() => deleteProduct({id:product._id})}
                                     className="text-red-400 hover:underline"
                                 >
                                     Delete

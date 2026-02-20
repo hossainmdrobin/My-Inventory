@@ -7,9 +7,10 @@ export async function GET(
   _: Request,
   { params }: { params: { id: string } }
 ) {
+  const { id } = await params
   await connectToDB();
 
-  const product = await Product.findById(params.id).lean();
+  const product = await Product.findById(id).lean();
   if (!product) {
     return NextResponse.json(
       { error: "Product not found" },
@@ -25,11 +26,12 @@ export async function PUT(
   req: Request,
   { params }: { params: { id: string } }
 ) {
+  const { id } = await params
   await connectToDB();
-    const body = await req.json();
+  const body = await req.json();
 
   const updated = await Product.findByIdAndUpdate(
-    params.id,
+    id,
     body,
     { new: true, runValidators: true }
   );
@@ -49,9 +51,10 @@ export async function DELETE(
   _: Request,
   { params }: { params: { id: string } }
 ) {
+  const {id} = await params
   await connectToDB();
 
-  const deleted = await Product.findByIdAndDelete(params.id);
+  const deleted = await Product.findByIdAndDelete(id);
   if (!deleted) {
     return NextResponse.json(
       { error: "Product not found" },

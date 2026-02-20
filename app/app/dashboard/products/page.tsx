@@ -2,8 +2,9 @@
 
 import { useState, useMemo } from "react";
 import ProductTable from "./ProductTable";
+import Seletone from "@/reusable/skeletone"
 import CreateProductForm from "./CreateProductForm";
-import { useCreateProductMutation, useGetProductsQuery } from "@/redux/slices/product";
+import { useCreateProductMutation, useGetProductsQuery, useUpdateProductMutation } from "@/redux/slices/product";
 import { Product } from "@/types/product";
 import Pagination from "./Pagination";
 
@@ -17,9 +18,9 @@ export default function ProductsPage() {
   const [editing, setEditing] = useState<Product | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const [createProduct,{}] = useCreateProductMutation();
+  const [createProduct, { }] = useCreateProductMutation();
   const { data: productsData, isLoading } = useGetProductsQuery({ key: search });
-  console.log("Products from API:", productsData);
+  const [update,{data:updateData}] = useUpdateProductMutation()
 
 
   const [form, setForm] = useState<Omit<Product, "id">>({
@@ -64,18 +65,12 @@ export default function ProductsPage() {
   }
 
   function handleSubmit() {
-    if (editing) {
-      // setProducts((prev) =>
-      //   // prev.map((p) => (p.id === editing.id ? { ...editing, ...form } : p))
-      // );
+    if (editing && editing._id) {
+      update({id:editing._id,data:form})
     } else {
       createProduct({ data: form })
     }
     setOpen(false);
-  }
-
-  function handleDelete(id: number) {
-    setProducts((prev) => prev.filter((p) => p.id !== id));
   }
 
   return (
@@ -104,8 +99,9 @@ export default function ProductsPage() {
       />
 
       {/* Table (Scroll X only here) */}
-      {productsData && productsData.length > 0 && <ProductTable paginatedProducts={productsData || []} openEditModal={openEditModal} handleDelete={handleDelete} />}
 
+      {productsData && <ProductTable paginatedProducts={productsData || []} openEditModal={openEditModal} />}
+      {isLoading && <Seletone />}
       {/* Pagination */}
       {totalPages > 1 && (
         <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage} totalPages={totalPages} />
