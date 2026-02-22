@@ -1,10 +1,10 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import Product from "@/models/Product";
 import connectToDB from "@/db";
 
 /* -------------------- GET SINGLE PRODUCT -------------------- */
 export async function GET(
-  _: Request,
+  _: NextRequest,
   { params }: { params: { id: string } }
 ) {
   const { id } = await params
