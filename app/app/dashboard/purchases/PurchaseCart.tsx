@@ -2,7 +2,7 @@ import { useState } from "react";
 import SearchProduct from "./SearchProduct";
 import { useDispatch } from "react-redux";
 import { decreamentQty, increamentQty, removeItem, resetPurchase, setDescription, setNote, setPaid, setQty } from "@/redux/slices/purchase/reducer.purchase";
-import { X } from "lucide-react";
+import { MessageCircleWarning, X } from "lucide-react";
 import { PurchaseType } from "@/types/purchase";
 import { create } from "domain";
 import { useCreatePurchaseMutation } from "@/redux/slices/purchase/api.parchase";
@@ -35,7 +35,7 @@ export default function PurchaseCart({ selectedIds, purchase, setCartOpen }: { s
             {open && <SearchProduct setOpen={setOpen} selectedIds={selectedIds} />}
 
             <div className='bg-slate-900 border border-gray-200 rounded-xl border border-slate-800'>
-                <h1 className='text-center text-lg font-semibold'>Purchase Summary</h1> <hr />
+                <h1 className='text-center text-lg font-semibold my-2'>Purchase Summary</h1> <hr />
                 <div className='p-4 space-y-4 h-[400px] overflow-y-auto'>
                     <input
                         onChange={(e) => dispatch(setNote(e.target.value))}
@@ -50,6 +50,12 @@ export default function PurchaseCart({ selectedIds, purchase, setCartOpen }: { s
                                 onClick={() => setOpen(true)} className="px-4 py-2 rounded-lg bg-blue-600 font-semibold">Search Porduct</button>
                         </div>
                         <hr />
+                        {purchase.items.length == 0 && <div className="text-yellow-400 h-[150px] text-center my-4 flex flex-col items-center justify-center">
+                            <MessageCircleWarning className=""/>
+                            <span className="w-[5px] h-3"></span>
+
+                            <span>Please Select a Product</span>
+                            </div>}
                         {purchase?.items?.map((product) => (<>
                             <div className="flex items-center justify-between my-2">
                                 <span><X className="text-red-500 cursor-pointer" onClick={() => dispatch(removeItem(product.productId))} /></span>
