@@ -26,3 +26,8 @@ export type PurchaseType = {
   createdAt?: Date;           // from timestamps
   updatedAt?: Date;           // from timestamps
 };
+
+export type PopulatedPurchaseType = Omit<PurchaseType, "items" | "createdBy"> & {
+  items: (PurchaseItemType & { productId: { name: string; sku: string } })[];
+  createdBy?: { email: string };
+};

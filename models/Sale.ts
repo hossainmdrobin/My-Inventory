@@ -1,54 +1,90 @@
-import { Schema, model, models } from "mongoose";
+import { Schema, model, models, Types } from "mongoose";
 
-const SaleItemSchema = new Schema(
-    {
-        productId: {
-            type: Schema.Types.ObjectId,
-            ref: "Product",
-            required: true,
-        },
-        quantity: {
-            type: Number,
-            required: true,
-            min: 1,
-        },
-        price: {
-            type: Number, // selling price per unit
-            required: true,
-        },
+/* ---------------- Purchase Item Schema ---------------- */
+const PurchaseItemSchema = new Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+      trim: true,
     },
-    { _id: false }
+    productId: {
+      type: Schema.Types.ObjectId,
+      ref: "Product",
+      required: true,
+    },
+    quantity: {
+      type: Number,
+      required: true,
+      min: 1,
+    },
+    costPrice: {
+      type: Number,
+      required: true,
+      min: 0,
+    },
+    sellingPrice: {
+      type: Number,
+      min: 0,
+    },
+  },
+  { _id: false } // prevent auto _id for subdocuments
 );
 
-const SaleSchema = new Schema(
-    {
-        date: {
-            type: Date,
-            required: true,
-            default: Date.now,
-        },
-        customerId: {
-            type: Schema.Types.ObjectId,
-            ref: "Customer",
-            required: true,
-        },
-        items: {
-            type: [SaleItemSchema],
-            required: true,
-        },
-        totalPrice: {
-            type: Number,
-            required: true,
-        },
-        createdBy: {
-            type: Schema.Types.ObjectId,
-            ref: "User",
-            required: true,
-        },
+/* ---------------- Purchase Schema ---------------- */
+const PurchaseSchema = new Schema(
+  {
+    productName: {
+      type: String,
+      trim: true,
     },
-    { timestamps: true }
+
+    items: {
+      type: [PurchaseItemSchema],
+      required: true,
+      validate: [(val: any[]) => val.length > 0, "At least one item required"],
+    },
+
+    totalPrice: {
+      type: Number,
+      required: true,
+      min: 0,
+    },
+
+    paid: {
+      type: Number,
+      required: true,
+      min: 0,
+    },
+
+    due: {
+      type: Number,
+      required: true,
+      min: 0,
+    },
+
+    description: {
+      type: String,
+      trim: true,
+    },
+
+    note: {
+      type: String,
+      trim: true,
+    },
+
+    createdBy: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
+  },
+  {
+    timestamps: true, // adds createdAt & updatedAt
+  }
 );
 
-const Sale = models.Sale || model("Sale", SaleSchema);
+/* ---------------- Model Export ---------------- */
+const Purchase =
+  models.Purchase || model("Purchase", PurchaseSchema);
 
-export default Sale;
+export default Purchase;

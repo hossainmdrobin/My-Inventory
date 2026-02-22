@@ -23,3 +23,8 @@ export type SaleType = {
   createdAt?: Date;           // from timestamps
   updatedAt?: Date;           // from timestamps
 };
+
+export type PopulatedSaleType = Omit<SaleType, "items" | "createdBy"> & {
+  items: (SaleItemType & { productId: { name: string; sku: string } })[];
+  createdBy?: { email: string };
+};

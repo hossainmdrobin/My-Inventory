@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { PurchaseType } from '@/types/purchase';
+import { PopulatedPurchaseType, PurchaseType } from '@/types/purchase';
 import { Table } from 'lucide-react';
 
 export default function PurchaseTable({ paginatedPurchases }: {
@@ -45,11 +45,14 @@ const TableRow = ({ purchase }: { purchase: PurchaseType }) => {
     const [itemString, setItemString] = React.useState("");
     useEffect(()=>{
         if(purchase.items && purchase.items.length > 0) {
-            const str = purchase.items.map((item) => `${item.productId?.name} (x${item.quantity})`).join(", ");
+            const str = purchase.items.map((item) => {
+                const productName = typeof item.productId === 'string' ? item.productId : (item.productId as any)?.name;
+                return `${productName} (x${item.quantity})`;
+            }).join(", ");
             setItemString(str);
         }
 
-    })
+    }, [purchase.items])
     return (
         <tr
             key={purchase._id}
