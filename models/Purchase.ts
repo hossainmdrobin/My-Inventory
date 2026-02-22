@@ -1,7 +1,13 @@
 import { Schema, model, models, Types } from "mongoose";
 
+/* ---------------- Purchase Item Schema ---------------- */
 const PurchaseItemSchema = new Schema(
   {
+    name: {
+      type: String,
+      required: true,
+      trim: true,
+    },
     productId: {
       type: Schema.Types.ObjectId,
       ref: "Product",
@@ -12,38 +18,72 @@ const PurchaseItemSchema = new Schema(
       required: true,
       min: 1,
     },
+    costPrice: {
+      type: Number,
+      required: true,
+      min: 0,
+    },
+    sellingPrice: {
+      type: Number,
+      min: 0,
+    },
   },
-  { _id: false }
+  { _id: false } // prevent auto _id for subdocuments
 );
 
+/* ---------------- Purchase Schema ---------------- */
 const PurchaseSchema = new Schema(
   {
     productName: {
       type: String,
-      required: true,
+      trim: true,
     },
-    // supplierId: {
-    //   type: Schema.Types.ObjectId,
-    //   ref: "Supplier",
-    //   required: true,
-    // },
+
     items: {
       type: [PurchaseItemSchema],
       required: true,
+      validate: [(val: any[]) => val.length > 0, "At least one item required"],
     },
+
     totalPrice: {
       type: Number,
       required: true,
+      min: 0,
     },
+
+    paid: {
+      type: Number,
+      required: true,
+      min: 0,
+    },
+
+    due: {
+      type: Number,
+      required: true,
+      min: 0,
+    },
+
+    description: {
+      type: String,
+      trim: true,
+    },
+
+    note: {
+      type: String,
+      trim: true,
+    },
+
     createdBy: {
       type: Schema.Types.ObjectId,
       ref: "User",
-      required: true,
     },
   },
-  { timestamps: true }
+  {
+    timestamps: true, // adds createdAt & updatedAt
+  }
 );
 
+/* ---------------- Model Export ---------------- */
 const Purchase =
   models.Purchase || model("Purchase", PurchaseSchema);
 

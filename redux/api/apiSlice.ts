@@ -1,4 +1,5 @@
 // services/apiSlice.ts
+import { GET } from '@/app/api/auth/me/route';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 export const apiSlice = createApi({
@@ -7,7 +8,9 @@ export const apiSlice = createApi({
         baseUrl: "",
     }), endpoints: () => ({}),                   // leave empty
     tagTypes: [
-        "GETALLPOST"
+        "GETALLPOST",
+        "GETALLPURCHASES"
+
     ], 
 });
 

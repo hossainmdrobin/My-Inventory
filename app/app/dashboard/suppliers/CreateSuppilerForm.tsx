@@ -2,7 +2,6 @@ import { useCreateSupplierMutation } from '@/redux/slices/api.slices'
 import React from 'react'
 
 export default function CreateSuppilerForm({ editing, form, setForm, setOpen, handleSubmit }: { editing: any, form: any, setForm: any, setOpen: any, handleSubmit: any }) {
-console.log(form, "Form data in create supplier form")
     const [] = useCreateSupplierMutation()
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">

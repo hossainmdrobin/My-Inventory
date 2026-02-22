@@ -13,7 +13,7 @@ export type PurchaseItemType = {
 
 // Type for the purchase document
 export type PurchaseType = {
-  _id?: Types.ObjectId;       // optional because MongoDB will generate it
+  _id?: string;       // optional because MongoDB will generate it
   productName?: string;
   //   supplierId?: Types.ObjectId;
   items: PurchaseItemType[];

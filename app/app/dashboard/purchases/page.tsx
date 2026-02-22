@@ -1,12 +1,13 @@
 "use client";
 
 import { useState, useMemo, useEffect } from "react";
-import PurchaseForm from "./PurchaseForm";
+// import PurchaseForm from "./PurchaseForm";
 import Pagination from "./Pagination";
 import PurchaseTable from "./PurchaseTable";
 import SearchBar from "./SearchBar";
 import PurchaseCart from "./PurchaseCart";
 import { useSelector } from "react-redux";
+import { useGetPurchasesQuery } from "@/redux/slices/purchase/api.parchase";
 
 type Purchase = {
   id: number;
@@ -28,13 +29,14 @@ export default function PurchasesPage() {
 
   // Redux states
   const purchase = useSelector((state: any) => state.purchase);
+      const {data, isLoading, error} = useGetPurchasesQuery({key:""});
+      console.log(data, isLoading, error);
+
 
   useEffect(() => {
     setSelectedId(purchase.items.map((item: any) => item.productId));
   }, [purchase]);
     
-  console.log("Selected Products in PurchasesPage:", purchase);
-
   const [form, setForm] = useState<Omit<Purchase, "id">>({
     name: "",
     supplier: "",
@@ -90,14 +92,14 @@ export default function PurchasesPage() {
         </button>
       </div>
 
-      {open && <PurchaseCart purchase={purchase} selectedIds={selectedId}/>}
+      {open && <PurchaseCart setCartOpen={setOpen} purchase={purchase} selectedIds={selectedId}/>}
       <hr />
 
       {/* Search */}
       <SearchBar  search={search} setSearch={setSearch} setCurrentPage={setCurrentPage} />
 
       {/* Table (scroll X only here) */}
-      <PurchaseTable paginatedPurchases={paginatedPurchases} handleDelete={handleDelete} />
+      {data && <PurchaseTable paginatedPurchases={data || []}  />}
 
       {/* Pagination */}
       {totalPages > 1 && (
