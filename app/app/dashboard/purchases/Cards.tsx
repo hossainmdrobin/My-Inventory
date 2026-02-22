@@ -1,11 +1,19 @@
+import { selectItem } from "@/redux/slices/purchase/reducer.purchase";
 import { Product } from "@/types/product";
+import { useDispatch } from "react-redux";
 
-export function SearchCard({ name,costPrice }: Product) {
+export function SearchCard({ name, costPrice, _id, sellingPrice, selectedIds }: Product & { selectedIds: string[] }) {
+    const dispatch = useDispatch();
+
+
     return (
-        <div className="flex p-2">
+        <div
+            onClick={() => dispatch(selectItem({ productId: _id || "", name, costPrice: costPrice ?? 0, sellingPrice: sellingPrice ?? 0 }))}
+            className="flex items-center justify-between p-2 border-b border-slate-700 cursor-pointer hover:bg-slate-800"
+        >
             <div>{name}</div>
             <div>Cost Price(BDT): {costPrice}</div>
-            <div></div>
+            <div><input checked={selectedIds.includes(_id || "")} className="rounded" type="checkbox" /></div>
         </div>
     )
 }

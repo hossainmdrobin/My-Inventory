@@ -2,9 +2,12 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import storage from "redux-persist/lib/storage";
 import { persistReducer, PersistConfig, persistStore } from "redux-persist";
 import apiSlice from "./api/apiSlice";
+import purchase from "./slices/purchase/reducer.purchase"
 
 const rootReducer = combineReducers({
-    [apiSlice.reducerPath]: apiSlice.reducer
+    [apiSlice.reducerPath]: apiSlice.reducer,
+    purchase
+    
 })
 const persistConfig: PersistConfig<ReturnType<typeof rootReducer>> = {
     key: 'root',

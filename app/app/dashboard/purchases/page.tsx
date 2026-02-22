@@ -1,11 +1,12 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import PurchaseForm from "./PurchaseForm";
 import Pagination from "./Pagination";
 import PurchaseTable from "./PurchaseTable";
 import SearchBar from "./SearchBar";
 import PurchaseCart from "./PurchaseCart";
+import { useSelector } from "react-redux";
 
 type Purchase = {
   id: number;
@@ -23,6 +24,16 @@ export default function PurchasesPage() {
   const [search, setSearch] = useState("");
   const [open, setOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedId, setSelectedId] = useState<string[]>([]);
+
+  // Redux states
+  const purchase = useSelector((state: any) => state.purchase);
+
+  useEffect(() => {
+    setSelectedId(purchase.items.map((item: any) => item.productId));
+  }, [purchase]);
+    
+  console.log("Selected Products in PurchasesPage:", purchase);
 
   const [form, setForm] = useState<Omit<Purchase, "id">>({
     name: "",
@@ -53,7 +64,7 @@ export default function PurchasesPage() {
       totalPrice: 0,
       createdBy: "",
     });
-    setOpen(true);
+    setOpen(!open);
   }
 
   function handleSubmit() {
@@ -79,11 +90,11 @@ export default function PurchasesPage() {
         </button>
       </div>
 
-      <PurchaseCart />
+      {open && <PurchaseCart purchase={purchase} selectedIds={selectedId}/>}
       <hr />
 
       {/* Search */}
-      <SearchBar search={search} setSearch={setSearch} setCurrentPage={setCurrentPage} />
+      <SearchBar  search={search} setSearch={setSearch} setCurrentPage={setCurrentPage} />
 
       {/* Table (scroll X only here) */}
       <PurchaseTable paginatedPurchases={paginatedPurchases} handleDelete={handleDelete} />
@@ -94,9 +105,9 @@ export default function PurchasesPage() {
       )}
 
       {/* Modal */}
-      {open && (
+      {/* {open && (
         <PurchaseForm form={form} setForm={setForm} handleSubmit={handleSubmit} setOpen={setOpen} />
-      )}
+      )} */}
     </div>
   );
 }
