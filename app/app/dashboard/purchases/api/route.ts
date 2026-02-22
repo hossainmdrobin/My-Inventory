@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import Purchase from "@/models/Purchase";
 import connectToDB from "@/db";
+import "@/models/Product"
 
 /* ---------------- CREATE PURCHASE ---------------- */
 export async function POST(req: Request) {
