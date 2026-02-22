@@ -2,15 +2,21 @@ import { NextRequest, NextResponse } from "next/server";
 import Product from "@/models/Product";
 import connectToDB from "@/db";
 
+type Context = {
+  params: Promise<{ id: string }>;
+};
+
 /* -------------------- GET SINGLE PRODUCT -------------------- */
 export async function GET(
   _: NextRequest,
-  { params }: { params: { id: string } }
+  context: Context
 ) {
-  const { id } = await params
+  const { id } = await context.params;
+
   await connectToDB();
 
   const product = await Product.findById(id).lean();
+
   if (!product) {
     return NextResponse.json(
       { error: "Product not found" },
@@ -24,10 +30,11 @@ export async function GET(
 /* -------------------- UPDATE PRODUCT -------------------- */
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  context: Context
 ) {
-  const { id } = await params
+  const { id } = await context.params;
   await connectToDB();
+
   const body = await req.json();
 
   const updated = await Product.findByIdAndUpdate(
@@ -49,12 +56,13 @@ export async function PUT(
 /* -------------------- DELETE PRODUCT -------------------- */
 export async function DELETE(
   _: NextRequest,
-  { params }: { params: { id: string } }
+  context: Context
 ) {
-  const {id} = await params
+  const { id } = await context.params;
   await connectToDB();
 
   const deleted = await Product.findByIdAndDelete(id);
+
   if (!deleted) {
     return NextResponse.json(
       { error: "Product not found" },
@@ -62,5 +70,7 @@ export async function DELETE(
     );
   }
 
-  return NextResponse.json({ message: "Product deleted successfully" });
+  return NextResponse.json({
+    message: "Product deleted successfully",
+  });
 }
