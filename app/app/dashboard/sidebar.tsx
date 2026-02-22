@@ -4,13 +4,12 @@ import {
     Package,
     Settings,
     LogOut,
-    Home,
     ChevronLeft,
     ChevronRight,
     ShoppingBasket,
     ShoppingBag,
-    Handshake ,
-    FileChartColumn 
+    Handshake,
+    FileChartColumn
 } from "lucide-react";
 import Link from "next/link";
 
@@ -37,12 +36,17 @@ export default function Sidebar({ collapsed, setCollapsed }: { collapsed: boolea
                         className="flex w-full items-center justify-between gap-3 rounded-lg px-3 py-2 text-slate-300 hover:bg-white/10 hover:text-white transition"
                     >
                         <div className="w-full flex items-center justify-center">
-                            {!collapsed && <span>Brand</span>}
-                            {!collapsed && <ChevronLeft size={20} onClick={() => setCollapsed(true)} />}
-                            {collapsed && <ChevronRight size={20} onClick={() => setCollapsed(false)} />}
+                            {
+                                !collapsed && <div className="w-full flex items-center justify-between gap-2">
+                                    <Link href={'/'}><span className="font-bold">Sathi Enterprise</span></Link>
+                                    <ChevronLeft size={25} onClick={() => setCollapsed(true)} />
+                                </div>
+                            }
+                            {collapsed && <ChevronRight size={25} onClick={() => setCollapsed(false)} />}
                         </div>
                     </span>
                 </div>
+                <hr />
                 {menu.map((item) => (
                     <Link
                         key={item.name}
