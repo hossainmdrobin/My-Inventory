@@ -7,16 +7,21 @@ import {
     Home,
     ChevronLeft,
     ChevronRight,
+    ShoppingBasket,
+    ShoppingBag,
+    Handshake ,
+    FileChartColumn 
 } from "lucide-react";
+import Link from "next/link";
 
 const menu = [
     { name: "Dashboard", icon: LayoutDashboard, href: "/app/dashboard" },
     { name: "Employees", icon: Users, href: "/app/dashboard/employees" },
     { name: "Products", icon: Package, href: "/app/dashboard/products" },
-    { name: "Purchases", icon: Settings, href: "/app/dashboard/purchases" },
-    { name: "Sales", icon: Users, href: "/app/dashboard/sales" },
-    { name: "Suppliers", icon: Package, href: "/app/dashboard/suppliers" },
-    { name: "Reports", icon: Settings, href: "/app/dashboard/reports" },
+    { name: "Purchases", icon: ShoppingBasket, href: "/app/dashboard/purchases" },
+    { name: "Sales", icon: ShoppingBag, href: "/app/dashboard/sales" },
+    { name: "Suppliers", icon: Handshake, href: "/app/dashboard/suppliers" },
+    { name: "Reports", icon: FileChartColumn, href: "/app/dashboard/reports" },
     { name: "Settings", icon: Settings, href: "/app/dashboard/settings" },
 ];
 
@@ -39,14 +44,14 @@ export default function Sidebar({ collapsed, setCollapsed }: { collapsed: boolea
                     </span>
                 </div>
                 {menu.map((item) => (
-                    <a
+                    <Link
                         key={item.name}
                         href={item.href}
                         className="flex items-center gap-3 rounded-lg px-3 py-2 text-slate-300 hover:bg-white/10 hover:text-white transition"
                     >
                         <item.icon size={20} />
                         {!collapsed && <span>{item.name}</span>}
-                    </a>
+                    </Link>
                 ))}
 
                 <div className="pt-4 mt-4 border-t border-white/10">
