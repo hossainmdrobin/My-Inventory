@@ -23,7 +23,7 @@ export async function GET(
 
 /* -------------------- UPDATE PRODUCT -------------------- */
 export async function PUT(
-  req: Request,
+  req: NextRequest,
   { params }: { params: { id: string } }
 ) {
   const { id } = await params
@@ -48,7 +48,7 @@ export async function PUT(
 
 /* -------------------- DELETE PRODUCT -------------------- */
 export async function DELETE(
-  _: Request,
+  _: NextRequest,
   { params }: { params: { id: string } }
 ) {
   const {id} = await params
