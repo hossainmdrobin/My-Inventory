@@ -3,10 +3,12 @@ import storage from "redux-persist/lib/storage";
 import { persistReducer, PersistConfig, persistStore } from "redux-persist";
 import apiSlice from "./api/apiSlice";
 import purchase from "./slices/purchase/reducer.purchase"
+import sale from "./slices/sales/reducer.sale"
 
 const rootReducer = combineReducers({
     [apiSlice.reducerPath]: apiSlice.reducer,
-    purchase
+    purchase,
+    sale
     
 })
 const persistConfig: PersistConfig<ReturnType<typeof rootReducer>> = {

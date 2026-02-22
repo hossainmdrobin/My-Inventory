@@ -9,8 +9,8 @@ export const apiSlice = createApi({
     }), endpoints: () => ({}),                   // leave empty
     tagTypes: [
         "GETALLPOST",
-        "GETALLPURCHASES"
-
+        "GETALLPURCHASES",
+        "GETALLSALES"
     ], 
 });
 
