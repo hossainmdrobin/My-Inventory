@@ -1,9 +1,6 @@
-// types/purchase.ts
-
-import { Types } from "mongoose";
 
 // Type for a single purchase item
-export type PurchaseItemType = {
+export type SaleItemType = {
   name:string;
   productId: string;
   quantity: number;
@@ -12,11 +9,11 @@ export type PurchaseItemType = {
 };
 
 // Type for the purchase document
-export type PurchaseType = {
+export type SaleType = {
   _id?: string;       // optional because MongoDB will generate it
   productName?: string;
   //   supplierId?: Types.ObjectId;
-  items: PurchaseItemType[];
+  items: SaleItemType[];
   totalPrice: number;
   paid: number;
   due: number;
@@ -27,7 +24,7 @@ export type PurchaseType = {
   updatedAt?: Date;           // from timestamps
 };
 
-export type PopulatedPurchaseType = Omit<PurchaseType, "items" | "createdBy"> & {
-  items: (PurchaseItemType & { productId: { name: string; sku: string } })[];
+export type PopulatedSaleType = Omit<SaleType, "items" | "createdBy"> & {
+  items: (SaleItemType & { productId: { name: string; sku: string } })[];
   createdBy?: { email: string };
 };

@@ -30,7 +30,6 @@ export default function PurchasesPage() {
   // Redux states
   const purchase = useSelector((state: any) => state.purchase);
       const {data, isLoading, error} = useGetPurchasesQuery({key:""});
-      console.log(data, isLoading, error);
 
 
   useEffect(() => {

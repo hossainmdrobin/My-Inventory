@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import {  PurchaseType } from '@/types/purchase';
+import { PurchaseType } from '@/types/purchase';
 import { Table } from 'lucide-react';
 
 export default function PurchaseTable({ paginatedPurchases }: {
@@ -43,8 +43,8 @@ export default function PurchaseTable({ paginatedPurchases }: {
 
 const TableRow = ({ purchase }: { purchase: PurchaseType }) => {
     const [itemString, setItemString] = React.useState("");
-    useEffect(()=>{
-        if(purchase.items && purchase.items.length > 0) {
+    useEffect(() => {
+        if (purchase.items && purchase.items.length > 0) {
             const str = purchase.items.map((item) => {
                 const productName = typeof item.productId === 'string' ? item.productId : (item.productId as any)?.name;
                 return `${productName} (x${item.quantity})`;
@@ -65,7 +65,7 @@ const TableRow = ({ purchase }: { purchase: PurchaseType }) => {
             <td className="p-3 text-right">{purchase.totalPrice}</td>
             <td className="p-3 text-right">{purchase.totalPrice - purchase.paid}</td>
             <td className="p-3 text-right">{purchase.paid}</td>
-            
+
             {/* <td className="p-3">{purchase.createdBy}</td> */}
         </tr>
     )
