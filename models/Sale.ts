@@ -1,7 +1,7 @@
 import { Schema, model, models, Types } from "mongoose";
 
 /* ---------------- Purchase Item Schema ---------------- */
-const PurchaseItemSchema = new Schema(
+const SaleItemSchema = new Schema(
   {
     name: {
       type: String,
@@ -32,7 +32,7 @@ const PurchaseItemSchema = new Schema(
 );
 
 /* ---------------- Purchase Schema ---------------- */
-const PurchaseSchema = new Schema(
+const SaleSchema = new Schema(
   {
     productName: {
       type: String,
@@ -40,7 +40,7 @@ const PurchaseSchema = new Schema(
     },
 
     items: {
-      type: [PurchaseItemSchema],
+      type: [SaleItemSchema],
       required: true,
       validate: [(val: any[]) => val.length > 0, "At least one item required"],
     },
@@ -84,7 +84,7 @@ const PurchaseSchema = new Schema(
 );
 
 /* ---------------- Model Export ---------------- */
-const Purchase =
-  models.Purchase || model("Purchase", PurchaseSchema);
+const Sale =
+  models.Sale || model("Sale", SaleSchema);
 
-export default Purchase;
+export default Sale;

@@ -5,7 +5,7 @@ import Sidebar from "./sidebar";
 import ReduxProvider from "@/redux/provider"
 
 export default function InnerLayout({ children }: { children: ReactNode }) {
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(true);
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100">

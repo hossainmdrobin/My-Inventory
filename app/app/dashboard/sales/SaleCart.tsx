@@ -53,7 +53,7 @@ export default function SaleCart({ selectedIds, sale, setCartOpen }: { selectedI
                             <span>Please Select a Product</span>
                             </div>}
                         {sale?.items?.map((product) => (<>
-                            <div className="flex items-center justify-between my-2">
+                            <div key={product.productId} className="flex items-center justify-between my-2">
                                 <span><X className="text-red-500 cursor-pointer" onClick={() => dispatch(removeItem(product.productId))} /></span>
                                 <div>{product.name}</div>
                                 <div>Price: {product.costPrice}</div>
