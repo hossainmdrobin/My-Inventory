@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { PopulatedPurchaseType, PurchaseType } from '@/types/purchase';
+import {  PurchaseType } from '@/types/purchase';
 import { Table } from 'lucide-react';
 
 export default function PurchaseTable({ paginatedPurchases }: {
