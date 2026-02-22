@@ -43,13 +43,16 @@ export default function PurchaseTable({ paginatedPurchases }: {
 
 const TableRow = ({ purchase }: { purchase: PurchaseType }) => {
     const [itemString, setItemString] = React.useState("");
-    useEffect(()=>{
-        if(purchase.items && purchase.items.length > 0) {
-            const str = purchase.items.map((item) => `${item.productId?.name} (x${item.quantity})`).join(", ");
+    useEffect(() => {
+        if (purchase.items && purchase.items.length > 0) {
+            const str = purchase.items.map((item) => {
+                const productName = typeof item.productId === 'string' ? item.productId : (item.productId as any)?.name;
+                return `${productName} (x${item.quantity})`;
+            }).join(", ");
             setItemString(str);
         }
 
-    })
+    }, [purchase.items])
     return (
         <tr
             key={purchase._id}
@@ -62,7 +65,7 @@ const TableRow = ({ purchase }: { purchase: PurchaseType }) => {
             <td className="p-3 text-right">{purchase.totalPrice}</td>
             <td className="p-3 text-right">{purchase.totalPrice - purchase.paid}</td>
             <td className="p-3 text-right">{purchase.paid}</td>
-            
+
             {/* <td className="p-3">{purchase.createdBy}</td> */}
         </tr>
     )
