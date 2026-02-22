@@ -13,7 +13,7 @@ const purchaseSlice = createSlice({
     name: 'purchase',
     initialState,
     reducers: {
-        selectItem: (state, action: PayloadAction<{ productId: string,name:string, costPrice: number, sellingPrice: number }>) => {
+        selectItem: (state, action: PayloadAction<{ productId: string, name: string, costPrice: number, sellingPrice: number }>) => {
             if (state.items.find(item => item.productId == action.payload.productId)) {
                 state.items = state.items.filter(item => item.productId != action.payload.productId)
                 return;
@@ -24,6 +24,8 @@ const purchaseSlice = createSlice({
         removeItem: (state, action: PayloadAction<string>) => {
             state.items = state.items.filter(item => item.productId != action.payload)
             state.totalPrice = calculateTotalPrice(state.items)
+            state.totalPrice = calculateTotalPrice(state.items)
+
         },
 
         increamentQty: (state, action: PayloadAction<string>) => {
