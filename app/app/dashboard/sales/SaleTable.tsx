@@ -8,7 +8,7 @@ export default function PurchaseTable({ paginatedPurchases }: {
     // Redux hooks
     return (
         <div className="overflow-x-auto rounded-xl border border-slate-800">
-            <table className="min-w-[900px] w-full text-sm">
+            <table className="min-w-[500px] w-full text-sm">
                 <thead className="bg-slate-900 text-slate-300">
                     <tr>
                         <th className="p-3 text-left">Note</th>
@@ -17,8 +17,6 @@ export default function PurchaseTable({ paginatedPurchases }: {
                         <th className="p-3 text-right">Total Price</th>
                         <th>Due</th>
                         <th>Paid</th>
-                        {/* <th className="p-3 text-left">Created By</th> */}
-                        {/* <th className="p-3 text-center">Actions</th> */}
                     </tr>
                 </thead>
 
