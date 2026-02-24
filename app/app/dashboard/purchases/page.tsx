@@ -1,81 +1,42 @@
 "use client";
 
 import { useState, useMemo, useEffect } from "react";
-// import PurchaseForm from "./PurchaseForm";
-import Pagination from "./Pagination";
+// import Pagination from "./Pagination";
 import PurchaseTable from "./PurchaseTable";
 import SearchBar from "./SearchBar";
 import PurchaseCart from "./PurchaseCart";
 import { useSelector } from "react-redux";
 import { useGetPurchasesQuery } from "@/redux/slices/purchase/api.parchase";
+import DateSelector from "./DateSelector";
+import { DateRange, FilterValues } from "@/types/others";
+import Pagination from "./Pagination";
+import PurchaseFilters from "@/reusable/PurchaseAndSaleFilter";
 
-type Purchase = {
-  id: number;
-  name: string;
-  supplier: string;
-  items: number;
-  totalPrice: number;
-  createdBy: string;
-};
-
-const ITEMS_PER_PAGE = 5;
+// const ITEMS_PER_PAGE = 5;
 
 export default function PurchasesPage() {
-  const [purchases, setPurchases] = useState<Purchase[]>([]);
   const [search, setSearch] = useState("");
   const [open, setOpen] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
   const [selectedId, setSelectedId] = useState<string[]>([]);
+  const [pageNo, setPageNo] = useState(1);
+
+  const [filters, setFilters] = useState<FilterValues>({
+    search: "",
+    startDate: "",
+    endDate: "",
+    limit: 10,
+    status: "",
+  });
+
 
   // Redux states
   const purchase = useSelector((state: any) => state.purchase);
-      const {data, isLoading, error} = useGetPurchasesQuery({key:""});
-
+  const { data } = useGetPurchasesQuery({ key: filters.search, range:{startDate:filters.startDate,endDate:filters.endDate }, limit: filters.limit, page: pageNo,status: filters.status });
+  console.log(data, "filters in page")
 
   useEffect(() => {
     setSelectedId(purchase.items.map((item: any) => item.productId));
   }, [purchase]);
-    
-  const [form, setForm] = useState<Omit<Purchase, "id">>({
-    name: "",
-    supplier: "",
-    items: 0,
-    totalPrice: 0,
-    createdBy: "",
-  });
-
-  const filteredPurchases = useMemo(() => {
-    return purchases.filter((p) =>
-      p.name.toLowerCase().includes(search.toLowerCase())
-    );
-  }, [purchases, search]);
-
-  const totalPages = Math.ceil(filteredPurchases.length / ITEMS_PER_PAGE);
-
-  const paginatedPurchases = useMemo(() => {
-    const start = (currentPage - 1) * ITEMS_PER_PAGE;
-    return filteredPurchases.slice(start, start + ITEMS_PER_PAGE);
-  }, [filteredPurchases, currentPage]);
-
-  function openAddModal() {
-    setForm({
-      name: "",
-      supplier: "",
-      items: 0,
-      totalPrice: 0,
-      createdBy: "",
-    });
-    setOpen(!open);
-  }
-
-  function handleSubmit() {
-    setPurchases((prev) => [...prev, { id: Date.now(), ...form }]);
-    setOpen(false);
-  }
-
-  function handleDelete(id: number) {
-    setPurchases((prev) => prev.filter((p) => p.id !== id));
-  }
 
   return (
     <div className="space-y-6">
@@ -84,31 +45,40 @@ export default function PurchasesPage() {
         <h1 className="text-2xl font-bold">Purchases</h1>
 
         <button
-          onClick={openAddModal}
+          onClick={() => setOpen(true)}
           className="rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white hover:bg-blue-700"
         >
           + Add Purchase
         </button>
       </div>
 
-      {open && <PurchaseCart setCartOpen={setOpen} purchase={purchase} selectedIds={selectedId}/>}
+
+      {open && <PurchaseCart setCartOpen={setOpen} purchase={purchase} selectedIds={selectedId} />}
       <hr />
 
       {/* Search */}
-      <SearchBar  search={search} setSearch={setSearch} setCurrentPage={setCurrentPage} />
+      {/* <div className="flex flex-col md:flex-row gap-4">
+        <div>
+          <SearchBar search={search} setSearch={setSearch} />
+          <p className="text-sm mt-2">Item per page</p>
+          <input
+            type="number"
+            placeholder="Items per page"
+            value={pagData.limit}
+            onChange={(e) => setPagData((prev) => ({ ...prev, limit: parseInt(e.target.value) || 20, page: 1 }))}
+            className="w-full rounded-lg bg-slate-900 border border-slate-700 px-4 py-2 outline-none"
+          />
 
+        </div>
+
+        <DateSelector range={range} setRange={setRange} />
+
+      </div> */}
+
+<PurchaseFilters filters={filters} setFilters={setFilters} />
       {/* Table (scroll X only here) */}
-      {data && <PurchaseTable paginatedPurchases={data || []}  />}
-
-      {/* Pagination */}
-      {totalPages > 1 && (
-        <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage} totalPages={totalPages} />
-      )}
-
-      {/* Modal */}
-      {/* {open && (
-        <PurchaseForm form={form} setForm={setForm} handleSubmit={handleSubmit} setOpen={setOpen} />
-      )} */}
+      {data && <PurchaseTable paginatedPurchases={data.data || []} />}
+      <Pagination pageNo={pageNo} totalPages={Number(data?.totalPages) || 1} setPageNo={setPageNo} />
     </div>
   );
 }

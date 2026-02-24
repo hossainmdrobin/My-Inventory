@@ -1,15 +1,11 @@
 import React from 'react'
 
-export default function Pagination({ currentPage, setCurrentPage, totalPages }: {
-    currentPage: number;
-    setCurrentPage: (page: number) => void;
-    totalPages: number;
-}) {
+export default function Pagination({ pageNo, totalPages, setPageNo }: { pageNo: number; totalPages: number; setPageNo: (page: number) => void }) {
   return (
 <div className="flex flex-wrap justify-end items-center gap-2">
           <button
-            disabled={currentPage === 1}
-            // onClick={() => setCurrentPage((p) => p - 1)}
+            disabled={pageNo === 1}
+            onClick={() => setPageNo(pageNo - 1)}
             className="px-3 py-1 rounded-lg border border-slate-700 disabled:opacity-40"
           >
             Prev
@@ -18,9 +14,9 @@ export default function Pagination({ currentPage, setCurrentPage, totalPages }: 
           {[...Array(totalPages)].map((_, i) => (
             <button
               key={i}
-              onClick={() => setCurrentPage(i + 1)}
+              onClick={() => setPageNo(i + 1)}
               className={`px-3 py-1 rounded-lg border ${
-                currentPage === i + 1
+                pageNo === i + 1
                   ? "bg-blue-600 border-blue-600 text-white"
                   : "border-slate-700"
               }`}
@@ -30,8 +26,8 @@ export default function Pagination({ currentPage, setCurrentPage, totalPages }: 
           ))}
 
           <button
-            disabled={currentPage === totalPages}
-            // onClick={() => setCurrentPage((p) => p + 1)}
+            disabled={pageNo === totalPages}
+            onClick={() => setPageNo(pageNo + 1)}
             className="px-3 py-1 rounded-lg border border-slate-700 disabled:opacity-40"
           >
             Next
