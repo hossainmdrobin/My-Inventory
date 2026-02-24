@@ -1,16 +1,11 @@
 import React from 'react'
 
-export default function Pagination({ pageData,totalPages,setPagData }: {
-    pageData: {page: number, limit: number};
-    setPagData: (params: {page: number,limit?:number}) => void;
-    totalPages: Number;
-}) {
-  console.log(totalPages, "heheeh;s")
+export default function Pagination({ pageNo, totalPages, setPageNo }: { pageNo: number; totalPages: number; setPageNo: (page: number) => void }) {
   return (
 <div className="flex flex-wrap justify-end items-center gap-2">
           <button
-            disabled={pageData.page === 1}
-            // onClick={() => setCurrentPage((p) => p - 1)}
+            disabled={pageNo === 1}
+            onClick={() => setPageNo(pageNo - 1)}
             className="px-3 py-1 rounded-lg border border-slate-700 disabled:opacity-40"
           >
             Prev
@@ -19,9 +14,9 @@ export default function Pagination({ pageData,totalPages,setPagData }: {
           {[...Array(totalPages)].map((_, i) => (
             <button
               key={i}
-              onClick={() => setPagData({...pageData, page: i + 1 })}
+              onClick={() => setPageNo(i + 1)}
               className={`px-3 py-1 rounded-lg border ${
-                pageData.page === i + 1
+                pageNo === i + 1
                   ? "bg-blue-600 border-blue-600 text-white"
                   : "border-slate-700"
               }`}
@@ -31,8 +26,8 @@ export default function Pagination({ pageData,totalPages,setPagData }: {
           ))}
 
           <button
-            disabled={pageData.page === totalPages}
-            onClick={() => setPagData({...pageData, page: pageData.page + 1 })}
+            disabled={pageNo === totalPages}
+            onClick={() => setPageNo(pageNo + 1)}
             className="px-3 py-1 rounded-lg border border-slate-700 disabled:opacity-40"
           >
             Next

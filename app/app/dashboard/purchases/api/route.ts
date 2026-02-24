@@ -47,6 +47,14 @@ export async function GET(req: NextRequest) {
             ];
         }
 
+        if(searchParams.get("status")){
+            if(searchParams.get("status") === "due"){
+                query.due = { $gt: 0 }
+            } else if(searchParams.get("status") === "paid"){
+                query.due = 0
+            }
+        }
+
         // 📅 Date range filter
         if (startDate || endDate) {
             query.createdAt = {};

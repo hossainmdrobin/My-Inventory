@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import {  PurchaseType } from '@/types/purchase';
+import { PurchaseType } from '@/types/purchase';
 import { Table } from 'lucide-react';
 
 export default function PurchaseTable({ paginatedPurchases }: {
@@ -12,13 +12,13 @@ export default function PurchaseTable({ paginatedPurchases }: {
                 <thead className="bg-slate-900 text-slate-300">
                     <tr>
                         <th className="p-3 text-left">Note</th>
-                        <th>Description</th>
+                        <th className='max-w-[20px] text-left'>Description</th>
                         <th className="p-3 text-right">Items</th>
                         <th className="p-3 text-right">Total Price</th>
                         <th>Due</th>
-                        <th>Paid</th>
+                        <th className="p-3 text-right">Paid</th>
                         {/* <th className="p-3 text-left">Created By</th> */}
-                        {/* <th className="p-3 text-center">Actions</th> */}
+                        <th className="p-3 text-center">Status</th>
                     </tr>
                 </thead>
 
@@ -43,8 +43,8 @@ export default function PurchaseTable({ paginatedPurchases }: {
 
 const TableRow = ({ purchase }: { purchase: PurchaseType }) => {
     const [itemString, setItemString] = React.useState("");
-    useEffect(()=>{
-        if(purchase.items && purchase.items.length > 0) {
+    useEffect(() => {
+        if (purchase.items && purchase.items.length > 0) {
             const str = purchase.items.map((item) => {
                 const productName = typeof item.productId === 'string' ? item.productId : (item.productId as any)?.name;
                 return `${productName} (x${item.quantity})`;
@@ -59,13 +59,23 @@ const TableRow = ({ purchase }: { purchase: PurchaseType }) => {
             className="border-t border-slate-800 hover:bg-slate-900/50"
         >
             <td className="p-3">{purchase.note || "No note"}</td>
-            <td className="p-3">{purchase.description || "No description"}</td>
+            <td className="p-3 max-w-[200px] truncate hover:whitespace-normal">{purchase.description || "No description"}</td>
             {/* <td className="p-3">{purchase.supplier}</td> */}
-            <td className="p-3 text-right">{itemString}</td>
+            <td className="p-3 text-right max-w-[100px] truncate hover:whitespace-normal">{itemString}</td>
             <td className="p-3 text-right">{purchase.totalPrice}</td>
-            <td className="p-3 text-right">{purchase.totalPrice - purchase.paid}</td>
+            <td className="p-3 text-right">{purchase.due}</td>
             <td className="p-3 text-right">{purchase.paid}</td>
-            
+            <td className="p-3 text-center">
+                {purchase.due === 0 ? (
+                    <span className="text-green-400">Paid</span>
+                ) : (
+                    <>
+                        <button className="text-blue-400 hover:text-blue-300">Mark as Paid</button>
+
+                    </>
+                )}
+            </td>
+
             {/* <td className="p-3">{purchase.createdBy}</td> */}
         </tr>
     )

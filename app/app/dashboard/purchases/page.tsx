@@ -8,8 +8,9 @@ import PurchaseCart from "./PurchaseCart";
 import { useSelector } from "react-redux";
 import { useGetPurchasesQuery } from "@/redux/slices/purchase/api.parchase";
 import DateSelector from "./DateSelector";
-import { DateRange } from "@/types/others";
+import { DateRange, FilterValues } from "@/types/others";
 import Pagination from "./Pagination";
+import PurchaseFilters from "@/reusable/PurchaseAndSaleFilter";
 
 // const ITEMS_PER_PAGE = 5;
 
@@ -17,17 +18,22 @@ export default function PurchasesPage() {
   const [search, setSearch] = useState("");
   const [open, setOpen] = useState(false);
   const [selectedId, setSelectedId] = useState<string[]>([]);
-  const [pagData, setPagData] = useState({ limit: 20, page: 1 })
-  const [range, setRange] = useState<DateRange>({
+  const [pageNo, setPageNo] = useState(1);
+
+  const [filters, setFilters] = useState<FilterValues>({
+    search: "",
     startDate: "",
     endDate: "",
+    limit: 10,
+    status: "",
   });
+
 
   // Redux states
   const purchase = useSelector((state: any) => state.purchase);
-  const { data } = useGetPurchasesQuery({ key: search, range, limit: pagData.limit, page: pagData.page });
+  const { data } = useGetPurchasesQuery({ key: filters.search, range:{startDate:filters.startDate,endDate:filters.endDate }, limit: filters.limit, page: pageNo,status: filters.status });
+  console.log(data, "filters in page")
 
-console.log(data?.totalPages, "total pages")
   useEffect(() => {
     setSelectedId(purchase.items.map((item: any) => item.productId));
   }, [purchase]);
@@ -51,7 +57,7 @@ console.log(data?.totalPages, "total pages")
       <hr />
 
       {/* Search */}
-      <div className="flex flex-col md:flex-row gap-4">
+      {/* <div className="flex flex-col md:flex-row gap-4">
         <div>
           <SearchBar search={search} setSearch={setSearch} />
           <p className="text-sm mt-2">Item per page</p>
@@ -67,11 +73,12 @@ console.log(data?.totalPages, "total pages")
 
         <DateSelector range={range} setRange={setRange} />
 
-      </div>
+      </div> */}
 
+<PurchaseFilters filters={filters} setFilters={setFilters} />
       {/* Table (scroll X only here) */}
       {data && <PurchaseTable paginatedPurchases={data.data || []} />}
-      <Pagination pageData={pagData} totalPages={data?.totalPages || 1} setPagData={(params) => setPagData({ limit: params.limit ?? pagData.limit, page: params.page })} />
+      <Pagination pageNo={pageNo} totalPages={Number(data?.totalPages) || 1} setPageNo={setPageNo} />
     </div>
   );
 }
