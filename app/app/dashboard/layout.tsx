@@ -10,7 +10,7 @@ export default function InnerLayout({ children }: { children: ReactNode }) {
   const [collapsed, setCollapsed] = useState(true);
 
   return (
-    <div className="min-h-screen w-screen overflow-hidden bg-slate-950 text-slate-100">
+    <div className="min-h-screen w-screen overflow-y-auto bg-slate-950 text-slate-100">
       {/* Top Navigation */}
 
       <div className="flex">
