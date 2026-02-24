@@ -12,7 +12,7 @@ export default function PurchaseTable({ paginatedPurchases }: {
                 <thead className="bg-slate-900 text-slate-300">
                     <tr>
                         <th className="p-3 text-left">Note</th>
-                        <th className='max-w-[20px] text-left'>Description</th>
+                        <th className='text-left'>Description</th>
                         <th className="p-3 text-right">Items</th>
                         <th className="p-3 text-right">Total Price</th>
                         <th>Due</th>
@@ -59,7 +59,7 @@ const TableRow = ({ purchase }: { purchase: PurchaseType }) => {
             className="border-t border-slate-800 hover:bg-slate-900/50"
         >
             <td className="p-3">{purchase.note || "No note"}</td>
-            <td className="p-3 max-w-[200px] truncate hover:whitespace-normal">{purchase.description || "No description"}</td>
+            <td className="p-3 max-w-[150px] truncate hover:whitespace-normal">{purchase.description || "No description"}</td>
             {/* <td className="p-3">{purchase.supplier}</td> */}
             <td className="p-3 text-right max-w-[100px] truncate hover:whitespace-normal">{itemString}</td>
             <td className="p-3 text-right">{purchase.totalPrice}</td>
@@ -67,10 +67,10 @@ const TableRow = ({ purchase }: { purchase: PurchaseType }) => {
             <td className="p-3 text-right">{purchase.paid}</td>
             <td className="p-3 text-center">
                 {purchase.due === 0 ? (
-                    <span className="text-green-400">Paid</span>
+                    <span className="bg-green-500 text-white px-2 py-1 rounded-full text-xs">Paid</span>
                 ) : (
                     <>
-                        <button className="text-blue-400 hover:text-blue-300">Mark as Paid</button>
+                        <span className="bg-red-500 text-white px-2 py-1 rounded-full text-xs">Due</span>
 
                     </>
                 )}
