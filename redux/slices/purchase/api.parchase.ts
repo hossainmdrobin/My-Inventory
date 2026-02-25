@@ -4,9 +4,10 @@ import { PurchaseType } from "@/types/purchase";
 
 type responseType = {
     data:PurchaseType[];
-    limit:Number,
+    limit?:Number,
     totalPages:Number,
-
+    page?:Number,
+    total?:Number
 }
 
 

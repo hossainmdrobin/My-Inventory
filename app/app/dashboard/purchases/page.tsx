@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 import { useGetPurchasesQuery } from "@/redux/slices/purchase/api.parchase";
 import DateSelector from "./DateSelector";
 import { DateRange, FilterValues } from "@/types/others";
-import Pagination from "./Pagination";
+import Pagination from "../../../../reusable/Pagination";
 import PurchaseFilters from "@/reusable/PurchaseAndSaleFilter";
 
 // const ITEMS_PER_PAGE = 5;

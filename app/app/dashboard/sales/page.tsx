@@ -1,44 +1,33 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
-// import PurchaseForm from "./PurchaseForm";
-import Pagination from "./Pagination";
-import PurchaseTable from "./SaleTable";
+import { useState, useEffect } from "react";
 import SaleCart from "./SaleCart";
 import { useSelector } from "react-redux";
 import SaleTable from "./SaleTable";
 import { useGetSalesQuery } from "@/redux/slices/sales/api.sale";
-import SearchBar from "./SearchBar";
+import PurchaseFilters from "@/reusable/PurchaseAndSaleFilter";
+import { FilterValues } from "@/types/others";
+import Pagination from "@/reusable/Pagination";
 
 export default function SalesPage() {
-  const [search, setSearch] = useState("");
   const [open, setOpen] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
   const [selectedId, setSelectedId] = useState<string[]>([]);
+  const [pageNo, setPageNo] = useState(1)
+  const [filters, setFilters] = useState<FilterValues>({
+    search: "",
+    startDate: "",
+    endDate: "",
+    limit: 10,
+    status: "",
+  });
 
   // Redux states
   const sale = useSelector((state: any) => state.sale);
-      const {data, isLoading, error} = useGetSalesQuery({key:""});
-      console.log(data, isLoading, error,"sele data");
-
+  const { data, isLoading, error } = useGetSalesQuery({ key: filters.search, range: { startDate: filters.startDate, endDate: filters.endDate }, limit: filters.limit, page: pageNo, status: filters.status });
 
   useEffect(() => {
     setSelectedId(sale.items.map((item: any) => item.productId));
   }, [sale]);
-    
-
-  // const filteredPurchases = useMemo(() => {
-  //   return purchases.filter((p) =>
-  //     p.name.toLowerCase().includes(search.toLowerCase())
-  //   );
-  // }, [purchases, search]);
-
-  // const totalPages = Math.ceil(filteredPurchases.length / ITEMS_PER_PAGE);
-
-  // const paginatedPurchases = useMemo(() => {
-  //   const start = (currentPage - 1) * ITEMS_PER_PAGE;
-  //   return filteredPurchases.slice(start, start + ITEMS_PER_PAGE);
-  // }, [filteredPurchases, currentPage]);
 
   return (
     <div className="space-y-6">
@@ -54,24 +43,14 @@ export default function SalesPage() {
         </button>
       </div>
 
-      {open && <SaleCart setCartOpen={setOpen} sale={sale} selectedIds={selectedId}/>}
+      {open && <SaleCart setCartOpen={setOpen} sale={sale} selectedIds={selectedId} />}
       <hr />
-
-      {/* Search */}
-      <SearchBar  search={search} setSearch={setSearch} setCurrentPage={setCurrentPage} />
-
+      {/* SALE SEARCH FILTER */}
+      <PurchaseFilters filters={filters} setFilters={setFilters} />
       {/* Table (scroll X only here) */}
-      {data && <SaleTable paginatedPurchases={data || []}  />}
-
-      {/* Pagination */}
-      {/* {totalPages > 1 && (
-        <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage} totalPages={totalPages} />
-      )} */}
-
-      {/* Modal */}
-      {/* {open && (
-        <PurchaseForm form={form} setForm={setForm} handleSubmit={handleSubmit} setOpen={setOpen} />
-      )} */}
+      {data && <SaleTable sales={data.data || []} />}
+      {/* PAGINATION  */}
+      {data?.totalPages && Number(data.totalPages)>1 && <Pagination pageNo={pageNo} setPageNo={setPageNo} totalPages={Number(data.totalPages)} />}
     </div>
   );
 }
