@@ -8,7 +8,7 @@ import SearchProduct from "./SearchProduct";
 
 export default function SaleCart({ selectedIds, sale, setCartOpen }: { selectedIds: string[], sale: SaleType, setCartOpen: (open: boolean) => void }) {
     const [open, setOpen] = useState(false);
-    const [createSale, { data, isLoading, error }] = useCreateSaleMutation()
+    const [createSale] = useCreateSaleMutation()
     const [validData, setValidData] = useState<{ isValid: boolean, error?: string }>({ isValid: false });
 
     const dispatch = useDispatch();
@@ -22,7 +22,6 @@ export default function SaleCart({ selectedIds, sale, setCartOpen }: { selectedI
         createSale({ data: sale })
         dispatch(resetSale())
         setCartOpen(false);
-
     }
 
 
@@ -58,15 +57,10 @@ export default function SaleCart({ selectedIds, sale, setCartOpen }: { selectedI
                                 <div>{product.name}</div>
                                 <div>Price: {product.costPrice}</div>
                                 <div>Quantity:
-                                    <button
-                                        onClick={() => dispatch(decreamentQty(product.productId))}
-                                        className="px-2 py-1 font-bold text-white bg-blue-600 rounded-l-lg">-</button>
                                     <input type="number"
-                                        value={product.quantity}
-                                        onChange={(e) => setQty({ productId: product.productId, quantity: Number(e.target.value) })}
+                                    defaultValue={1}
+                                        onChange={(e) => dispatch(setQty({ productId: product.productId, quantity: Number(e.target.value) }))}
                                         className="w-12 bg-slate-700 border border-slate-600 rounded-lg p-1" />
-
-                                    <button onClick={() => dispatch(increamentQty(product.productId))} className="px-2 py-1 font-bold text-white bg-blue-600 rounded-r-lg">+</button>
                                 </div>
                             </div>
                             <hr />
