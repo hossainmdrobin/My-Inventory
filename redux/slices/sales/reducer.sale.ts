@@ -20,12 +20,13 @@ const saleSlice = createSlice({
             };
             state.items.push({ productId: action.payload.productId, name: action.payload.name, quantity: 1, costPrice: action.payload.costPrice, sellingPrice: action.payload.sellingPrice })
             state.totalPrice = calculateTotalPrice(state.items)
+            state.due = state.totalPrice - state.paid
         },
         removeItem: (state, action: PayloadAction<string>) => {
             state.items = state.items.filter(item => item.productId != action.payload)
             state.totalPrice = calculateTotalPrice(state.items)
             state.totalPrice = calculateTotalPrice(state.items)
-
+            state.due = state.totalPrice - state.paid
         },
 
         increamentQty: (state, action: PayloadAction<string>) => {
@@ -35,6 +36,7 @@ const saleSlice = createSlice({
                 }
             })
             state.totalPrice = calculateTotalPrice(state.items)
+            state.due = state.totalPrice - state.paid
         },
         decreamentQty: (state, action: PayloadAction<string>) => {
             state.items.forEach(item => {
@@ -43,6 +45,7 @@ const saleSlice = createSlice({
                 }
             })
             state.totalPrice = calculateTotalPrice(state.items)
+            state.due = state.totalPrice - state.paid
         },
         setQty: (state, action: PayloadAction<{ productId: string, quantity: number }>) => {
             state.items.forEach(item => {
@@ -51,6 +54,7 @@ const saleSlice = createSlice({
                 }
             })
             state.totalPrice = calculateTotalPrice(state.items)
+            state.due = state.totalPrice - state.paid
         },
         setDescription: (state, action: PayloadAction<string>) => {
             state.description = action.payload
@@ -60,6 +64,7 @@ const saleSlice = createSlice({
         },
         setPaid: (state, action: PayloadAction<number>) => {
             state.paid = action.payload
+            state.due = state.totalPrice - state.paid
             state.due = state.totalPrice - state.paid
         },
         resetSale: (state) => {

@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 import { PurchaseType } from '@/types/purchase';
-import { Table } from 'lucide-react';
 
 export default function PurchaseTable({ paginatedPurchases }: {
     paginatedPurchases: PurchaseType[];
@@ -60,7 +59,6 @@ const TableRow = ({ purchase }: { purchase: PurchaseType }) => {
         >
             <td className="p-3">{purchase.note || "No note"}</td>
             <td className="p-3 max-w-[150px] truncate hover:whitespace-normal">{purchase.description || "No description"}</td>
-            {/* <td className="p-3">{purchase.supplier}</td> */}
             <td className="p-3 text-right max-w-[100px] truncate hover:whitespace-normal">{itemString}</td>
             <td className="p-3 text-right">{purchase.totalPrice}</td>
             <td className="p-3 text-right">{purchase.due}</td>
@@ -75,8 +73,6 @@ const TableRow = ({ purchase }: { purchase: PurchaseType }) => {
                     </>
                 )}
             </td>
-
-            {/* <td className="p-3">{purchase.createdBy}</td> */}
         </tr>
     )
 }
