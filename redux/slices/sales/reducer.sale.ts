@@ -1,7 +1,7 @@
-import { PurchaseType } from "@/types/purchase";
+import { SaleType } from "@/types/sale";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-const initialState: PurchaseType = {
+const initialState: SaleType = {
     items: [],
     totalPrice: 0,
     paid: 0,
@@ -13,12 +13,13 @@ const saleSlice = createSlice({
     name: 'sale',
     initialState,
     reducers: {
-        selectItem: (state, action: PayloadAction<{ productId: string, name: string, costPrice: number, sellingPrice: number }>) => {
+        selectItem: (state, action: PayloadAction<{ productId: string, name: string, costPrice: number, sellingPrice: number, stock:number }>) => {
+            console.log(action.payload, "action payload")
             if (state.items.find(item => item.productId == action.payload.productId)) {
                 state.items = state.items.filter(item => item.productId != action.payload.productId)
                 return;
             };
-            state.items.push({ productId: action.payload.productId, name: action.payload.name, quantity: 1, costPrice: action.payload.costPrice, sellingPrice: action.payload.sellingPrice })
+            state.items.push({ productId: action.payload.productId, name: action.payload.name, quantity: 1, costPrice: action.payload.costPrice, sellingPrice: action.payload.sellingPrice, stock: action.payload.stock })
             state.totalPrice = calculateTotalPrice(state.items)
             state.due = state.totalPrice - state.paid
         },

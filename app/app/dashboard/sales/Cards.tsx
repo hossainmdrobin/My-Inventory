@@ -2,13 +2,12 @@ import { selectItem } from "@/redux/slices/sales/reducer.sale";
 import { Product } from "@/types/product";
 import { useDispatch } from "react-redux";
 
-export function SearchCard({ name, costPrice, _id, sellingPrice, selectedIds }: Product & { selectedIds: string[] }) {
+export function SearchCard({ name, costPrice, _id, sellingPrice, selectedIds ,stock}: Product & { selectedIds: string[] }) {
     const dispatch = useDispatch();
-
 
     return (
         <div
-            onClick={() => dispatch(selectItem({ productId: _id || "", name, costPrice: costPrice ?? 0, sellingPrice: sellingPrice ?? 0 }))}
+            onClick={() => dispatch(selectItem({ productId: _id || "", name, costPrice: costPrice ?? 0, sellingPrice: sellingPrice ?? 0 ,stock:stock}))}
             className="flex items-center justify-between p-2 border-b border-slate-700 cursor-pointer hover:bg-slate-800"
         >
             <div>{name}</div>

@@ -90,10 +90,11 @@ SaleSchema.post("save", async function (doc) {
 
     for (const item of purchase.items) {
       await Product.findByIdAndUpdate(item.productId, {
-        $dec: { stock: item.quantity },
+        $inc: { stock: -item.quantity },
         ...(item.costPrice && { costPrice: item.costPrice }),
         ...(item.sellingPrice && { sellingPrice: item.sellingPrice }),
       });
+      console.log("inc")
     }
   } catch (error) {
     console.error("Stock update failed:", error);
