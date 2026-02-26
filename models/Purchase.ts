@@ -1,4 +1,5 @@
 import { Schema, model, models, Types } from "mongoose";
+import Product from "./Product";
 
 /* ---------------- Purchase Item Schema ---------------- */
 const PurchaseItemSchema = new Schema(
@@ -82,6 +83,22 @@ const PurchaseSchema = new Schema(
     timestamps: true, // adds createdAt & updatedAt
   }
 );
+
+PurchaseSchema.post("save", async function (doc) {
+  try {
+    const purchase = doc;
+
+    for (const item of purchase.items) {
+      await Product.findByIdAndUpdate(item.productId, {
+        $inc: { stock: item.quantity },
+        ...(item.costPrice && { costPrice: item.costPrice }),
+        ...(item.sellingPrice && { sellingPrice: item.sellingPrice }),
+      });
+    }
+  } catch (error) {
+    console.error("Stock update failed:", error);
+  }
+});
 
 /* ---------------- Model Export ---------------- */
 const Purchase =
