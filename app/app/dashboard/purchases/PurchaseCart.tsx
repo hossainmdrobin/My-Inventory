@@ -1,15 +1,14 @@
 import { useState } from "react";
 import SearchProduct from "./SearchProduct";
 import { useDispatch } from "react-redux";
-import { decreamentQty, increamentQty, removeItem, resetPurchase, setDescription, setNote, setPaid, setQty } from "@/redux/slices/purchase/reducer.purchase";
+import { removeItem, resetPurchase, setDescription, setNote, setPaid, setQty } from "@/redux/slices/purchase/reducer.purchase";
 import { MessageCircleWarning, X } from "lucide-react";
 import { PurchaseType } from "@/types/purchase";
-import { create } from "domain";
 import { useCreatePurchaseMutation } from "@/redux/slices/purchase/api.parchase";
 
 export default function PurchaseCart({ selectedIds, purchase, setCartOpen }: { selectedIds: string[], purchase: PurchaseType, setCartOpen: (open: boolean) => void }) {
     const [open, setOpen] = useState(false);
-    const [createPurchase, { data, isLoading, error }] = useCreatePurchaseMutation()
+    const [createPurchase] = useCreatePurchaseMutation()
     const [validData, setValidData] = useState<{ isValid: boolean, error?: string }>({ isValid: false });
 
     const dispatch = useDispatch();
@@ -59,15 +58,10 @@ export default function PurchaseCart({ selectedIds, purchase, setCartOpen }: { s
                                 <div>{product.name}</div>
                                 <div>Price: {product.costPrice}</div>
                                 <div>Quantity:
-                                    <button
-                                        onClick={() => dispatch(decreamentQty(product.productId))}
-                                        className="px-2 py-1 font-bold text-white bg-blue-600 rounded-l-lg">-</button>
                                     <input type="number"
-                                        value={product.quantity}
                                         onChange={(e) => setQty({ productId: product.productId, quantity: Number(e.target.value) })}
                                         className="w-12 bg-slate-700 border border-slate-600 rounded-lg p-1" />
 
-                                    <button onClick={() => dispatch(increamentQty(product.productId))} className="px-2 py-1 font-bold text-white bg-blue-600 rounded-r-lg">+</button>
                                 </div>
                             </div>
                             <hr />
