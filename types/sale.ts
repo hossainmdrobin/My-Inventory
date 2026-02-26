@@ -2,6 +2,7 @@
 // Type for a single purchase item
 export type SaleItemType = {
   name:string;
+  stock:number;
   productId: string;
   quantity: number;
   costPrice: number;

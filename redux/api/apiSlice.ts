@@ -10,7 +10,9 @@ export const apiSlice = createApi({
     tagTypes: [
         "GETALLPOST",
         "GETALLPURCHASES",
-        "GETALLSALES"
+        "GETALLSALES",
+        "GETALLPRODUCTS",
+        "GETALLSUPPLIERS"
     ], 
 });
 

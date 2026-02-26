@@ -35,7 +35,7 @@ export const saleEndpoints = apiSlice.injectEndpoints({
                 method: 'POST',
                 body: data,
             }),
-            invalidatesTags: ["GETALLSALES"],
+            invalidatesTags: ["GETALLSALES","GETALLPRODUCTS"],
         }),
     }),
 })

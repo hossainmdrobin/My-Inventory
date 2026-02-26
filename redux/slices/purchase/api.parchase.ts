@@ -10,7 +10,6 @@ type responseType = {
     total?:Number
 }
 
-
 export const purchaseEndpoints = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
         getPurchases: builder.query<responseType, { key?: string, range?:DateRange, limit?:number, page?:number, status?:string }>({
@@ -36,7 +35,7 @@ export const purchaseEndpoints = apiSlice.injectEndpoints({
                 method: 'POST',
                 body: data,
             }),
-            invalidatesTags: ["GETALLPURCHASES"],
+            invalidatesTags: ["GETALLPURCHASES","GETALLPRODUCTS"],
         }),
     }),
 })

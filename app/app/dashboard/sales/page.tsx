@@ -24,7 +24,7 @@ export default function SalesPage() {
   // Redux states
   const sale = useSelector((state: any) => state.sale);
   const { data, isLoading, error } = useGetSalesQuery({ key: filters.search, range: { startDate: filters.startDate, endDate: filters.endDate }, limit: filters.limit, page: pageNo, status: filters.status });
-
+console.log(sale, "saved select")
   useEffect(() => {
     setSelectedId(sale.items.map((item: any) => item.productId));
   }, [sale]);
@@ -50,7 +50,7 @@ export default function SalesPage() {
       {/* Table (scroll X only here) */}
       {data && <SaleTable sales={data.data || []} />}
       {/* PAGINATION  */}
-      {data?.totalPages && Number(data.totalPages)>1 && <Pagination pageNo={pageNo} setPageNo={setPageNo} totalPages={Number(data.totalPages)} />}
+      {data?.totalPages && Number(data.totalPages) > 1 && <Pagination pageNo={pageNo} setPageNo={setPageNo} totalPages={Number(data.totalPages)} />}
     </div>
   );
 }
