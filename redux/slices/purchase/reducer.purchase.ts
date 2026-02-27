@@ -8,6 +8,7 @@ const initialState: PurchaseType = {
     due: 0,
     description: "",
     note: "",
+    supplier:""
 }
 const purchaseSlice = createSlice({
     name: 'purchase',
@@ -66,6 +67,9 @@ const purchaseSlice = createSlice({
             state.paid = action.payload
             state.due = state.totalPrice - state.paid
         },
+        setSupplier:(state,action:PayloadAction<string>)=>{
+            state.supplier = action.payload
+        },
         resetPurchase: (state) => {
             state.items = [];
             state.totalPrice = 0;
@@ -86,7 +90,8 @@ export const {
     setDescription,
     setNote,
     setPaid,
-    resetPurchase
+    resetPurchase,
+    setSupplier
 } = purchaseSlice.actions;
 
 export default purchaseSlice.reducer
