@@ -1,5 +1,6 @@
 import { Schema, model, models, Types } from "mongoose";
 import Product from "./Product";
+import Supplier from "./Supplier";
 
 /* ---------------- Purchase Item Schema ---------------- */
 const PurchaseItemSchema = new Schema(
@@ -73,6 +74,10 @@ const PurchaseSchema = new Schema(
       type: String,
       trim: true,
     },
+    supplier:{
+      type:Schema.Types.ObjectId,
+      ref:"Supplier"
+    },
 
     createdBy: {
       type: Schema.Types.ObjectId,
@@ -87,6 +92,9 @@ const PurchaseSchema = new Schema(
 PurchaseSchema.post("save", async function (doc) {
   try {
     const purchase = doc;
+    await Supplier.findByIdAndUpdate(purchase.supplier,{
+      $inc:{paid:purchase.paid,due:-purchase.due}
+    })
 
     for (const item of purchase.items) {
       await Product.findByIdAndUpdate(item.productId, {
