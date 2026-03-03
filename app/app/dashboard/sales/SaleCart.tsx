@@ -33,6 +33,14 @@ export default function SaleCart({ selectedIds, sale, setCartOpen }: { selectedI
             <div className='bg-slate-900 border border-gray-200 rounded-xl border border-slate-800'>
                 <h1 className='text-center text-lg font-semibold my-2'>Sale Summary</h1> <hr />
                 <div className='p-4 space-y-4 h-[400px] overflow-y-auto'>
+                    <select
+                        className="my-3 w-full text-gray-400 bg-slate-800 border border-slate-700 rounded-lg p-2"
+                    >
+                        <option value="">Vehicle no.1</option>
+                        <option value="">Vehicle 1</option>
+                        <option value="">Vehicle 1</option>
+                        <option value="">Vehicle 1</option>
+                    </select>
                     <input
                         onChange={(e) => dispatch(setNote(e.target.value))}
                         type="text" placeholder='Sale Note' className="w-full bg-slate-800 border border-slate-700 rounded-lg p-2" />

@@ -4,7 +4,7 @@ import { Types } from "mongoose";
 
 // Type for a single purchase item
 export type PurchaseItemType = {
-  name:string;
+  name: string;
   productId: string;
   quantity: number;
   costPrice: number;
@@ -15,7 +15,7 @@ export type PurchaseItemType = {
 export type PurchaseType = {
   _id?: string;       // optional because MongoDB will generate it
   productName?: string;
-  //   supplierId?: Types.ObjectId;
+  supplier?: string;
   items: PurchaseItemType[];
   totalPrice: number;
   paid: number;

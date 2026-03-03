@@ -1,3 +1,4 @@
+import { number } from "framer-motion";
 import { Schema, model, models } from "mongoose";
 
 const SupplierSchema = new Schema(
@@ -20,6 +21,18 @@ const SupplierSchema = new Schema(
             ref: "User",
             required: false,
         },
+        due:{
+            type:Number,
+            default:0
+        },
+        paid:{
+            type:Number,
+            default:0
+        },
+        advance:{
+            type:Number,
+            default:0
+        }
     },
     { timestamps: true }
 );

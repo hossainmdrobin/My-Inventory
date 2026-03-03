@@ -9,7 +9,8 @@ import {
     ShoppingBasket,
     ShoppingBag,
     Handshake,
-    FileChartColumn
+    FileChartColumn,
+    IdCard
 } from "lucide-react";
 import Link from "next/link";
 
@@ -20,6 +21,7 @@ const menu = [
     { name: "Purchases", icon: ShoppingBasket, href: "/app/dashboard/purchases" },
     { name: "Sales", icon: ShoppingBag, href: "/app/dashboard/sales" },
     { name: "Suppliers", icon: Handshake, href: "/app/dashboard/suppliers" },
+    { name: "Customers", icon: IdCard, href: "/app/dashboard/customers" },
     { name: "Reports", icon: FileChartColumn, href: "/app/dashboard/reports" },
     { name: "Settings", icon: Settings, href: "/app/dashboard/settings" },
 ];
