@@ -14,7 +14,8 @@ export const apiSlice = createApi({
         "GETALLPRODUCTS",
         "GETALLSUPPLIERS",
         "CUSTOMER_ACCOUNT",
-        "CUSTOMERS"
+        "CUSTOMERS",
+        "Employee"
     ], 
 });
 
