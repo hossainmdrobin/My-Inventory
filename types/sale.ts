@@ -19,7 +19,9 @@ export type SaleType = {
   paid: number;
   due: number;
   description?: string; // optional, for any additional info about the item
-  note?: string
+  note?: string;
+  vehicle:String;
+  employee:any,
   createdBy?: string;
   createdAt?: Date;           // from timestamps
   updatedAt?: Date;           // from timestamps

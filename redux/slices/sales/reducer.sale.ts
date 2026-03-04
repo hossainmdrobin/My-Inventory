@@ -8,12 +8,14 @@ const initialState: SaleType = {
     due: 0,
     description: "",
     note: "",
+    vehicle: "",
+    employee: ""
 }
 const saleSlice = createSlice({
     name: 'sale',
     initialState,
     reducers: {
-        selectItem: (state, action: PayloadAction<{ productId: string, name: string, costPrice: number, sellingPrice: number, stock:number }>) => {
+        selectItem: (state, action: PayloadAction<{ productId: string, name: string, costPrice: number, sellingPrice: number, stock: number }>) => {
             console.log(action.payload, "action payload")
             if (state.items.find(item => item.productId == action.payload.productId)) {
                 state.items = state.items.filter(item => item.productId != action.payload.productId)
@@ -68,6 +70,12 @@ const saleSlice = createSlice({
             state.due = state.totalPrice - state.paid
             state.due = state.totalPrice - state.paid
         },
+        setEmployee: (state, action: PayloadAction<string>) => {
+            state.employee = action.payload
+        },
+        setVehicle: (state, action: PayloadAction<string>) => {
+            state.vehicle = action.payload
+        },
         resetSale: (state) => {
             state.items = [];
             state.totalPrice = 0;
@@ -88,7 +96,9 @@ export const {
     setDescription,
     setNote,
     setPaid,
-    resetSale
+    resetSale,
+    setVehicle,
+    setEmployee
 } = saleSlice.actions;
 
 export default saleSlice.reducer

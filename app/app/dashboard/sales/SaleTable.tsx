@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react'
 import { PurchaseType } from '@/types/purchase';
 import { Table } from 'lucide-react';
+import { SaleType } from '@/types/sale';
 
 export default function PurchaseTable({ sales }: {
-    sales: PurchaseType[];
+    sales: SaleType[];
 }) {
     // Redux hooks
     return (
@@ -11,9 +12,11 @@ export default function PurchaseTable({ sales }: {
             <table className="min-w-[900px] w-full text-sm">
                 <thead className="bg-slate-900 text-slate-300">
                     <tr>
+                        <th>Date</th>
                         <th className="p-3 text-left">Note</th>
                         <th className='text-left'>Description</th>
                         <th className="p-3 text-right">Items</th>
+                        <th>vehicle</th>
                         <th className="p-3 text-right">Total Price</th>
                         <th>Due</th>
                         <th className="p-3 text-right">Paid</th>
@@ -41,7 +44,7 @@ export default function PurchaseTable({ sales }: {
 }
 
 
-const TableRow = ({ sale }: { sale: PurchaseType }) => {
+const TableRow = ({ sale }: { sale: SaleType }) => {
     const [itemString, setItemString] = React.useState("");
     useEffect(() => {
         if (sale.items && sale.items.length > 0) {
@@ -53,14 +56,16 @@ const TableRow = ({ sale }: { sale: PurchaseType }) => {
         }
 
     }, [sale.items])
+    const {createdAt,vehicle} = sale
     return (
         <tr
             key={sale._id}
             className="border-t border-slate-800 hover:bg-slate-900/50"
         >
+            {createdAt && <td className='px-2'>{new Date(createdAt).toLocaleDateString("en-GB") || ""}</td>}
             <td className="p-3">{sale.note || "No note"}</td>
             <td className="p-3 max-w-[150px] truncate hover:whitespace-normal">{sale.description || "No description"}</td>
-            {/* <td className="p-3">{purchase.supplier}</td> */}
+            <td className="p-3">{vehicle}</td>
             <td className="p-3 text-right max-w-[100px] truncate hover:whitespace-normal">{itemString}</td>
             <td className="p-3 text-right">{sale.totalPrice}</td>
             <td className="p-3 text-right">{sale.due}</td>

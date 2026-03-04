@@ -51,6 +51,8 @@ const SaleSchema = new Schema(
       required: true,
       validate: [(val: any[]) => val.length > 0, "At least one item required"],
     },
+    vehicle:{type:String},
+    employee:{type:Schema.Types.ObjectId},
 
     totalPrice: {
       type: Number,

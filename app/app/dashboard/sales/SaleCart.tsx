@@ -1,16 +1,18 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { decreamentQty, increamentQty, removeItem, resetSale, setDescription, setNote, setPaid, setQty } from "@/redux/slices/sales/reducer.sale";
+import {removeItem, resetSale, setDescription, setEmployee, setNote, setPaid, setQty, setVehicle } from "@/redux/slices/sales/reducer.sale";
 import { MessageCircleWarning, X } from "lucide-react";
 import { SaleItemType, SaleType } from "@/types/sale";
 import { useCreateSaleMutation } from "@/redux/slices/sales/api.sale";
 import SearchProduct from "./SearchProduct";
-import { Product } from "@/types/product";
+import { useGetEmployeesQuery } from "@/redux/slices/employee/api.employee";
 
 export default function SaleCart({ selectedIds, sale, setCartOpen }: { selectedIds: string[], sale: SaleType, setCartOpen: (open: boolean) => void }) {
     const [open, setOpen] = useState(false);
     const [createSale] = useCreateSaleMutation()
+    const { data: employees } = useGetEmployeesQuery({})
     const [validData, setValidData] = useState<{ isValid: boolean, error?: string }>({ isValid: false });
+    console.log(employees?.data, "ssss")
 
     const dispatch = useDispatch();
     const proceedSale = () => {
@@ -25,7 +27,6 @@ export default function SaleCart({ selectedIds, sale, setCartOpen }: { selectedI
         setCartOpen(false);
     }
 
-
     return (
         <>
             {open && <SearchProduct setOpen={setOpen} selectedIds={selectedIds} />}
@@ -34,12 +35,19 @@ export default function SaleCart({ selectedIds, sale, setCartOpen }: { selectedI
                 <h1 className='text-center text-lg font-semibold my-2'>Sale Summary</h1> <hr />
                 <div className='p-4 space-y-4 h-[400px] overflow-y-auto'>
                     <select
+                        onChange={(e) => dispatch(setVehicle(e.target.value))}
                         className="my-3 w-full text-gray-400 bg-slate-800 border border-slate-700 rounded-lg p-2"
                     >
-                        <option value="">Vehicle no.1</option>
-                        <option value="">Vehicle 1</option>
-                        <option value="">Vehicle 1</option>
-                        <option value="">Vehicle 1</option>
+                        <option value="1">Vehicle no.1</option>
+                        <option value="2">Vehicle no.2</option>
+                        <option value="3">Vehicle no.3</option>
+                        <option value="4">Vehicle no.4</option>
+                    </select>
+                    <select className="my-3 w-full text-gray-400 bg-slate-800 border border-slate-700 rounded-lg p-2"
+                        onChange={(e) => dispatch(setEmployee(e.target.value))}
+                        name="" id="">
+                        <option value="">Select Seller</option>
+                        {employees?.data?.map((employee, i) => <option value={employee._id}>{employee.name}</option>)}
                     </select>
                     <input
                         onChange={(e) => dispatch(setNote(e.target.value))}
