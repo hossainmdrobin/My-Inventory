@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import connectToDB from "@/db";
 import "@/models/Product"
 import Sale from "@/models/Sale";
+import "@/models/Employee"
 
 /* ---------------- CREATE SALE ---------------- */
 export async function POST(req: Request) {
@@ -75,6 +76,7 @@ export async function GET(req: NextRequest) {
             .limit(limit)
             .skip((page - 1) * limit)
             .populate("items.productId", "name sku")
+            .populate("employee","name phone")
             .populate("createdBy", "email")
             .sort({ createdAt: -1 })
             .lean();

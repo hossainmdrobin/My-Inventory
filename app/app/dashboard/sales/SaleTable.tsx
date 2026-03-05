@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
-import { PurchaseType } from '@/types/purchase';
-import { Table } from 'lucide-react';
+import { Van } from 'lucide-react';
 import { SaleType } from '@/types/sale';
 
 export default function PurchaseTable({ sales }: {
@@ -17,6 +16,7 @@ export default function PurchaseTable({ sales }: {
                         <th className='text-left'>Description</th>
                         <th className="p-3 text-right">Items</th>
                         <th>vehicle</th>
+                        <th>Seller</th>
                         <th className="p-3 text-right">Total Price</th>
                         <th>Due</th>
                         <th className="p-3 text-right">Paid</th>
@@ -56,27 +56,28 @@ const TableRow = ({ sale }: { sale: SaleType }) => {
         }
 
     }, [sale.items])
-    const {createdAt,vehicle} = sale
+    const { createdAt, vehicle, employee } = sale
+    console.log(sale, "alesdf")
     return (
         <tr
             key={sale._id}
             className="border-t border-slate-800 hover:bg-slate-900/50"
         >
-            {createdAt && <td className='px-2'>{new Date(createdAt).toLocaleDateString("en-GB") || ""}</td>}
-            <td className="p-3">{sale.note || "No note"}</td>
-            <td className="p-3 max-w-[150px] truncate hover:whitespace-normal">{sale.description || "No description"}</td>
-            <td className="p-3">{vehicle}</td>
-            <td className="p-3 text-right max-w-[100px] truncate hover:whitespace-normal">{itemString}</td>
-            <td className="p-3 text-right">{sale.totalPrice}</td>
-            <td className="p-3 text-right">{sale.due}</td>
-            <td className="p-3 text-right">{sale.paid}</td>
+            {createdAt && <td className='px-2 border-r-[.1px]'>{new Date(createdAt).toLocaleDateString("en-GB") || ""}</td>}
+            <td className="p-3 border-r-[.1px]">{sale.note || "No note"}</td>
+            <td className="p-3 border-r-[.1px] max-w-[150px] truncate hover:whitespace-normal">{sale.description || "No description"}</td>
+            <td className="p-3 border-r-[.1px] text-right max-w-[100px] truncate hover:whitespace-normal">{itemString}</td>
+            <td className="p-3 border-r-[.1px] flex gap-1 items-center text-center justify-center text-white"><Van />{vehicle}</td>
+            <td className='border-r-1 px-1'>{employee?.name? employee.name :"Not Provided"}</td>
+            <td className="p-3 border-r-[.1px] text-right">{sale.totalPrice}</td>
+            <td className="p-3 border-r-[.1px] text-right">{sale.due}</td>
+            <td className="p-3 border-r-[.1px] text-right">{sale.paid}</td>
             <td className="p-3 text-center">
                 {sale.due === 0 ? (
                     <span className="bg-green-500 text-white px-2 py-1 rounded-full text-xs">Paid</span>
                 ) : (
                     <>
                         <span className="bg-red-500 text-white px-2 py-1 rounded-full text-xs">Due</span>
-
                     </>
                 )}
             </td>
