@@ -1,5 +1,6 @@
 "use client";
 
+import { useGetDashboardReportQuery } from "@/redux/slices/report/api.report";
 import { useMemo, useState } from "react";
 
 type ProductRow = {
@@ -61,6 +62,8 @@ const MOCK_PURCHASES: PurchaseRow[] = [
 
 /* ----------------- Page ----------------- */
 export default function ReportsPage() {
+  const { data: report, isLoading, error } = useGetDashboardReportQuery();
+  console.log(report, "here is the report");
   const [activeTab, setActiveTab] = useState<Tab>("stock");
 
   // Filters for sales & purchases
@@ -120,6 +123,7 @@ export default function ReportsPage() {
     setPurchEnd("");
   };
 
+
   return (
     <div className="p-6 space-y-6">
       <h1 className="text-2xl font-semibold">Reports</h1>
@@ -135,10 +139,11 @@ export default function ReportsPage() {
       {activeTab === "stock" && (
         <section className="space-y-6">
           {/* Summary cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <SummaryCard title="Total Stock Value" value={formatCurrency(totalStockValue)} />
-            <SummaryCard title="Total Products" value={String(totalProducts)} />
-            <SummaryCard title="Low Stock Items" value={String(lowStockItems.length)} tone={lowStockItems.length > 0 ? "warn" : "ok"} />
+          <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
+            <SummaryCard title="Total Stock Cost Value" value={"৳ " + (report?.productReport?.totalCostValue || 0).toString()} />
+            <SummaryCard title="Total Stock Selling Value" value={"৳ " + (report?.productReport?.totalSellingValue || 0).toString()} />
+            <SummaryCard title="Total Products" value={(report?.productReport?.totalProducts || 0).toString()} />
+            <SummaryCard title="Low Stock Items" value={(report?.productReport?.lowStockItems || 0).toString()} tone={lowStockItems.length > 0 ? "warn" : "ok"} />
           </div>
 
           {/* Low stock quick list */}
@@ -332,9 +337,8 @@ function TabBtn({ label, active, onClick }: { label: string; active: boolean; on
   return (
     <button
       onClick={onClick}
-      className={`px-4 py-2 rounded-t-lg -mb-px border-b-2 ${
-        active ? "border-blue-600 text-blue-600 bg-slate-900" : "border-transparent text-slate-400 bg-transparent"
-      }`}
+      className={`px-4 py-2 rounded-t-lg -mb-px border-b-2 ${active ? "border-blue-600 text-blue-600 bg-slate-900" : "border-transparent text-slate-400 bg-transparent"
+        }`}
     >
       {label}
     </button>
