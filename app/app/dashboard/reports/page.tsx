@@ -2,6 +2,8 @@
 
 import { useGetDashboardReportQuery } from "@/redux/slices/report/api.report";
 import { useMemo, useState } from "react";
+import StockReport from "./StockReport";
+import SaleReport from "./SaleReport";
 
 type ProductRow = {
   id: number;
@@ -67,8 +69,6 @@ export default function ReportsPage() {
   const [activeTab, setActiveTab] = useState<Tab>("stock");
 
   // Filters for sales & purchases
-  const [salesStart, setSalesStart] = useState("");
-  const [salesEnd, setSalesEnd] = useState("");
   const [purchStart, setPurchStart] = useState("");
   const [purchEnd, setPurchEnd] = useState("");
 
@@ -97,13 +97,7 @@ export default function ReportsPage() {
   }
 
   const sales = useMemo(() => MOCK_SALES, []);
-  const filteredSales = useMemo(
-    () => sales.filter((s) => dateInRange(s.date, salesStart || undefined, salesEnd || undefined)),
-    [sales, salesStart, salesEnd]
-  );
-  const totalSalesAmount = filteredSales.reduce((acc, s) => acc + s.amount, 0);
-  const paidAmount = filteredSales.reduce((acc, s) => acc + (s.status === "Paid" ? s.amount : 0), 0);
-  const unpaidAmount = totalSalesAmount - paidAmount;
+  
 
   /* ---------- PURCHASES FILTERING & CALCULATIONS ---------- */
   const purchases = useMemo(() => MOCK_PURCHASES, []);
@@ -114,10 +108,6 @@ export default function ReportsPage() {
   const totalPurchaseAmount = filteredPurchases.reduce((acc, p) => acc + p.amount, 0);
 
   /* ---------- Helpers ---------- */
-  const clearSalesFilter = () => {
-    setSalesStart("");
-    setSalesEnd("");
-  };
   const clearPurchFilter = () => {
     setPurchStart("");
     setPurchEnd("");
@@ -136,139 +126,12 @@ export default function ReportsPage() {
       </div>
 
       {/* Tab content */}
-      {activeTab === "stock" && (
-        <section className="space-y-6">
-          {/* Summary cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
-            <SummaryCard title="Total Stock Cost Value" value={"৳ " + (report?.productReport?.totalCostValue || 0).toString()} />
-            <SummaryCard title="Total Stock Selling Value" value={"৳ " + (report?.productReport?.totalSellingValue || 0).toString()} />
-            <SummaryCard title="Total Products" value={(report?.productReport?.totalProducts || 0).toString()} />
-            <SummaryCard title="Low Stock Items" value={(report?.productReport?.lowStockItems || 0).toString()} tone={lowStockItems.length > 0 ? "warn" : "ok"} />
-          </div>
-
-          {/* Low stock quick list */}
-          <div className="rounded-lg bg-slate-900 p-4 border border-slate-800">
-            <h3 className="font-semibold mb-2">Low stock items (≤ {LOW_STOCK_THRESHOLD})</h3>
-            {lowStockItems.length === 0 ? (
-              <p className="text-slate-400">No low stock items.</p>
-            ) : (
-              <ul className="space-y-1 text-sm">
-                {lowStockItems.map((p) => (
-                  <li key={p.id} className="flex justify-between">
-                    <span>{p.product} ({p.sku})</span>
-                    <span className="text-slate-300">Stock: {p.stock}</span>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
-
-          {/* Table */}
-          <div className="overflow-x-auto rounded-xl border border-slate-800">
-            <table className="min-w-[1000px] w-full text-sm">
-              <thead className="bg-slate-900 text-slate-300">
-                <tr>
-                  <th className="p-3 text-left">Product</th>
-                  <th className="p-3 text-left">SKU</th>
-                  <th className="p-3 text-left">Category</th>
-                  <th className="p-3 text-right">Stock</th>
-                  <th className="p-3 text-right">Cost Price</th>
-                  <th className="p-3 text-right">Stock Value</th>
-                  <th className="p-3 text-left">Status</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {products.length === 0 ? (
-                  <tr>
-                    <td colSpan={7} className="p-4 text-center text-slate-400">No products</td>
-                  </tr>
-                ) : (
-                  products.map((p) => {
-                    const stockValue = p.stock * p.costPrice;
-                    const status = p.stock === 0 ? "Out of Stock" : p.stock <= LOW_STOCK_THRESHOLD ? "Low" : "OK";
-                    return (
-                      <tr key={p.id} className="border-t border-slate-800 hover:bg-slate-900/50">
-                        <td className="p-3">{p.product}</td>
-                        <td className="p-3">{p.sku}</td>
-                        <td className="p-3">{p.category}</td>
-                        <td className="p-3 text-right">{p.stock}</td>
-                        <td className="p-3 text-right">{formatCurrency(p.costPrice)}</td>
-                        <td className="p-3 text-right">{formatCurrency(stockValue)}</td>
-                        <td className="p-3">
-                          <StatusBadge status={status} />
-                        </td>
-                      </tr>
-                    );
-                  })
-                )}
-              </tbody>
-            </table>
-          </div>
-        </section>
+      {activeTab === "stock" && report && (
+        <StockReport {...report?.productReport} />
       )}
 
-      {activeTab === "sales" && (
-        <section className="space-y-6">
-          {/* Filter row */}
-          <div className="flex flex-col sm:flex-row gap-3 items-end justify-between">
-            <div className="flex gap-3 items-end">
-              <div>
-                <label className="block text-sm text-slate-300">Start</label>
-                <input value={salesStart} onChange={(e) => setSalesStart(e.target.value)} type="date" className="rounded-lg bg-slate-900 border border-slate-700 px-3 py-2" />
-              </div>
-              <div>
-                <label className="block text-sm text-slate-300">End</label>
-                <input value={salesEnd} onChange={(e) => setSalesEnd(e.target.value)} type="date" className="rounded-lg bg-slate-900 border border-slate-700 px-3 py-2" />
-              </div>
-              <div>
-                <button onClick={clearSalesFilter} className="rounded-lg border border-slate-700 px-3 py-2">Clear filter</button>
-              </div>
-            </div>
-
-            {/* Summary cards */}
-            <div className="flex gap-3">
-              <SummaryCard title="Total Sales" value={formatCurrency(totalSalesAmount)} />
-              <SummaryCard title="Paid Amount" value={formatCurrency(paidAmount)} />
-              <SummaryCard title="Unpaid Amount" value={formatCurrency(unpaidAmount)} tone={unpaidAmount > 0 ? "warn" : "ok"} />
-            </div>
-          </div>
-
-          {/* Table */}
-          <div className="overflow-x-auto rounded-xl border border-slate-800">
-            <table className="min-w-[1000px] w-full text-sm">
-              <thead className="bg-slate-900 text-slate-300">
-                <tr>
-                  <th className="p-3 text-left">Date</th>
-                  <th className="p-3 text-left">Customer</th>
-                  <th className="p-3 text-right">Items</th>
-                  <th className="p-3 text-right">Amount</th>
-                  <th className="p-3 text-left">Status</th>
-                  <th className="p-3 text-left">Created By</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {filteredSales.length === 0 ? (
-                  <tr>
-                    <td colSpan={6} className="p-4 text-center text-slate-400">No sales for the selected range</td>
-                  </tr>
-                ) : (
-                  filteredSales.map((s) => (
-                    <tr key={s.id} className="border-t border-slate-800 hover:bg-slate-900/50">
-                      <td className="p-3">{new Date(s.date).toLocaleDateString()}</td>
-                      <td className="p-3">{s.customer}</td>
-                      <td className="p-3 text-right">{s.items}</td>
-                      <td className="p-3 text-right">{formatCurrency(s.amount)}</td>
-                      <td className="p-3"><StatusBadge status={s.status} /></td>
-                      <td className="p-3">{s.createdBy}</td>
-                    </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
-          </div>
-        </section>
+      {activeTab === "sales" && report && (
+        <SaleReport {...report?.saleReport} />
       )}
 
       {activeTab === "purchase" && (

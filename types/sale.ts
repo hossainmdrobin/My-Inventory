@@ -23,7 +23,7 @@ export type SaleType = {
   vehicle:String;
   employee:any,
   createdBy?: string;
-  createdAt?: Date;           // from timestamps
+  createdAt?: Date | string;           // from timestamps
   updatedAt?: Date;           // from timestamps
 };
 

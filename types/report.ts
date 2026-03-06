@@ -13,10 +13,10 @@ export interface PurchaseReport {
 }
 
 export interface SalesReport {
-  totalSaleAmount: number;
-  totalPaidAmount: number;
-  totalUnpaidAmount: number;
-  totalSales: number;
+  totalSaleAmount?: number;
+  totalPaidAmount?: number;
+  totalUnpaidAmount?: number;
+  totalSales?: number;
 }
 
 export interface AllReports {
