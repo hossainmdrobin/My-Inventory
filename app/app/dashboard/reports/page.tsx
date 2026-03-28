@@ -1,118 +1,18 @@
 "use client";
-
 import { useGetDashboardReportQuery } from "@/redux/slices/report/api.report";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import StockReport from "./StockReport";
 import SaleReport from "./SaleReport";
-
-type ProductRow = {
-  id: number;
-  product: string;
-  sku: string;
-  category: string;
-  stock: number;
-  costPrice: number;
-};
-
-type SaleRow = {
-  id: number;
-  date: string; // ISO
-  customer: string;
-  items: number;
-  amount: number;
-  status: "Paid" | "Pending" | "Due";
-  createdBy: string;
-};
-
-type PurchaseRow = {
-  id: number;
-  date: string; // ISO
-  supplier: string;
-  items: number;
-  amount: number;
-};
+import PurchaseReport from "./PurchaseReport";
+import SkeletonTable from "@/reusable/skeletone";
+import ErrorCartoonRobot from "@/reusable/ErrorState";
 
 type Tab = "stock" | "sales" | "purchase";
-
-const LOW_STOCK_THRESHOLD = 5;
-
-function formatCurrency(n: number) {
-  return n.toLocaleString(undefined, { style: "currency", currency: "USD", maximumFractionDigits: 2 });
-}
-
-/* ----------------- Mock data (replace with API) ----------------- */
-const MOCK_PRODUCTS: ProductRow[] = [
-  { id: 1, product: "T-Shirt A", sku: "TS-A-001", category: "Clothing", stock: 120, costPrice: 3.5 },
-  { id: 2, product: "Sneakers B", sku: "SN-B-010", category: "Footwear", stock: 8, costPrice: 22.0 },
-  { id: 3, product: "Cap C", sku: "CP-C-100", category: "Accessories", stock: 3, costPrice: 1.5 },
-  { id: 4, product: "Jacket D", sku: "JK-D-020", category: "Clothing", stock: 0, costPrice: 18.0 },
-  { id: 5, product: "Socks E", sku: "SK-E-007", category: "Clothing", stock: 42, costPrice: 0.8 },
-];
-
-const MOCK_SALES: SaleRow[] = [
-  { id: 1, date: "2026-01-20", customer: "Alpha Store", items: 10, amount: 150, status: "Paid", createdBy: "Admin" },
-  { id: 2, date: "2026-01-28", customer: "Beta Mart", items: 3, amount: 45, status: "Pending", createdBy: "Robin" },
-  { id: 3, date: "2026-02-01", customer: "Gamma Shop", items: 5, amount: 80, status: "Paid", createdBy: "Admin" },
-  { id: 4, date: "2026-02-04", customer: "Delta Co", items: 2, amount: 30, status: "Due", createdBy: "Robin" },
-];
-
-const MOCK_PURCHASES: PurchaseRow[] = [
-  { id: 1, date: "2026-01-05", supplier: "Supplier A", items: 100, amount: 300 },
-  { id: 2, date: "2026-01-30", supplier: "Supplier B", items: 20, amount: 220 },
-  { id: 3, date: "2026-02-03", supplier: "Supplier C", items: 50, amount: 500 },
-];
 
 /* ----------------- Page ----------------- */
 export default function ReportsPage() {
   const { data: report, isLoading, error } = useGetDashboardReportQuery();
-  console.log(report, "here is the report");
-  const [activeTab, setActiveTab] = useState<Tab>("stock");
-
-  // Filters for sales & purchases
-  const [purchStart, setPurchStart] = useState("");
-  const [purchEnd, setPurchEnd] = useState("");
-
-  /* ---------- STOCK SUMMARY CALCULATIONS ---------- */
-  const products = useMemo(() => MOCK_PRODUCTS, []);
-  const totalStockValue = useMemo(
-    () => products.reduce((acc, p) => acc + p.stock * p.costPrice, 0),
-    [products]
-  );
-  const totalProducts = products.length;
-  const lowStockItems = useMemo(() => products.filter((p) => p.stock <= LOW_STOCK_THRESHOLD), [products]);
-
-  /* ---------- SALES FILTERING & CALCULATIONS ---------- */
-  function dateInRange(dateIso: string, start?: string, end?: string) {
-    const d = new Date(dateIso);
-    if (start) {
-      const s = new Date(start + "T00:00:00");
-      if (d < s) return false;
-    }
-    if (end) {
-      // include entire end day
-      const e = new Date(end + "T23:59:59");
-      if (d > e) return false;
-    }
-    return true;
-  }
-
-  const sales = useMemo(() => MOCK_SALES, []);
-  
-
-  /* ---------- PURCHASES FILTERING & CALCULATIONS ---------- */
-  const purchases = useMemo(() => MOCK_PURCHASES, []);
-  const filteredPurchases = useMemo(
-    () => purchases.filter((p) => dateInRange(p.date, purchStart || undefined, purchEnd || undefined)),
-    [purchases, purchStart, purchEnd]
-  );
-  const totalPurchaseAmount = filteredPurchases.reduce((acc, p) => acc + p.amount, 0);
-
-  /* ---------- Helpers ---------- */
-  const clearPurchFilter = () => {
-    setPurchStart("");
-    setPurchEnd("");
-  };
-
+  const [activeTab, setActiveTab] = useState<Tab>("purchase");
 
   return (
     <div className="p-6 space-y-6">
@@ -125,6 +25,9 @@ export default function ReportsPage() {
         <TabBtn label="Purchase History" active={activeTab === "purchase"} onClick={() => setActiveTab("purchase")} />
       </div>
 
+      {isLoading && <SkeletonTable />}
+      {error && <ErrorCartoonRobot />}
+
       {/* Tab content */}
       {activeTab === "stock" && report && (
         <StockReport {...report?.productReport} />
@@ -134,68 +37,14 @@ export default function ReportsPage() {
         <SaleReport {...report?.saleReport} />
       )}
 
-      {activeTab === "purchase" && (
-        <section className="space-y-6">
-          {/* Filter row */}
-          <div className="flex flex-col sm:flex-row gap-3 items-end justify-between">
-            <div className="flex gap-3 items-end">
-              <div>
-                <label className="block text-sm text-slate-300">Start</label>
-                <input value={purchStart} onChange={(e) => setPurchStart(e.target.value)} type="date" className="rounded-lg bg-slate-900 border border-slate-700 px-3 py-2" />
-              </div>
-              <div>
-                <label className="block text-sm text-slate-300">End</label>
-                <input value={purchEnd} onChange={(e) => setPurchEnd(e.target.value)} type="date" className="rounded-lg bg-slate-900 border border-slate-700 px-3 py-2" />
-              </div>
-              <div>
-                <button onClick={clearPurchFilter} className="rounded-lg border border-slate-700 px-3 py-2">Clear filter</button>
-              </div>
-            </div>
-
-            {/* Summary card */}
-            <div className="flex gap-3">
-              <SummaryCard title="Total Purchase" value={formatCurrency(totalPurchaseAmount)} />
-            </div>
-          </div>
-
-          {/* Table */}
-          <div className="overflow-x-auto rounded-xl border border-slate-800">
-            <table className="min-w-[900px] w-full text-sm">
-              <thead className="bg-slate-900 text-slate-300">
-                <tr>
-                  <th className="p-3 text-left">Date</th>
-                  <th className="p-3 text-left">Supplier</th>
-                  <th className="p-3 text-right">Items</th>
-                  <th className="p-3 text-right">Amount</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {filteredPurchases.length === 0 ? (
-                  <tr>
-                    <td colSpan={4} className="p-4 text-center text-slate-400">No purchases for the selected range</td>
-                  </tr>
-                ) : (
-                  filteredPurchases.map((p) => (
-                    <tr key={p.id} className="border-t border-slate-800 hover:bg-slate-900/50">
-                      <td className="p-3">{new Date(p.date).toLocaleDateString()}</td>
-                      <td className="p-3">{p.supplier}</td>
-                      <td className="p-3 text-right">{p.items}</td>
-                      <td className="p-3 text-right">{formatCurrency(p.amount)}</td>
-                    </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
-          </div>
-        </section>
+      {activeTab === "purchase" && report && (
+        <PurchaseReport {...report?.purchaseReport} />
       )}
     </div>
   );
 }
 
 /* ----------------- Small subcomponents ----------------- */
-
 function TabBtn({ label, active, onClick }: { label: string; active: boolean; onClick: () => void }) {
   return (
     <button
@@ -208,20 +57,11 @@ function TabBtn({ label, active, onClick }: { label: string; active: boolean; on
   );
 }
 
-function SummaryCard({ title, value, tone = "normal" }: { title: string; value: string; tone?: "normal" | "warn" | "ok" }) {
-  const toneClass = tone === "warn" ? "bg-yellow-900/40 border-yellow-700" : tone === "ok" ? "bg-green-900/40 border-green-700" : "bg-slate-900/40 border-slate-800";
-  return (
-    <div className={`rounded-lg p-4 border ${toneClass}`}>
-      <div className="text-sm text-slate-300">{title}</div>
-      <div className="mt-2 text-lg font-semibold">{value}</div>
-    </div>
-  );
-}
 
-function StatusBadge({ status }: { status: string }) {
-  let cls = "bg-slate-700/40 text-slate-200";
-  if (status === "Paid" || status === "OK") cls = "bg-green-500/20 text-green-400";
-  if (status === "Pending") cls = "bg-yellow-500/20 text-yellow-400";
-  if (status === "Due" || status === "Out of Stock" || status === "Low") cls = "bg-red-500/20 text-red-400";
-  return <span className={`inline-block rounded-full px-3 py-1 text-xs font-semibold ${cls}`}>{status}</span>;
-}
+// function StatusBadge({ status }: { status: string }) {
+//   let cls = "bg-slate-700/40 text-slate-200";
+//   if (status === "Paid" || status === "OK") cls = "bg-green-500/20 text-green-400";
+//   if (status === "Pending") cls = "bg-yellow-500/20 text-yellow-400";
+//   if (status === "Due" || status === "Out of Stock" || status === "Low") cls = "bg-red-500/20 text-red-400";
+//   return <span className={`inline-block rounded-full px-3 py-1 text-xs font-semibold ${cls}`}>{status}</span>;
+// }
