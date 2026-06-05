@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react'
-import { PurchaseType } from '@/types/purchase';
-import { Table } from 'lucide-react';
+import { SaleType } from '@/types/sale';
 
 export default function PurchaseTable({ sales }: {
-    sales: PurchaseType[];
+    sales: SaleType[];
 }) {
     // Redux hooks
     return (
@@ -15,7 +14,8 @@ export default function PurchaseTable({ sales }: {
                         <th className='text-left'>Description</th>
                         <th className="p-3 text-right">Items</th>
                         <th className="p-3 text-right">Total Price</th>
-                        <th>Due</th>
+                        <th className='text-right'>Due</th>
+                        <th className='text-center'>Van</th>
                         <th className="p-3 text-right">Paid</th>
                         {/* <th className="p-3 text-left">Created By</th> */}
                         <th className="p-3 text-center">Status</th>
@@ -41,7 +41,7 @@ export default function PurchaseTable({ sales }: {
 }
 
 
-const TableRow = ({ sale }: { sale: PurchaseType }) => {
+const TableRow = ({ sale }: { sale: SaleType }) => {
     const [itemString, setItemString] = React.useState("");
     useEffect(() => {
         if (sale.items && sale.items.length > 0) {
@@ -64,6 +64,7 @@ const TableRow = ({ sale }: { sale: PurchaseType }) => {
             <td className="p-3 text-right max-w-[100px] truncate hover:whitespace-normal">{itemString}</td>
             <td className="p-3 text-right">{sale.totalPrice}</td>
             <td className="p-3 text-right">{sale.due}</td>
+            <td className='text-center'>{sale.vanNo || "Unfilled"}</td>
             <td className="p-3 text-right">{sale.paid}</td>
             <td className="p-3 text-center">
                 {sale.due === 0 ? (

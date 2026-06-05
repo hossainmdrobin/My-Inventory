@@ -79,7 +79,7 @@ const SaleSchema = new Schema(
       type: String,
       trim: true,
     },
-
+    vanNo: { type: String, required: true },
     createdBy: {
       type: Schema.Types.ObjectId,
       ref: "User",
