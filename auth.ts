@@ -17,7 +17,6 @@ const SECRETKEY = new TextEncoder().encode(process.env.JWT_SECRET || "myinventor
 
 export async function hashPassword(password: string): Promise<string> {
     const saltRounds = 10;
-    console.log(password, "Provided passsword");
     try {
         return await bcrypt.hash(password, saltRounds);
     } catch (error) {
@@ -34,7 +33,6 @@ export async function generateJWT(email: string, userId: string): Promise<string
     const token = await new SignJWT({ email, userId })
         .setProtectedHeader({ alg: "HS256", typ: "JWT" })
         .setIssuedAt()
-        .setExpirationTime("2h")
         .sign(SECRETKEY);
     return token;
 }

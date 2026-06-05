@@ -14,12 +14,10 @@ export default function Navbar() {
     fetch("/api/auth/me")
       .then((res) => res.json())
       .then((data) => {
-        console.log(data, "The login data")
         if (data.user) setIsLoggedIn(true);
         else setIsLoggedIn(false);
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
         setIsLoggedIn(false)
       });
   }, []);

@@ -1,69 +1,77 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import connectToDB from "@/db";
 import Purchase from "@/models/Purchase";
 
+type Context = {
+  params: Promise<{ id: string }>;
+};
+
 /* ---------------- GET SINGLE PURCHASE ---------------- */
 export async function GET(
-    _: Request,
-    { params }: { params: { id: string } }
+  _: NextRequest,
+  context: Context
 ) {
-    await connectToDB();
+  const { id } = await context.params;
+  await connectToDB();
 
-    const purchase = await Purchase.findById(params.id)
-        .populate("supplierId", "name")
-        .populate("items.productId", "name sku")
-        .populate("createdBy", "email")
-        .lean();
+  const purchase = await Purchase.findById(id)
+    .populate("supplierId", "name")
+    .populate("items.productId", "name sku")
+    .populate("createdBy", "email")
+    .lean();
 
-    if (!purchase) {
-        return NextResponse.json(
-            { error: "Purchase not found" },
-            { status: 404 }
-        );
-    }
+  if (!purchase) {
+    return NextResponse.json(
+      { error: "Purchase not found" },
+      { status: 404 }
+    );
+  }
 
-    return NextResponse.json(purchase);
+  return NextResponse.json(purchase);
 }
 
 /* ---------------- UPDATE PURCHASE ---------------- */
 export async function PUT(
-    req: Request,
-    { params }: { params: { id: string } }
+  req: NextRequest,
+  context: Context
 ) {
-        await connectToDB();
-    const body = await req.json();
+  const { id } = await context.params;
+  await connectToDB();
 
-    const updated = await Purchase.findByIdAndUpdate(
-        params.id,
-        body,
-        { new: true, runValidators: true }
+  const body = await req.json();
+
+  const updated = await Purchase.findByIdAndUpdate(
+    id,
+    body,
+    { new: true, runValidators: true }
+  );
+
+  if (!updated) {
+    return NextResponse.json(
+      { error: "Purchase not found" },
+      { status: 404 }
     );
+  }
 
-    if (!updated) {
-        return NextResponse.json(
-            { error: "Purchase not found" },
-            { status: 404 }
-        );
-    }
-
-    return NextResponse.json(updated);
+  return NextResponse.json(updated);
 }
 
 /* ---------------- DELETE PURCHASE ---------------- */
 export async function DELETE(
-    _: Request,
-    { params }: { params: { id: string } }
+  _: NextRequest,
+  context: Context
 ) {
-    await connectToDB();
+  const { id } = await context.params;
+  await connectToDB();
 
-    const deleted = await Purchase.findByIdAndDelete(params.id);
+  const deleted = await Purchase.findByIdAndDelete(id);
 
-    if (!deleted) {
-        return NextResponse.json(
-            { error: "Purchase not found" },
-            { status: 404 }
-        );
-    }
+  if (!deleted) {
+    return NextResponse.json(
+      { error: "Purchase not found" },
+      { status: 404 }
+    );
+  }
 
-    return NextResponse.json({ message: "Purchase deleted" });
+  return NextResponse.json({ message: "Purchase deleted" });
 }

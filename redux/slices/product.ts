@@ -9,7 +9,7 @@ export const productEndpoints = apiSlice.injectEndpoints({
                 url: `/app/dashboard/products/api?key=${key || ""}`,
                 method: 'GET',
             }),
-            providesTags: ["GETALLPOST"],
+            providesTags: ["GETALLPRODUCTS"],
         }),
         createProduct: builder.mutation<any, { data: any }>({
             query: ({ data }) => ({
@@ -17,7 +17,7 @@ export const productEndpoints = apiSlice.injectEndpoints({
                 method: 'POST',
                 body: data,
             }),
-            invalidatesTags: ["GETALLPOST"],
+            invalidatesTags: ["GETALLPRODUCTS"],
         }),
         updateProduct: builder.mutation<any, { id: string; data: any }>({
             query: ({ id, data }) => ({
@@ -25,14 +25,14 @@ export const productEndpoints = apiSlice.injectEndpoints({
                 method: 'PUT',
                 body: data,
             }),
-            invalidatesTags: ["GETALLPOST"],
+            invalidatesTags: ["GETALLPRODUCTS"],
         }),
         deleteProduct: builder.mutation<any, { id: string }>({
             query: ({ id }) => ({
                 url: `/app/dashboard/products/api/${id}`,
                 method: 'DELETE',
             }),
-            invalidatesTags: ["GETALLPOST"],
+            invalidatesTags: ["GETALLPRODUCTS"],
         }),
     }),
 });

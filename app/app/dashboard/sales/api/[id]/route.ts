@@ -1,15 +1,20 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import Sale from "@/models/Sale";
 import connectToDB from "@/db";
 
+type Context = {
+  params: Promise<{ id: string }>;
+};
+
 /* ---------------- GET SINGLE SALE ---------------- */
 export async function GET(
-  _: Request,
-  { params }: { params: { id: string } }
+  _: NextRequest,
+  context: Context
 ) {
+  const { id } = await context.params;
   await connectToDB();
 
-  const sale = await Sale.findById(params.id)
+  const sale = await Sale.findById(id)
     .populate("customerId", "name phone")
     .populate("items.productId", "name sku")
     .populate("createdBy", "email")
@@ -27,14 +32,16 @@ export async function GET(
 
 /* ---------------- UPDATE SALE ---------------- */
 export async function PUT(
-  req: Request,
-  { params }: { params: { id: string } }
+  req: NextRequest,
+  context: Context
 ) {
+  const { id } = await context.params;
   await connectToDB();
+
   const body = await req.json();
 
   const updated = await Sale.findByIdAndUpdate(
-    params.id,
+    id,
     body,
     { new: true, runValidators: true }
   );
@@ -51,12 +58,13 @@ export async function PUT(
 
 /* ---------------- DELETE SALE ---------------- */
 export async function DELETE(
-  _: Request,
-  { params }: { params: { id: string } }
+  _: NextRequest,
+  context: Context
 ) {
+  const { id } = await context.params;
   await connectToDB();
 
-  const deleted = await Sale.findByIdAndDelete(params.id);
+  const deleted = await Sale.findByIdAndDelete(id);
 
   if (!deleted) {
     return NextResponse.json(

@@ -12,7 +12,6 @@ export const signupAction = async (formData: FormData) => {
     const password = formData.get("password") as string;
     const name = formData.get("name") as string;
     const phone = formData.get("phone") as string;
-    console.log(password, "Received password");
     await connectToDB();
 
     const exitingUser = await User.findOne({ email });

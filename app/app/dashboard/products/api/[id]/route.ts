@@ -1,15 +1,22 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import Product from "@/models/Product";
 import connectToDB from "@/db";
 
+type Context = {
+  params: Promise<{ id: string }>;
+};
+
 /* -------------------- GET SINGLE PRODUCT -------------------- */
 export async function GET(
-  _: Request,
-  { params }: { params: { id: string } }
+  _: NextRequest,
+  context: Context
 ) {
+  const { id } = await context.params;
+
   await connectToDB();
 
-  const product = await Product.findById(params.id).lean();
+  const product = await Product.findById(id).lean();
+
   if (!product) {
     return NextResponse.json(
       { error: "Product not found" },
@@ -22,14 +29,16 @@ export async function GET(
 
 /* -------------------- UPDATE PRODUCT -------------------- */
 export async function PUT(
-  req: Request,
-  { params }: { params: { id: string } }
+  req: NextRequest,
+  context: Context
 ) {
+  const { id } = await context.params;
   await connectToDB();
-    const body = await req.json();
+
+  const body = await req.json();
 
   const updated = await Product.findByIdAndUpdate(
-    params.id,
+    id,
     body,
     { new: true, runValidators: true }
   );
@@ -46,12 +55,14 @@ export async function PUT(
 
 /* -------------------- DELETE PRODUCT -------------------- */
 export async function DELETE(
-  _: Request,
-  { params }: { params: { id: string } }
+  _: NextRequest,
+  context: Context
 ) {
+  const { id } = await context.params;
   await connectToDB();
 
-  const deleted = await Product.findByIdAndDelete(params.id);
+  const deleted = await Product.findByIdAndDelete(id);
+
   if (!deleted) {
     return NextResponse.json(
       { error: "Product not found" },
@@ -59,5 +70,7 @@ export async function DELETE(
     );
   }
 
-  return NextResponse.json({ message: "Product deleted successfully" });
+  return NextResponse.json({
+    message: "Product deleted successfully",
+  });
 }
