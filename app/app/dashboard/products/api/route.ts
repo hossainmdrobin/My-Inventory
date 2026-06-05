@@ -30,7 +30,7 @@ export async function GET(req:NextRequest) {
   const key = searchParams.get("key") || "";
   try {
     await connectToDB();
-    const products = await Product.find({name:{$regex:key, $options:"i"}}).sort({ createdAt: -1 }).lean().populate("supplier").limit(limit).skip((page - 1) * limit)
+    const products = await Product.find({$or: [{ name: { $regex: key, $options: "i" } }, { sku: { $regex: key, $options: "i" } }] }).sort({ createdAt: -1 }).lean().populate("supplier").limit(limit).skip((page - 1) * limit);
     return NextResponse.json(products);
   } catch(e) {
     console.log("Error fetching products:", e);
