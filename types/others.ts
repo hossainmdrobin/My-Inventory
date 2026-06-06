@@ -10,3 +10,5 @@ export type FilterValues = {
   limit: number;
   status: "" | "due" | "paid";
 };
+
+export type BankAccountType = "Checking" | "Savings" | "Business" | "Other";
