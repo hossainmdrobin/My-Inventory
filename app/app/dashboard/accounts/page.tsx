@@ -6,6 +6,8 @@ import BankAccountTable from "./BankAccountTable";
 import SupplierAccountSummary from "./SupplierAccountSummary";
 import BankAccountForm from "./BankAccountForm";
 import PaymentModal from "./PaymentModal";
+import CashInflowModal from "./CashInflowModal";
+import CashOutflowModal from "./CashOutflowModal";
 import { BankAccount } from "@/types/bank";
 import { Supplier } from "@/types/supplier";
 import { useGetSuppliersQuery, useGetBanksQuery, useCreateBankMutation, useUpdateBankMutation, useDeleteBankMutation } from "@/redux/slices/api.slices";
@@ -25,6 +27,18 @@ export default function AccountsPage() {
     const [paymentAmount, setPaymentAmount] = useState(0);
     const [paymentNote, setPaymentNote] = useState("");
 
+    const [inflowModalOpen, setInflowModalOpen] = useState(false);
+    const [inflowAmount, setInflowAmount] = useState(0);
+    const [inflowBank, setInflowBank] = useState<string>("");
+    const [inflowNote, setInflowNote] = useState("");
+
+    const [outflowModalOpen, setOutflowModalOpen] = useState(false);
+    const [outflowAmount, setOutflowAmount] = useState(0);
+    const [outflowDestination, setOutflowDestination] = useState<"bank" | "supplier">("bank");
+    const [outflowBank, setOutflowBank] = useState<string>("");
+    const [outflowSupplier, setOutflowSupplier] = useState<string>("");
+    const [outflowNote, setOutflowNote] = useState("");
+
     const { data: suppliers, error: supplierError, isLoading: supplierLoading } = useGetSuppliersQuery({ key: supplierSearch });
     const { data: banks, error: bankError, isLoading: bankLoading } = useGetBanksQuery();
     const [createBank] = useCreateBankMutation();
@@ -32,9 +46,33 @@ export default function AccountsPage() {
     const [deleteBank] = useDeleteBankMutation();
 
     const totalCash = banks?.reduce((sum, b) => sum + (b.balance || 0), 0) || 0;
-    const totalPayable = suppliers?.reduce((sum, s) => sum + (s.due || 0), 0) || 0;
+    const totalPayable = suppliers?.reduce((sum, s) => sum + (s.accountPayable || 0), 0) || 0;
     const totalAdvance = suppliers?.reduce((sum, s) => sum + (s.advance || 0), 0) || 0;
     const netWorth = totalCash + totalAdvance - totalPayable;
+
+    const openInflowModal = () => {
+        setInflowAmount(0);
+        setInflowBank(banks?.[0]?._id || "");
+        setInflowNote("");
+        setInflowModalOpen(true);
+    };
+
+    const handleInflowSubmit = () => {
+        setInflowModalOpen(false);
+    };
+
+    const openOutflowModal = () => {
+        setOutflowAmount(0);
+        setOutflowDestination("bank");
+        setOutflowBank(banks?.[0]?._id || "");
+        setOutflowSupplier(suppliers?.[0]?._id || "");
+        setOutflowNote("");
+        setOutflowModalOpen(true);
+    };
+
+    const handleOutflowSubmit = () => {
+        setOutflowModalOpen(false);
+    };
 
     const openAddBankModal = () => {
         setEditingBank(null);
@@ -76,12 +114,26 @@ export default function AccountsPage() {
         <div className="space-y-8">
             <div className="flex flex-col sm:flex-row justify-between gap-4">
                 <h1 className="text-2xl font-bold">Accounts</h1>
-                <button
-                    onClick={openAddBankModal}
-                    className="rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white hover:bg-blue-700"
-                >
-                    + Add Bank Account
-                </button>
+                <div className="flex gap-2">
+                    <button
+                        onClick={openInflowModal}
+                        className="rounded-lg bg-green-600 px-4 py-2 font-semibold text-white hover:bg-green-700"
+                    >
+                        + Cash Inflow
+                    </button>
+                    <button
+                        onClick={openOutflowModal}
+                        className="rounded-lg bg-red-600 px-4 py-2 font-semibold text-white hover:bg-red-700"
+                    >
+                        + Cash Outflow
+                    </button>
+                    <button
+                        onClick={openAddBankModal}
+                        className="rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white hover:bg-blue-700"
+                    >
+                        + Add Bank Account
+                    </button>
+                </div>
             </div>
 
             <section>
@@ -162,6 +214,37 @@ export default function AccountsPage() {
                 setNote={setPaymentNote}
                 onClose={() => setPaymentModalOpen(false)}
                 onSubmit={handlePaymentSubmit}
+            />
+
+            <CashInflowModal
+                open={inflowModalOpen}
+                banks={banks || []}
+                amount={inflowAmount}
+                selectedBank={inflowBank}
+                note={inflowNote}
+                setAmount={setInflowAmount}
+                setSelectedBank={setInflowBank}
+                setNote={setInflowNote}
+                onClose={() => setInflowModalOpen(false)}
+                onSubmit={handleInflowSubmit}
+            />
+
+            <CashOutflowModal
+                open={outflowModalOpen}
+                banks={banks || []}
+                suppliers={suppliers || []}
+                destination={outflowDestination}
+                selectedBank={outflowBank}
+                selectedSupplier={outflowSupplier}
+                amount={outflowAmount}
+                note={outflowNote}
+                setDestination={setOutflowDestination}
+                setSelectedBank={setOutflowBank}
+                setSelectedSupplier={setOutflowSupplier}
+                setAmount={setOutflowAmount}
+                setNote={setOutflowNote}
+                onClose={() => setOutflowModalOpen(false)}
+                onSubmit={handleOutflowSubmit}
             />
         </div>
     );
