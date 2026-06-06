@@ -1,5 +1,3 @@
-import { Types } from "mongoose";
-
 export interface Supplier {
   _id?: string;
   name: string;
@@ -9,6 +7,8 @@ export interface Supplier {
   due?: number;
   paid?: number;
   advance?: number;
+  accountPayable?: number;
+  accountReceivable?: number;
   createdAt?: Date;
   updatedAt?: Date;
 }
