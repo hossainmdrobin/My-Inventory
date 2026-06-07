@@ -3,7 +3,7 @@ import { Supplier } from "@/types/supplier";
 
 export default function SupplierTable({ paginatedSuppliers, openEditModal, handleDelete }: { paginatedSuppliers: Supplier[], openEditModal: (supplier: Supplier) => void, handleDelete: (id: string) => void }) {
 
-    return (
+return (
         <div className="overflow-x-auto rounded-xl border border-slate-800">
             <table className="min-w-[900px] w-full text-sm">
                 <thead className="bg-slate-900 text-slate-300">
@@ -11,7 +11,8 @@ export default function SupplierTable({ paginatedSuppliers, openEditModal, handl
                         <th className="p-3 text-left">Name</th>
                         <th className="p-3 text-left">Phone</th>
                         <th className="p-3 text-left">Address</th>
-                        <th className="p-3 text-left">Added</th>
+                        <th className="p-3 text-right">Accounts Payable</th>
+                        <th className="p-3 text-right">Accounts Receivable</th>
                         <th className="p-3 text-center">Actions</th>
                     </tr>
                 </thead>
@@ -19,7 +20,7 @@ export default function SupplierTable({ paginatedSuppliers, openEditModal, handl
                 <tbody>
                     {paginatedSuppliers.length === 0 && (
                         <tr>
-                            <td colSpan={5} className="p-4 text-center text-slate-400">
+                            <td colSpan={6} className="p-4 text-center text-slate-400">
                                 No suppliers found
                             </td>
                         </tr>
@@ -35,8 +36,11 @@ export default function SupplierTable({ paginatedSuppliers, openEditModal, handl
                             <td className="p-3 max-w-xs truncate">
                                 {supplier.address}
                             </td>
-                            <td className="p-3">
-                                {supplier?.createdAt ? new Date(supplier.createdAt).toLocaleDateString() : 'N/A'}
+                            <td className="p-3 text-right text-red-400">
+                                {new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(supplier.accountPayable || 0)}
+                            </td>
+                            <td className="p-3 text-right text-green-400">
+                                {new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(supplier.accountReceivable || 0)}
                             </td>
                             <td className="p-3  text-center flex items-center justify-center space-x-3">
                                 <button

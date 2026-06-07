@@ -3,6 +3,7 @@
 import { generateJWT, hashPassword, verifyPassword } from "@/auth";
 import connectToDB from "@/db";
 import User from "@/models/User";
+import Institute from "@/models/Institute";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -19,8 +20,11 @@ export const signupAction = async (formData: FormData) => {
         redirect("/app/auth?error=email_exists");
     }
 
+    const institute = new Institute({})
+    await institute.save();
+
     const hashedPass = await hashPassword(password);
-    const newUser = new User({ email, password: hashedPass, name, phone });
+    const newUser = new User({ institute: institute._id, email, password: hashedPass, name, phone });
     await newUser.save();
     const token = await generateJWT(email, newUser._id.toString());
     const cookieStore = await cookies();

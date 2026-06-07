@@ -22,7 +22,8 @@ export type SaleType = {
   note?: string
   createdBy?: string;
   createdAt?: Date;           // from timestamps
-  updatedAt?: Date;           // from timestamps
+  updatedAt?: Date;     
+  vanNo:String      // from timestamps
 };
 
 export type PopulatedSaleType = Omit<SaleType, "items" | "createdBy"> & {

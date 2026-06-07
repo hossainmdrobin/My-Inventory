@@ -31,6 +31,22 @@ export default function CreateSuppilerForm({ editing, form, setForm, setOpen, ha
                     className="w-full rounded-lg bg-slate-800 border border-slate-700 px-4 py-2"
                 />
 
+                <input
+                    placeholder="Accounts Payable"
+                    type="number"
+                    value={form.accountPayable || 0}
+                    onChange={(e) => setForm({ ...form, accountPayable: parseFloat(e.target.value) })}
+                    className="w-full rounded-lg bg-slate-800 border border-slate-700 px-4 py-2"
+                />
+
+                <input
+                    placeholder="Accounts Receivable"
+                    type="number"
+                    value={form.accountReceivable || 0}
+                    onChange={(e) => setForm({ ...form, accountReceivable: parseFloat(e.target.value) })}
+                    className="w-full rounded-lg bg-slate-800 border border-slate-700 px-4 py-2"
+                />
+
                 <div className="flex justify-end gap-3 pt-4">
                     <button
                         onClick={() => setOpen(false)}

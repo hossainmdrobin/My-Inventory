@@ -8,6 +8,7 @@ export async function POST(req: Request) {
     try {
         await connectToDB();
         const body = await req.json();
+        console.log(body)
 
         const purchase = await Sale.create(body);
 

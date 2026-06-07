@@ -10,12 +10,16 @@ import {
     ShoppingBag,
     Handshake,
     FileChartColumn,
-    IdCard
+    IdCard,
+    NotebookTabs,
+    Landmark
 } from "lucide-react";
 import Link from "next/link";
 
 const menu = [
     { name: "Dashboard", icon: LayoutDashboard, href: "/app/dashboard" },
+    { name: "Accounts", icon: NotebookTabs, href: "/app/dashboard/accounts" },
+    { name: "Banks", icon: Landmark, href: "/app/dashboard/banks" },
     { name: "Employees", icon: Users, href: "/app/dashboard/employees" },
     { name: "Products", icon: Package, href: "/app/dashboard/products" },
     { name: "Purchases", icon: ShoppingBasket, href: "/app/dashboard/purchases" },

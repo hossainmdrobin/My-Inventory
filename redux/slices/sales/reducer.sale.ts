@@ -8,6 +8,7 @@ const initialState: SaleType = {
     due: 0,
     description: "",
     note: "",
+    vanNo:"1"
 }
 const saleSlice = createSlice({
     name: 'sale',
@@ -63,6 +64,9 @@ const saleSlice = createSlice({
         setNote: (state, action: PayloadAction<string>) => {
             state.note = action.payload
         },
+        setVanNo:(state, action: PayloadAction<string>) => {
+            state.vanNo = action.payload
+        },
         setPaid: (state, action: PayloadAction<number>) => {
             state.paid = action.payload
             state.due = state.totalPrice - state.paid
@@ -88,7 +92,8 @@ export const {
     setDescription,
     setNote,
     setPaid,
-    resetSale
+    resetSale,
+    setVanNo
 } = saleSlice.actions;
 
 export default saleSlice.reducer
