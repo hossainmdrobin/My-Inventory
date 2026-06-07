@@ -18,8 +18,10 @@ export async function GET(req: NextRequest) {
     const userId = payload.userId as string;
     await connectToDB();
     const user = await User.findById(userId).select("-password").populate("institute").lean();
+    console.log("Authenticated user: ", user);
     return NextResponse.json(user);
-  } catch {
+  } catch(e) {
+    console.error("Error verifying token: ", e);
     return NextResponse.json({ user: null }, { status: 401 });
   }
 }

@@ -14,8 +14,10 @@ import { Supplier } from "@/types/supplier";
 import { useGetSuppliersQuery, useGetBanksQuery, useCreateBankMutation, useUpdateBankMutation, useDeleteBankMutation, useUpdateSupplierMutation } from "@/redux/slices/api.slices";
 import SkeletonTable from "@/reusable/skeletone";
 import ErrorState from "@/reusable/ErrorState";
+import { useGetMeQuery } from "@/redux/slices/auth/api.auth";
 
 export default function AccountsPage() {
+    const {data:profile} = useGetMeQuery()
     const [bankSearch, setBankSearch] = useState("");
     const [supplierSearch, setSupplierSearch] = useState("");
     
@@ -162,7 +164,7 @@ export default function AccountsPage() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <FinancialSummaryCard
                         title="Total Cash"
-                        amount={totalCash}
+                        amount={profile?.institute?.totalCashValue || 0}
                         subtitle="Across all bank accounts"
                     />
                     <FinancialSummaryCard

@@ -9,7 +9,6 @@ export default function Navbar() {
   const pathname = usePathname(); // /dashboard/employees
   const isApp = pathname.split('/').includes('app');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  console.log("The user is loggedIn: ", isLoggedIn);
   useEffect(() => {
     // Check if the user is logged in by calling the /api/auth/me endpoint
     fetch("/api/auth/me")
@@ -17,7 +16,6 @@ export default function Navbar() {
       .then((data) => {
         if (data) setIsLoggedIn(true);
         else setIsLoggedIn(false);
-        console.log("User data from /api/auth/me: ", data._id);
       })
       .catch(() => {
         setIsLoggedIn(false)
