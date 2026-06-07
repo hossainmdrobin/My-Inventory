@@ -3,9 +3,10 @@ import { Supplier } from "@/types/supplier";
 interface SupplierAccountSummaryProps {
     suppliers: Supplier[];
     onRecordPayment: (supplier: Supplier) => void;
+    onUpdateBalances: (supplier: Supplier) => void;
 }
 
-export default function SupplierAccountSummary({ suppliers, onRecordPayment }: SupplierAccountSummaryProps) {
+export default function SupplierAccountSummary({ suppliers, onRecordPayment, onUpdateBalances }: SupplierAccountSummaryProps) {
     const totalAccountPayable = suppliers.reduce((sum, s) => sum + (s.accountPayable || 0), 0);
     const totalAccountReceivable = suppliers.reduce((sum, s) => sum + (s.accountReceivable || 0), 0);
 
@@ -66,6 +67,13 @@ export default function SupplierAccountSummary({ suppliers, onRecordPayment }: S
                                     className="w-full text-sm text-center text-blue-400 hover:underline py-2"
                                 >
                                     Record Payment
+                                </button>
+
+                                <button
+                                    onClick={() => onUpdateBalances(supplier)}
+                                    className="w-full text-sm text-center text-slate-400 hover:text-slate-200 py-1"
+                                >
+                                    Update Balances
                                 </button>
                             </div>
                         </div>
