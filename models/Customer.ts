@@ -7,6 +7,8 @@ export interface CustomerType {
   address?: string;
   totalDue: number;
   totalPaid: number;
+  accountPayable: number;
+  accountReceivable: number;
 }
 
 const CustomerSchema = new Schema<CustomerType>(
@@ -15,6 +17,8 @@ const CustomerSchema = new Schema<CustomerType>(
     phone: { type: String },
     email: { type: String },
     address: { type: String },
+    accountPayable: {type:Number, default: 0},
+    accountReceivable: {type:Number, default: 0},
 
     // Account summary
     totalDue: { type: Number, default: 0 },
