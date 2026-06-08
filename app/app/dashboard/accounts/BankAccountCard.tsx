@@ -10,6 +10,9 @@ export default function BankAccountCard({ bank, onEdit, onDelete }: BankAccountC
     const balance = typeof bank.balance === "number"
         ? new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(bank.balance)
         : bank.balance;
+    const loan = typeof bank.loan === "number"
+        ? new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(bank.loan)
+        : bank.loan;
 
     return (
         <div className="rounded-xl bg-slate-900 p-5 border border-slate-800 hover:bg-slate-800/50 transition">
@@ -25,6 +28,10 @@ export default function BankAccountCard({ bank, onEdit, onDelete }: BankAccountC
             <div className="space-y-2">
                 <p className="text-sm text-slate-400">Balance</p>
                 <p className="text-xl font-bold text-green-400">{balance}</p>
+            </div>
+            <div className="space-y-2">
+                <p className="text-sm text-slate-400">Loan</p>
+                <p className="text-xl font-bold text-red-400">{loan}</p>
             </div>
             {bank.notes && (
                 <p className="mt-3 text-xs text-slate-500 line-clamp-2">{bank.notes}</p>

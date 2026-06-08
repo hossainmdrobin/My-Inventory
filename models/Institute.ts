@@ -12,7 +12,6 @@ const InstituteSchema = new Schema<IInstitute>(
   {
     name: {
       type: String,
-      required: true,
       trim: true,
     },
     description: {
@@ -22,16 +21,19 @@ const InstituteSchema = new Schema<IInstitute>(
     totalCashValue: {
       type: Number,
       required: true,
+      default: 0,
       min: 0,
     },
     totalCustomerDue: {
       type: Number,
       required: true,
+      default: 0,
       min: 0,
     },
     NetBusinessWorth: {
       type: Number,
       required: true,
+      default: 0,
       min: 0,
     },
   },

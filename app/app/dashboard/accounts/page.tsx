@@ -8,13 +8,17 @@ import BankAccountForm from "./BankAccountForm";
 import PaymentModal from "./PaymentModal";
 import CashInflowModal from "./CashInflowModal";
 import CashOutflowModal from "./CashOutflowModal";
+import SupplierBalanceModal from "./SupplierBalanceModal";
 import { BankAccount } from "@/types/bank";
 import { Supplier } from "@/types/supplier";
-import { useGetSuppliersQuery, useGetBanksQuery, useCreateBankMutation, useUpdateBankMutation, useDeleteBankMutation } from "@/redux/slices/api.slices";
+import { useGetSuppliersQuery, useGetBanksQuery, useCreateBankMutation, useUpdateBankMutation, useDeleteBankMutation, useUpdateSupplierMutation } from "@/redux/slices/api.slices";
 import SkeletonTable from "@/reusable/skeletone";
 import ErrorState from "@/reusable/ErrorState";
+import { useGetMeQuery } from "@/redux/slices/auth/api.auth";
 
 export default function AccountsPage() {
+    const {data:profile} = useGetMeQuery()
+    console.log(profile)
     const [bankSearch, setBankSearch] = useState("");
     const [supplierSearch, setSupplierSearch] = useState("");
     
@@ -39,11 +43,17 @@ export default function AccountsPage() {
     const [outflowSupplier, setOutflowSupplier] = useState<string>("");
     const [outflowNote, setOutflowNote] = useState("");
 
+    const [supplierBalanceModalOpen, setSupplierBalanceModalOpen] = useState(false);
+    const [editingSupplier, setEditingSupplier] = useState<Supplier | null>(null);
+    const [supplierPayable, setSupplierPayable] = useState(0);
+    const [supplierReceivable, setSupplierReceivable] = useState(0);
+
     const { data: suppliers, error: supplierError, isLoading: supplierLoading } = useGetSuppliersQuery({ key: supplierSearch });
     const { data: banks, error: bankError, isLoading: bankLoading } = useGetBanksQuery();
     const [createBank] = useCreateBankMutation();
     const [updateBank] = useUpdateBankMutation();
     const [deleteBank] = useDeleteBankMutation();
+    const [updateSupplier] = useUpdateSupplierMutation();
 
     const totalCash = banks?.reduce((sum, b) => sum + (b.balance || 0), 0) || 0;
     const totalPayable = suppliers?.reduce((sum, s) => sum + (s.accountPayable || 0), 0) || 0;
@@ -76,7 +86,7 @@ export default function AccountsPage() {
 
     const openAddBankModal = () => {
         setEditingBank(null);
-        setBankForm({ name: "", accountNumber: "", type: "Checking", balance: 0, notes: "" });
+        setBankForm({ name: "", accountNumber: "", type: "Checking", balance: 0, loan: 0, notes: "" });
         setBankModalOpen(true);
     };
 
@@ -110,6 +120,20 @@ export default function AccountsPage() {
         setPaymentModalOpen(false);
     };
 
+    const openSupplierBalanceModal = (supplier: Supplier) => {
+        setEditingSupplier(supplier);
+        setSupplierPayable(supplier.accountPayable || 0);
+        setSupplierReceivable(supplier.accountReceivable || 0);
+        setSupplierBalanceModalOpen(true);
+    };
+
+    const handleSupplierBalanceSubmit = () => {
+        if (editingSupplier?._id) {
+            updateSupplier({ id: editingSupplier._id, data: { accountPayable: supplierPayable, accountReceivable: supplierReceivable } });
+        }
+        setSupplierBalanceModalOpen(false);
+    };
+
     return (
         <div className="space-y-8">
             <div className="flex flex-col sm:flex-row justify-between gap-4">
@@ -141,7 +165,7 @@ export default function AccountsPage() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <FinancialSummaryCard
                         title="Total Cash"
-                        amount={totalCash}
+                        amount={profile?.institute?.totalCashValue || 0}
                         subtitle="Across all bank accounts"
                     />
                     <FinancialSummaryCard
@@ -192,6 +216,7 @@ export default function AccountsPage() {
                     <SupplierAccountSummary
                         suppliers={suppliers}
                         onRecordPayment={openPaymentModal}
+                        onUpdateBalances={openSupplierBalanceModal}
                     />
                 )}
             </section>
@@ -245,6 +270,17 @@ export default function AccountsPage() {
                 setNote={setOutflowNote}
                 onClose={() => setOutflowModalOpen(false)}
                 onSubmit={handleOutflowSubmit}
+            />
+
+            <SupplierBalanceModal
+                open={supplierBalanceModalOpen}
+                supplier={editingSupplier}
+                accountPayable={supplierPayable}
+                accountReceivable={supplierReceivable}
+                setAccountPayable={setSupplierPayable}
+                setAccountReceivable={setSupplierReceivable}
+                onClose={() => setSupplierBalanceModalOpen(false)}
+                onSubmit={handleSupplierBalanceSubmit}
             />
         </div>
     );
