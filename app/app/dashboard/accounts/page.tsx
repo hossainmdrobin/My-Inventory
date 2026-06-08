@@ -18,6 +18,7 @@ import { useGetMeQuery } from "@/redux/slices/auth/api.auth";
 
 export default function AccountsPage() {
     const {data:profile} = useGetMeQuery()
+    console.log(profile)
     const [bankSearch, setBankSearch] = useState("");
     const [supplierSearch, setSupplierSearch] = useState("");
     
@@ -85,7 +86,7 @@ export default function AccountsPage() {
 
     const openAddBankModal = () => {
         setEditingBank(null);
-        setBankForm({ name: "", accountNumber: "", type: "Checking", balance: 0, notes: "" });
+        setBankForm({ name: "", accountNumber: "", type: "Checking", balance: 0, loan: 0, notes: "" });
         setBankModalOpen(true);
     };
 

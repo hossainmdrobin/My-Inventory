@@ -6,6 +6,7 @@ export interface BankAccount {
     accountNumber: string;
     type: BankAccountType;
     balance: number;
+    loan: number;
     notes?: string;
     createdAt?: Date;
     updatedAt?: Date;

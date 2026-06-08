@@ -14,7 +14,7 @@ export default function Navbar() {
     fetch("/api/auth/me")
       .then((res) => res.json())
       .then((data) => {
-        if (data) setIsLoggedIn(true);
+        if (data?._id) setIsLoggedIn(true);
         else setIsLoggedIn(false);
       })
       .catch(() => {

@@ -3,12 +3,25 @@ import { NextRequest, NextResponse } from "next/server";
 import { verifyJWT } from "./auth";
 
 const PUBLIC_ROUTES = ["/auth", "/auth/login", "/auth/signup"];
-const AUTH_ROUTES = ["/app/dashboard", "/profile", "/settings"];
+const AUTH_ROUTES = [
+    "/app/dashboard",
+    "/app/dashboard/accounts",
+    "/app/dashboard/banks",
+    "/app/dashboard/employees",
+    "/app/dashboard/products",
+    "/app/dashboard/purchases",
+    "/app/dashboard/sales",
+    "/app/dashboard/suppliers",
+    "/app/dashboard/customers",
+    "/app/dashboard/reports",
+    "/app/dashboard/settings"
+];
 
 export async function proxy(request: NextRequest) {
     const token = request.cookies.get("token")?.value;
     const isPublicRoute = PUBLIC_ROUTES.includes(request.nextUrl.pathname);
     const isAuthRoute = AUTH_ROUTES.includes(request.nextUrl.pathname);
+    console.log(isAuthRoute,"requested URL:",request.nextUrl.pathname);
 
     if (token && isPublicRoute) {
         return NextResponse.redirect(new URL("/dashboard", request.url));

@@ -6,6 +6,7 @@ export interface IBank extends Document {
     accountNumber: string;
     type: BankAccountType;
     balance: number;
+    loan: number;
     notes?: string;
 }
 
@@ -27,6 +28,12 @@ const BankSchema = new Schema<IBank>(
             default: "Checking",
         },
         balance: {
+            type: Number,
+            required: true,
+            default: 0,
+            min: 0,
+        },
+        loan: {
             type: Number,
             required: true,
             default: 0,
