@@ -45,31 +45,29 @@ const SaleSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "Customer",
     },
-
+    type: {
+      type: String, enum: ["RETURN", "SALE"], default: "SALE"
+    },
     items: {
       type: [SaleItemSchema],
       required: true,
       validate: [(val: any[]) => val.length > 0, "At least one item required"],
     },
-
     totalPrice: {
       type: Number,
       required: true,
       min: 0,
     },
-
     paid: {
       type: Number,
       required: true,
       min: 0,
     },
-
     due: {
       type: Number,
       required: true,
       min: 0,
     },
-
     description: {
       type: String,
       trim: true,

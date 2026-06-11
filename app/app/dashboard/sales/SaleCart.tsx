@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import {removeItem, resetSale, setDescription, setNote, setPaid, setQty, setVanNo } from "@/redux/slices/sales/reducer.sale";
+import { removeItem, resetSale, setDescription, setNote, setPaid, setQty, setVanNo,setSaleType } from "@/redux/slices/sales/reducer.sale";
 import { MessageCircleWarning, X } from "lucide-react";
 import { SaleItemType, SaleType } from "@/types/sale";
 import { useCreateSaleMutation } from "@/redux/slices/sales/api.sale";
@@ -10,7 +10,7 @@ export default function SaleCart({ selectedIds, sale, setCartOpen }: { selectedI
     const [open, setOpen] = useState(false);
     const [createSale] = useCreateSaleMutation()
     const [validData, setValidData] = useState<{ isValid: boolean, error?: string }>({ isValid: false });
-console.log(sale,"the sale")
+    console.log(sale, "the sale")
     const dispatch = useDispatch();
     const proceedSale = () => {
         if (sale.items.length === 0) {
@@ -31,6 +31,13 @@ console.log(sale,"the sale")
             <div className='bg-slate-900 border border-gray-200 rounded-xl border border-slate-800'>
                 <h1 className='text-center text-lg font-semibold my-2'>Sale Summary</h1> <hr />
                 <div className='p-4 space-y-4 h-[400px] overflow-y-auto'>
+                    <select
+                        onChange={(e) => dispatch(setSaleType(e.target.value))}
+                        className="my-3 w-full text-gray-400 bg-slate-800 border border-slate-700 rounded-lg p-2"
+                    >
+                        <option value="SALE">Sale</option>
+                        <option value="RETURN">Return</option>
+                    </select>
                     <select
                         onChange={(e) => dispatch(setVanNo(e.target.value))}
                         className="my-3 w-full text-gray-400 bg-slate-800 border border-slate-700 rounded-lg p-2"

@@ -8,6 +8,7 @@ import { useGetSalesQuery } from "@/redux/slices/sales/api.sale";
 import PurchaseFilters from "@/reusable/PurchaseAndSaleFilter";
 import { FilterValues } from "@/types/others";
 import Pagination from "@/reusable/Pagination";
+import SkeletonTable from "@/reusable/skeletone";
 
 export default function SalesPage() {
   const [open, setOpen] = useState(false);
@@ -24,7 +25,6 @@ export default function SalesPage() {
   // Redux states
   const sale = useSelector((state: any) => state.sale);
   const { data, isLoading, error } = useGetSalesQuery({ key: filters.search, range: { startDate: filters.startDate, endDate: filters.endDate }, limit: filters.limit, page: pageNo, status: filters.status });
-console.log(sale, "saved select")
   useEffect(() => {
     setSelectedId(sale.items.map((item: any) => item.productId));
   }, [sale]);
@@ -48,6 +48,7 @@ console.log(sale, "saved select")
       {/* SALE SEARCH FILTER */}
       <PurchaseFilters filters={filters} setFilters={setFilters} />
       {/* Table (scroll X only here) */}
+      {isLoading? <SkeletonTable /> : error? <p className="text-red-500">Failed to load sales.</p> : ""}
       {data && <SaleTable sales={data.data || []} />}
       {/* PAGINATION  */}
       {data?.totalPages && Number(data.totalPages) > 1 && <Pagination pageNo={pageNo} setPageNo={setPageNo} totalPages={Number(data.totalPages)} />}
