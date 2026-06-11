@@ -1,12 +1,15 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { removeItem, resetSale, setDescription, setNote, setPaid, setQty, setVanNo,setSaleType } from "@/redux/slices/sales/reducer.sale";
+import { removeItem, resetSale, setDescription, setNote, setPaid, setQty, setVanNo, setSaleType } from "@/redux/slices/sales/reducer.sale";
 import { MessageCircleWarning, X } from "lucide-react";
 import { SaleItemType, SaleType } from "@/types/sale";
 import { useCreateSaleMutation } from "@/redux/slices/sales/api.sale";
 import SearchProduct from "./SearchProduct";
+import { useGetMeQuery } from "@/redux/slices/auth/api.auth";
 
 export default function SaleCart({ selectedIds, sale, setCartOpen }: { selectedIds: string[], sale: SaleType, setCartOpen: (open: boolean) => void }) {
+    const { data: profile } = useGetMeQuery()
+console.log(profile, "the profile")
     const [open, setOpen] = useState(false);
     const [createSale] = useCreateSaleMutation()
     const [validData, setValidData] = useState<{ isValid: boolean, error?: string }>({ isValid: false });
@@ -17,9 +20,9 @@ export default function SaleCart({ selectedIds, sale, setCartOpen }: { selectedI
             setValidData({ isValid: false, error: "No products selected" });
             return;
         }
-
+        const data = {...sale, institute:profile?.institute?._id}
         setValidData({ isValid: true });
-        createSale({ data: sale })
+        createSale({ data })
         dispatch(resetSale())
         setCartOpen(false);
     }

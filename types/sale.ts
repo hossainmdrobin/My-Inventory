@@ -12,6 +12,7 @@ export type SaleItemType = {
 // Type for the purchase document
 export type SaleType = {
   _id?: string;       // optional because MongoDB will generate it
+  institute?: string; // reference to the institute
   productName?: string;
   //   supplierId?: Types.ObjectId;
   items: SaleItemType[];

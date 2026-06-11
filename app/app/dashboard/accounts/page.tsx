@@ -18,7 +18,6 @@ import { useGetMeQuery } from "@/redux/slices/auth/api.auth";
 
 export default function AccountsPage() {
     const {data:profile} = useGetMeQuery()
-    console.log(profile)
     const [bankSearch, setBankSearch] = useState("");
     const [supplierSearch, setSupplierSearch] = useState("");
     

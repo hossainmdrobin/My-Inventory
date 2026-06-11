@@ -30,11 +30,14 @@ export const saleEndpoints = apiSlice.injectEndpoints({
                     providesTags: ["GETALLSALES"],
                 }),
         createSale: builder.mutation<any, { data: SaleType }>({
-            query: ({ data }) => ({
-                url: `/app/dashboard/sales/api`,
-                method: 'POST',
-                body: data,
-            }),
+            query: ({ data }) => {
+                console.log(data, "the data in api")
+                return {
+                    url: `/app/dashboard/sales/api`,
+                    method: 'POST',
+                    body: data,
+                };
+            },
             invalidatesTags: ["GETALLSALES","GETALLPRODUCTS"],
         }),
     }),
