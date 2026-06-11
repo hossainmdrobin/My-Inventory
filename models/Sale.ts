@@ -2,15 +2,11 @@ import { Schema, model, models } from "mongoose";
 import Product from "./Product";
 import Customer from "./Customer";
 import CustomerLedger from "./CustomerLedger";
+import Institute from "./Institute";
 
 /* ---------------- Purchase Item Schema ---------------- */
 const SaleItemSchema = new Schema(
   {
-    institute:{
-      type: Schema.Types.ObjectId,
-      ref: "Institute",
-      required: true,
-    },
     name: {
       type: String,
       required: true,
@@ -42,6 +38,11 @@ const SaleItemSchema = new Schema(
 /* ---------------- Purchase Schema ---------------- */
 const SaleSchema = new Schema(
   {
+    institute: {
+      type: Schema.Types.ObjectId,
+      ref: "Institute",
+      required: true,
+    },
     productName: {
       type: String,
       trim: true,
@@ -97,7 +98,9 @@ const SaleSchema = new Schema(
 SaleSchema.post("save", async function (doc) {
   try {
     const sale = doc;
-
+    if(sale.type === "SALE") {
+      await Institute.findByIdAndUpdate(sale.institute, {$inc: {totalCashValue: sale.paid}});
+    }
     // 🔻 Update product stock (your existing logic)
     for (const item of sale.items) {
       await Product.findByIdAndUpdate(item.productId, {

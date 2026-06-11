@@ -33,6 +33,7 @@ export async function generateJWT(email: string, userId: string): Promise<string
     const token = await new SignJWT({ email, userId })
         .setProtectedHeader({ alg: "HS256", typ: "JWT" })
         .setIssuedAt()
+        .setExpirationTime("30d")
         .sign(SECRETKEY);
     return token;
 }
