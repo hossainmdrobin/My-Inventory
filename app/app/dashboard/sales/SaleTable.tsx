@@ -70,10 +70,7 @@ const TableRow = ({ sale }: { sale: SaleType }) => {
                 {sale.due === 0 ? (
                     <span className="bg-green-500 text-white px-2 py-1 rounded-full text-xs">Paid</span>
                 ) : (
-                    <>
-                        <span className="bg-red-500 text-white px-2 py-1 rounded-full text-xs">Due</span>
-
-                    </>
+                    <span className="bg-red-500 text-white px-2 py-1 rounded-full text-xs">Due</span>
                 )}
             </td>
 

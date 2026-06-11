@@ -6,6 +6,11 @@ import CustomerLedger from "./CustomerLedger";
 /* ---------------- Purchase Item Schema ---------------- */
 const SaleItemSchema = new Schema(
   {
+    institute:{
+      type: Schema.Types.ObjectId,
+      ref: "Institute",
+      required: true,
+    },
     name: {
       type: String,
       required: true,
