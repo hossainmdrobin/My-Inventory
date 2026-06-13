@@ -4,14 +4,12 @@ import { useState } from "react";
 import FinancialSummaryCard from "./FinancialSummaryCard";
 import BankAccountTable from "./BankAccountTable";
 import SupplierAccountSummary from "./SupplierAccountSummary";
-import BankAccountForm from "./BankAccountForm";
 import PaymentModal from "./PaymentModal";
 import CashInflowModal from "./CashInflowModal";
-import CashOutflowModal from "./CashOutflowModal";
+import CashTransferModal from "./CashOutflowModal";
 import SupplierBalanceModal from "./SupplierBalanceModal";
-import { BankAccount } from "@/types/bank";
 import { Supplier } from "@/types/supplier";
-import { useGetSuppliersQuery, useGetBanksQuery, useCreateBankMutation, useUpdateBankMutation, useDeleteBankMutation, useUpdateSupplierMutation } from "@/redux/slices/api.slices";
+import { useGetSuppliersQuery, useGetBanksQuery, useUpdateSupplierMutation } from "@/redux/slices/api.slices";
 import SkeletonTable from "@/reusable/skeletone";
 import ErrorState from "@/reusable/ErrorState";
 import { useGetMeQuery } from "@/redux/slices/auth/api.auth";
@@ -31,11 +29,6 @@ export default function AccountsPage() {
     const [inflowNote, setInflowNote] = useState("");
 
     const [outflowModalOpen, setOutflowModalOpen] = useState(false);
-    const [outflowAmount, setOutflowAmount] = useState(0);
-    const [outflowDestination, setOutflowDestination] = useState<"bank" | "supplier">("bank");
-    const [outflowBank, setOutflowBank] = useState<string>("");
-    const [outflowSupplier, setOutflowSupplier] = useState<string>("");
-    const [outflowNote, setOutflowNote] = useState("");
 
     const [supplierBalanceModalOpen, setSupplierBalanceModalOpen] = useState(false);
     const [editingSupplier, setEditingSupplier] = useState<Supplier | null>(null);
@@ -61,20 +54,6 @@ export default function AccountsPage() {
     const handleInflowSubmit = () => {
         setInflowModalOpen(false);
     };
-
-    const openOutflowModal = () => {
-        setOutflowAmount(0);
-        setOutflowDestination("bank");
-        setOutflowBank(banks?.[0]?._id || "");
-        setOutflowSupplier(suppliers?.[0]?._id || "");
-        setOutflowNote("");
-        setOutflowModalOpen(true);
-    };
-
-    const handleOutflowSubmit = () => {
-        setOutflowModalOpen(false);
-    };
-
 
     const openPaymentModal = (supplier: Supplier) => {
         setSelectedSupplier(supplier);
@@ -113,7 +92,7 @@ export default function AccountsPage() {
                         + Add Cash
                     </button>
                     <button
-                        onClick={openOutflowModal}
+                        onClick={()=>setOutflowModalOpen(true)}
                         className="rounded-lg bg-red-600 px-4 py-2 font-semibold text-white hover:bg-red-700"
                     >
                         + Transfer Cash
@@ -197,22 +176,11 @@ export default function AccountsPage() {
                 onSubmit={handleInflowSubmit}
             />
 
-            <CashOutflowModal
+            <CashTransferModal
                 open={outflowModalOpen}
                 banks={banks || []}
                 suppliers={suppliers || []}
-                destination={outflowDestination}
-                selectedBank={outflowBank}
-                selectedSupplier={outflowSupplier}
-                amount={outflowAmount}
-                note={outflowNote}
-                setDestination={setOutflowDestination}
-                setSelectedBank={setOutflowBank}
-                setSelectedSupplier={setOutflowSupplier}
-                setAmount={setOutflowAmount}
-                setNote={setOutflowNote}
                 onClose={() => setOutflowModalOpen(false)}
-                onSubmit={handleOutflowSubmit}
             />
 
             <SupplierBalanceModal
