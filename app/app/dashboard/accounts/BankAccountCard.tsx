@@ -2,8 +2,8 @@ import { BankAccount } from "@/types/bank";
 
 interface BankAccountCardProps {
     bank: BankAccount;
-    onEdit: (bank: BankAccount) => void;
-    onDelete: (id: string) => void;
+    onEdit?: (bank: BankAccount) => void;
+    onDelete?: (id: string) => void;
 }
 
 export default function BankAccountCard({ bank, onEdit, onDelete }: BankAccountCardProps) {
@@ -37,18 +37,18 @@ export default function BankAccountCard({ bank, onEdit, onDelete }: BankAccountC
                 <p className="mt-3 text-xs text-slate-500 line-clamp-2">{bank.notes}</p>
             )}
             <div className="flex gap-3 mt-4 pt-3 border-t border-slate-800">
-                <button
-                    onClick={() => onEdit(bank)}
+                {onEdit && <button
+                    onClick={() => onEdit && onEdit(bank)}
                     className="text-sm text-blue-400 hover:underline"
                 >
                     Edit
-                </button>
-                <button
+                </button>}
+                {onDelete && <button
                     onClick={() => bank._id && onDelete(bank._id)}
                     className="text-sm text-red-400 hover:underline"
                 >
                     Delete
-                </button>
+                </button>}
             </div>
         </div>
     );
