@@ -98,8 +98,8 @@ const SaleSchema = new Schema(
 SaleSchema.post("save", async function (doc) {
   try {
     const sale = doc;
-    if(sale.type === "SALE") {
-      await Institute.findByIdAndUpdate(sale.institute, {$inc: {totalCashValue: sale.paid}});
+    if (sale.type === "SALE") {
+      const updated = await Institute.findByIdAndUpdate(sale.institute, { $inc: { totalCashValue: sale.paid } }, { new: true });
     }
     // 🔻 Update product stock (your existing logic)
     for (const item of sale.items) {
