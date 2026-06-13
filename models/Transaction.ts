@@ -2,14 +2,20 @@ import { model, models, Schema } from "mongoose";
 
 export interface TransactionType {
     amount: number,
-    destinationBank?: Schema.Types.ObjectId,
+    source: string,
+    sourceWallet?: Schema.Types.ObjectId,
+    sourceSupplier?: Schema.Types.ObjectId,
+    destinationWallet?: Schema.Types.ObjectId,
     destinationSupplier?: Schema.Types.ObjectId,
     note?: string,
 }
 
 const TransactionSchema = new Schema<TransactionType>({
+    source:{ type: String, required: true },
+    sourceWallet: { type: Schema.Types.ObjectId, ref: "Bank" },
+    sourceSupplier: { type: Schema.Types.ObjectId, ref: "Supplier" },
     amount: { type: Number, required: true },
-    destinationBank: { type: Schema.Types.ObjectId, ref: "Bank" },
+    destinationWallet: { type: Schema.Types.ObjectId, ref: "Bank" },
     destinationSupplier: { type: Schema.Types.ObjectId, ref: "Supplier" },
     note: { type: String },
 }, { timestamps: true });
