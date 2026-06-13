@@ -8,13 +8,11 @@ export async function POST(req: Request) {
     try {
         await connectToDB();
         const body = await req.json();
-        console.log(body)
-
-        const purchase = await Sale.create(body);
-
-        return NextResponse.json(purchase, { status: 200 });
+        const sale = new Sale(body);
+        await sale.save();
+        return NextResponse.json(sale, { status: 200 });
     } catch (error: any) {
-        console.log("Error creating sale:", error);
+        console.error("Error creating sale:", error);
         return NextResponse.json(
             { error: error.message },
             { status: 400 }

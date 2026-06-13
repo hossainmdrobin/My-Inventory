@@ -2,6 +2,7 @@ import { Schema, model, models } from "mongoose";
 import Product from "./Product";
 import Customer from "./Customer";
 import CustomerLedger from "./CustomerLedger";
+import Institute from "./Institute";
 
 /* ---------------- Purchase Item Schema ---------------- */
 const SaleItemSchema = new Schema(
@@ -37,6 +38,11 @@ const SaleItemSchema = new Schema(
 /* ---------------- Purchase Schema ---------------- */
 const SaleSchema = new Schema(
   {
+    institute: {
+      type: Schema.Types.ObjectId,
+      ref: "Institute",
+      required: true,
+    },
     productName: {
       type: String,
       trim: true,
@@ -45,31 +51,29 @@ const SaleSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "Customer",
     },
-
+    type: {
+      type: String, enum: ["RETURN", "SALE"], default: "SALE"
+    },
     items: {
       type: [SaleItemSchema],
       required: true,
       validate: [(val: any[]) => val.length > 0, "At least one item required"],
     },
-
     totalPrice: {
       type: Number,
       required: true,
       min: 0,
     },
-
     paid: {
       type: Number,
       required: true,
       min: 0,
     },
-
     due: {
       type: Number,
       required: true,
       min: 0,
     },
-
     description: {
       type: String,
       trim: true,
@@ -94,7 +98,9 @@ const SaleSchema = new Schema(
 SaleSchema.post("save", async function (doc) {
   try {
     const sale = doc;
-
+    if (sale.type === "SALE") {
+      const updated = await Institute.findByIdAndUpdate(sale.institute, { $inc: { totalCashValue: sale.paid } }, { new: true });
+    }
     // 🔻 Update product stock (your existing logic)
     for (const item of sale.items) {
       await Product.findByIdAndUpdate(item.productId, {

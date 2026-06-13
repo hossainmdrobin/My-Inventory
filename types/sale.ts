@@ -12,6 +12,7 @@ export type SaleItemType = {
 // Type for the purchase document
 export type SaleType = {
   _id?: string;       // optional because MongoDB will generate it
+  institute?: string; // reference to the institute
   productName?: string;
   //   supplierId?: Types.ObjectId;
   items: SaleItemType[];
@@ -23,7 +24,8 @@ export type SaleType = {
   createdBy?: string;
   createdAt?: Date;           // from timestamps
   updatedAt?: Date;     
-  vanNo:String      // from timestamps
+  vanNo:String   ,
+  type?:String   // from timestamps
 };
 
 export type PopulatedSaleType = Omit<SaleType, "items" | "createdBy"> & {

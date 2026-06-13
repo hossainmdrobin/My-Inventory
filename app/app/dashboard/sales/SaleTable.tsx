@@ -62,7 +62,7 @@ const TableRow = ({ sale }: { sale: SaleType }) => {
             <td className="p-3 max-w-[150px] truncate hover:whitespace-normal">{sale.description || "No description"}</td>
             {/* <td className="p-3">{purchase.supplier}</td> */}
             <td className="p-3 text-right max-w-[100px] truncate hover:whitespace-normal">{itemString}</td>
-            <td className="p-3 text-right">{sale.totalPrice}</td>
+            <td className="p-3 text-right"><span className={`${sale.type === 'RETURN' ? 'text-red-500' : 'text-green-500'}`}>₹{sale.totalPrice.toFixed(2)}</span></td>
             <td className="p-3 text-right">{sale.due}</td>
             <td className='text-center'>{sale.vanNo || "Unfilled"}</td>
             <td className="p-3 text-right">{sale.paid}</td>
@@ -70,10 +70,7 @@ const TableRow = ({ sale }: { sale: SaleType }) => {
                 {sale.due === 0 ? (
                     <span className="bg-green-500 text-white px-2 py-1 rounded-full text-xs">Paid</span>
                 ) : (
-                    <>
-                        <span className="bg-red-500 text-white px-2 py-1 rounded-full text-xs">Due</span>
-
-                    </>
+                    <span className="bg-red-500 text-white px-2 py-1 rounded-full text-xs">Due</span>
                 )}
             </td>
 

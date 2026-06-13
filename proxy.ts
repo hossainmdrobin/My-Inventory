@@ -21,7 +21,6 @@ export async function proxy(request: NextRequest) {
     const token = request.cookies.get("token")?.value;
     const isPublicRoute = PUBLIC_ROUTES.includes(request.nextUrl.pathname);
     const isAuthRoute = AUTH_ROUTES.includes(request.nextUrl.pathname);
-    console.log(isAuthRoute,"requested URL:",request.nextUrl.pathname);
 
     if (token && isPublicRoute) {
         return NextResponse.redirect(new URL("/dashboard", request.url));

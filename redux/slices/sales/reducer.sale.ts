@@ -8,7 +8,8 @@ const initialState: SaleType = {
     due: 0,
     description: "",
     note: "",
-    vanNo:"1"
+    vanNo:"1",
+    type:"SALE"
 }
 const saleSlice = createSlice({
     name: 'sale',
@@ -79,6 +80,9 @@ const saleSlice = createSlice({
             state.due = 0;
             state.description = "";
             state.note = "";
+        },
+        setSaleType:(state, action: PayloadAction<string>) => {
+            state.type = action.payload
         }
     },
 })
@@ -93,7 +97,8 @@ export const {
     setNote,
     setPaid,
     resetSale,
-    setVanNo
+    setVanNo,
+    setSaleType
 } = saleSlice.actions;
 
 export default saleSlice.reducer
