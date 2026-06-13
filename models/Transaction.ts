@@ -12,10 +12,10 @@ export interface TransactionType {
 
 const TransactionSchema = new Schema<TransactionType>({
     source:{ type: String, required: true },
-    sourceWallet: { type: Schema.Types.ObjectId, ref: "Bank" },
+    sourceWallet: { type: Schema.Types.ObjectId, ref: "Wallet" },
     sourceSupplier: { type: Schema.Types.ObjectId, ref: "Supplier" },
     amount: { type: Number, required: true },
-    destinationWallet: { type: Schema.Types.ObjectId, ref: "Bank" },
+    destinationWallet: { type: Schema.Types.ObjectId, ref: "Wallet" },
     destinationSupplier: { type: Schema.Types.ObjectId, ref: "Supplier" },
     note: { type: String },
 }, { timestamps: true });

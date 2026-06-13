@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import Bank from "@/models/Bank";
+import Bank from "@/models/Wallet";
 import connectToDB from "@/db";
 
 type Context = {
