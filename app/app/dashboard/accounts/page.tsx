@@ -1,5 +1,4 @@
 "use client";
-
 import { useState } from "react";
 import FinancialSummaryCard from "./FinancialSummaryCard";
 import BankAccountTable from "./BankAccountTable";
@@ -15,9 +14,13 @@ import ErrorState from "@/reusable/ErrorState";
 import { useGetMeQuery } from "@/redux/slices/auth/api.auth";
 
 export default function AccountsPage() {
-    const {data:profile} = useGetMeQuery()
     const [supplierSearch, setSupplierSearch] = useState("");
-    
+
+    const { data: profile } = useGetMeQuery()
+    const { data: suppliers, error: supplierError, isLoading: supplierLoading } = useGetSuppliersQuery({ key: supplierSearch });
+    const { data: banks, error: bankError, isLoading: bankLoading } = useGetBanksQuery();
+    const [updateSupplier] = useUpdateSupplierMutation();
+
     const [paymentModalOpen, setPaymentModalOpen] = useState(false);
     const [selectedSupplier, setSelectedSupplier] = useState<Supplier | null>(null);
     const [paymentAmount, setPaymentAmount] = useState(0);
@@ -34,10 +37,6 @@ export default function AccountsPage() {
     const [editingSupplier, setEditingSupplier] = useState<Supplier | null>(null);
     const [supplierPayable, setSupplierPayable] = useState(0);
     const [supplierReceivable, setSupplierReceivable] = useState(0);
-
-    const { data: suppliers, error: supplierError, isLoading: supplierLoading } = useGetSuppliersQuery({ key: supplierSearch });
-    const { data: banks, error: bankError, isLoading: bankLoading } = useGetBanksQuery();
-    const [updateSupplier] = useUpdateSupplierMutation();
 
     const totalCash = banks?.reduce((sum, b) => sum + (b.balance || 0), 0) || 0;
     const totalPayable = suppliers?.reduce((sum, s) => sum + (s.accountPayable || 0), 0) || 0;
@@ -92,7 +91,7 @@ export default function AccountsPage() {
                         + Add Cash
                     </button>
                     <button
-                        onClick={()=>setOutflowModalOpen(true)}
+                        onClick={() => setOutflowModalOpen(true)}
                         className="rounded-lg bg-red-600 px-4 py-2 font-semibold text-white hover:bg-red-700"
                     >
                         + Transfer Cash
