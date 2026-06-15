@@ -25,7 +25,6 @@ const WalletSchema = new Schema<IWallet>(
         },
         accountNumber: {
             type: String,
-            required: true,
             trim: true,
         },
         type: {
