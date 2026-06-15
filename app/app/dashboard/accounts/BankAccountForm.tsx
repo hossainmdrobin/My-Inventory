@@ -23,6 +23,8 @@ const categories: AccountCategory[] = ["Asset", "Liability", "Equity", "Income",
 export default function BankAccountForm({ open, editing, form, setForm, onClose, onSubmit }: BankAccountFormProps) {
     if (!open) return null;
 
+    console.log("Rendering BankAccountForm with form data:", form);
+
     const category = form.category || "Asset";
     const availableTypes = accountTypeMap[category] || [];
 
@@ -58,7 +60,7 @@ export default function BankAccountForm({ open, editing, form, setForm, onClose,
                         <label className="block text-sm font-medium mb-1">Category</label>
                         <select
                             value={form.category || "Asset"}
-                            onChange={(e) => setForm({ ...form, category: e.target.value as AccountCategory, accountType: undefined })}
+                            onChange={(e) => setForm({ ...form, category: e.target.value as AccountCategory, type: undefined })}
                             className="w-full rounded-lg bg-slate-800 border border-slate-700 px-4 py-2"
                         >
                             {categories.map((cat) => (
@@ -70,8 +72,8 @@ export default function BankAccountForm({ open, editing, form, setForm, onClose,
                     <div>
                         <label className="block text-sm font-medium mb-1">Account Type</label>
                         <select
-                            value={form.accountType || ""}
-                            onChange={(e) => setForm({ ...form, accountType: e.target.value as AccountTypeName })}
+                            value={form.type || ""}
+                            onChange={(e) => setForm({ ...form, type: e.target.value as AccountTypeName })}
                             className="w-full rounded-lg bg-slate-800 border border-slate-700 px-4 py-2"
                         >
                             <option value="">Select Account Type</option>

@@ -10,6 +10,7 @@ export interface IWallet extends Document {
     name: string;
     accountNumber: string;
     type: string;
+    category: string;
     balance: number;
     loan: number;
     notes?: string;
@@ -29,8 +30,11 @@ const WalletSchema = new Schema<IWallet>(
         },
         type: {
             type: String,
-            enum: ["Checking", "Savings", "Business", "Other"],
-            default: "Checking",
+            // default: "Checking",
+        },
+        category: {
+            type: String,
+            default: "Asset",
         },
         balance: {
             type: Number,

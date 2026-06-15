@@ -7,6 +7,7 @@ export async function POST(req: Request) {
     try {
         await connectToDB();
         const body = await req.json();
+        console.log("Received data for new bank account:", body);
 
         const bank = await Bank.create(body);
 

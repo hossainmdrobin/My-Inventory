@@ -30,7 +30,7 @@ export default function BankAccountCard({ bank, onSave, onDelete }: BankAccountC
             name: bank.name,
             accountNumber: bank.accountNumber || "",
             category: bank.category,
-            accountType: bank.accountType,
+            type: bank.type,
             balance: bank.balance,
             notes: bank.notes || "",
         });
@@ -57,7 +57,7 @@ export default function BankAccountCard({ bank, onSave, onDelete }: BankAccountC
             setForm((prev) => ({
                 ...prev,
                 category: cat,
-                accountType: types && !types.includes(prev.accountType as AccountTypeName) ? types[0] : prev.accountType,
+                accountType: types && !types.includes(prev.type as AccountTypeName) ? types[0] : prev.type,
             }));
         } else {
             setForm((prev) => ({ ...prev, [field]: value }));
@@ -93,7 +93,7 @@ export default function BankAccountCard({ bank, onSave, onDelete }: BankAccountC
                             </div>
                         </div>
                         <div className="flex flex-wrap gap-2 mt-1">
-                            <span className="text-xs px-2 py-1 rounded-full bg-blue-900/50 text-blue-400">{bank.accountType}</span>
+                            <span className="text-xs px-2 py-1 rounded-full bg-blue-900/50 text-blue-400">{bank.type}</span>
                         </div>
                         <div className="space-y-2 mt-2">
                             <p className="text-sm text-slate-400">Balance</p>
@@ -157,8 +157,8 @@ export default function BankAccountCard({ bank, onSave, onDelete }: BankAccountC
                         <div>
                             <label className="block text-xs text-slate-400 mb-1">Account Type</label>
                             <select
-                                value={form.accountType || ""}
-                                onChange={(e) => updateField("accountType", e.target.value)}
+                                value={form.type || ""}
+                                onChange={(e) => updateField("type", e.target.value)}
                                 className="w-full rounded-lg bg-slate-800 border border-slate-700 px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-500"
                             >
                                 {(accountTypesByCategory[form.category || "Asset"] || []).map((type) => (

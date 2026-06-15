@@ -22,7 +22,7 @@ export default function BanksPage() {
 
     const openAddModal = () => {
         setEditing(null);
-        setForm({ name: "", accountNumber: "", accountType: "Cash", category: "Asset", balance: 0, notes: "" });
+        setForm({ name: "", accountNumber: "", type: "Cash", category: "Asset", balance: 0, notes: "" });
         setOpen(true);
     };
 

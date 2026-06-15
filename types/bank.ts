@@ -4,7 +4,7 @@ export interface BankAccount {
     _id?: string;
     name: string;
     accountNumber?: string;
-    accountType: AccountTypeName;
+    type: AccountTypeName;
     category: AccountCategory;
     balance: number;
     notes?: string;
