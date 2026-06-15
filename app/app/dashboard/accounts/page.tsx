@@ -90,13 +90,13 @@ export default function AccountsPage() {
                         onClick={openInflowModal}
                         className="rounded-lg bg-green-600 px-4 py-2 font-semibold text-white hover:bg-green-700"
                     >
-                        + Add Cash
+                        Record Revenue
                     </button>
                     <button
                         onClick={() => setOutflowModalOpen(true)}
                         className="rounded-lg bg-red-600 px-4 py-2 font-semibold text-white hover:bg-red-700"
                     >
-                        + Transfer Cash
+                        Record Expense
                     </button>
                 </div>
             </div>

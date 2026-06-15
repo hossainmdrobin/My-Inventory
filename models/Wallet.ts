@@ -1,4 +1,10 @@
 import { Schema, model, models, Document } from "mongoose";
+// Account Types by Category
+//     Asset: ["Cash", "Bank", "Inventory", "Accounts Receivable", "Wallet"],
+//     Liability: ["Accounts Payable", "Loans"],
+//     Equity: ["Owner Capital"],
+//     Income: ["Sales", "Service Income"],
+//     Expense: ["Salary", "Rent", "Utilities"],
 
 export interface IWallet extends Document {
     name: string;

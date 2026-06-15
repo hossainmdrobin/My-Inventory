@@ -92,8 +92,8 @@ export default function BankAccountCard({ bank, onSave, onDelete }: BankAccountC
                                 </span>
                             </div>
                         </div>
-                        <div className="space-y-2">
-                            <p className="text-sm text-slate-400">{bank.accountType}</p>
+                        <div className="flex flex-wrap gap-2 mt-1">
+                            <span className="text-xs px-2 py-1 rounded-full bg-blue-900/50 text-blue-400">{bank.accountType}</span>
                         </div>
                         <div className="space-y-2 mt-2">
                             <p className="text-sm text-slate-400">Balance</p>
