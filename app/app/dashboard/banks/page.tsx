@@ -26,12 +26,6 @@ export default function BanksPage() {
         setOpen(true);
     };
 
-    const openEditModal = (bank: BankAccount) => {
-        setEditing(bank);
-        setForm(bank);
-        setOpen(true);
-    };
-
     const handleSubmit = () => {
         if (editing?._id) {
             updateBank({ id: editing._id, data: form });
@@ -73,7 +67,7 @@ export default function BanksPage() {
                         <BankAccountCard
                             key={bank._id}
                             bank={bank}
-                            onEdit={openEditModal}
+                            onSave={(id, data) => updateBank({ id, data })}
                             onDelete={handleDelete}
                         />
                     ))}
