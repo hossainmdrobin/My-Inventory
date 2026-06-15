@@ -3,8 +3,8 @@ import BankAccountCard from "./BankAccountCard";
 
 interface BankAccountTableProps {
     accounts: BankAccount[];
-    onEdit: (bank: BankAccount) => void;
-    onDelete: (id: string) => void;
+    onEdit?: (bank?: BankAccount) => void;
+    onDelete?: (id: string) => void;
 }
 
 export default function BankAccountTable({ accounts, onEdit, onDelete }: BankAccountTableProps) {

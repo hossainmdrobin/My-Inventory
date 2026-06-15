@@ -1,7 +1,7 @@
 import { Schema, model, models, Document } from "mongoose";
 import { BankAccountType } from "@/types/others";
 
-export interface IBank extends Document {
+export interface IWallet extends Document {
     name: string;
     accountNumber: string;
     type: BankAccountType;
@@ -10,7 +10,7 @@ export interface IBank extends Document {
     notes?: string;
 }
 
-const BankSchema = new Schema<IBank>(
+const WalletSchema = new Schema<IWallet>(
     {
         name: {
             type: String,
@@ -47,6 +47,6 @@ const BankSchema = new Schema<IBank>(
     { timestamps: true }
 );
 
-const Bank = models.Bank || model<IBank>("Bank", BankSchema);
+const Wallet = models.Wallet || model<IWallet>("Wallet", WalletSchema );
 
-export default Bank;
+export default Wallet;

@@ -1,41 +1,30 @@
 import { BankAccount } from "@/types/bank";
 import { Supplier } from "@/types/supplier";
+import { useState } from "react";
 
 interface CashOutflowModalProps {
     open: boolean;
     banks: BankAccount[];
     suppliers: Supplier[];
-    destination: "bank" | "supplier";
-    selectedBank: string;
-    selectedSupplier: string;
-    amount: number;
-    note: string;
-    setDestination: (dest: "bank" | "supplier") => void;
-    setSelectedBank: (bankId: string) => void;
-    setSelectedSupplier: (supplierId: string) => void;
-    setAmount: (amount: number) => void;
-    setNote: (note: string) => void;
     onClose: () => void;
-    onSubmit: () => void;
 }
 
-export default function CashOutflowModal({
+export default function CashTransferModal({
     open,
     banks,
     suppliers,
-    destination,
-    selectedBank,
-    selectedSupplier,
-    amount,
-    note,
-    setDestination,
-    setSelectedBank,
-    setSelectedSupplier,
-    setAmount,
-    setNote,
     onClose,
-    onSubmit
 }: CashOutflowModalProps) {
+    const [destination, setDestination] = useState<"bank" | "supplier">("bank");
+    const [selectedSupplier, setSelectedSupplier] = useState<string>("");
+    const [selectedBank, setSelectedBank] = useState<string>("");
+    const [note, setNote] = useState("");
+    const [amount, setAmount] = useState(0);
+
+    const onSubmit = () => {
+        console.log("Submitting cash outflow:")
+    }
+
     if (!open) return null;
 
     return (
@@ -50,21 +39,19 @@ export default function CashOutflowModal({
                         <div className="flex gap-2">
                             <button
                                 onClick={() => setDestination("bank")}
-                                className={`flex-1 px-4 py-2 rounded-lg border transition ${
-                                    destination === "bank"
-                                        ? "bg-blue-600 border-blue-600 text-white"
-                                        : "border-slate-600 text-slate-300 hover:bg-slate-800"
-                                }`}
+                                className={`flex-1 px-4 py-2 rounded-lg border transition ${destination === "bank"
+                                    ? "bg-blue-600 border-blue-600 text-white"
+                                    : "border-slate-600 text-slate-300 hover:bg-slate-800"
+                                    }`}
                             >
                                 Bank Account
                             </button>
                             <button
                                 onClick={() => setDestination("supplier")}
-                                className={`flex-1 px-4 py-2 rounded-lg border transition ${
-                                    destination === "supplier"
-                                        ? "bg-blue-600 border-blue-600 text-white"
-                                        : "border-slate-600 text-slate-300 hover:bg-slate-800"
-                                }`}
+                                className={`flex-1 px-4 py-2 rounded-lg border transition ${destination === "supplier"
+                                    ? "bg-blue-600 border-blue-600 text-white"
+                                    : "border-slate-600 text-slate-300 hover:bg-slate-800"
+                                    }`}
                             >
                                 Supplier
                             </button>

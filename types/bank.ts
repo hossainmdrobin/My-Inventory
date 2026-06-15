@@ -1,12 +1,12 @@
-import { BankAccountType } from "./others";
+import { AccountTypeName, AccountCategory } from "./others";
 
 export interface BankAccount {
     _id?: string;
     name: string;
-    accountNumber: string;
-    type: BankAccountType;
+    accountNumber?: string;
+    accountType: AccountTypeName;
+    category: AccountCategory;
     balance: number;
-    loan: number;
     notes?: string;
     createdAt?: Date;
     updatedAt?: Date;
