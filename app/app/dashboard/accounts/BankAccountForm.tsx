@@ -34,56 +34,74 @@ export default function BankAccountForm({ open, editing, form, setForm, onClose,
                 </h2>
 
                 <div className="space-y-4">
-                    <input
-                        placeholder="Account Name"
-                        value={form.name || ""}
-                        onChange={(e) => setForm({ ...form, name: e.target.value })}
-                        className="w-full rounded-lg bg-slate-800 border border-slate-700 px-4 py-2"
-                    />
+                    <div>
+                        <label className="block text-sm font-medium mb-1">Account Name</label>
+                        <input
+                            placeholder="Enter account name"
+                            value={form.name || ""}
+                            onChange={(e) => setForm({ ...form, name: e.target.value })}
+                            className="w-full rounded-lg bg-slate-800 border border-slate-700 px-4 py-2"
+                        />
+                    </div>
 
-                    <input
-                        placeholder="Account Number (optional)"
-                        value={form.accountNumber || ""}
-                        onChange={(e) => setForm({ ...form, accountNumber: e.target.value })}
-                        className="w-full rounded-lg bg-slate-800 border border-slate-700 px-4 py-2"
-                    />
+                    <div>
+                        <label className="block text-sm font-medium mb-1">Account Number (optional)</label>
+                        <input
+                            placeholder="Enter account number"
+                            value={form.accountNumber || ""}
+                            onChange={(e) => setForm({ ...form, accountNumber: e.target.value })}
+                            className="w-full rounded-lg bg-slate-800 border border-slate-700 px-4 py-2"
+                        />
+                    </div>
 
-                    <select
-                        value={form.category || "Asset"}
-                        onChange={(e) => setForm({ ...form, category: e.target.value as AccountCategory, accountType: undefined })}
-                        className="w-full rounded-lg bg-slate-800 border border-slate-700 px-4 py-2"
-                    >
-                        {categories.map((cat) => (
-                            <option key={cat} value={cat}>{cat}</option>
-                        ))}
-                    </select>
+                    <div>
+                        <label className="block text-sm font-medium mb-1">Category</label>
+                        <select
+                            value={form.category || "Asset"}
+                            onChange={(e) => setForm({ ...form, category: e.target.value as AccountCategory, accountType: undefined })}
+                            className="w-full rounded-lg bg-slate-800 border border-slate-700 px-4 py-2"
+                        >
+                            {categories.map((cat) => (
+                                <option key={cat} value={cat}>{cat}</option>
+                            ))}
+                        </select>
+                    </div>
 
-                    <select
-                        value={form.accountType || ""}
-                        onChange={(e) => setForm({ ...form, accountType: e.target.value as AccountTypeName })}
-                        className="w-full rounded-lg bg-slate-800 border border-slate-700 px-4 py-2"
-                    >
-                        <option value="">Select Account Type</option>
-                        {availableTypes.map((type) => (
-                            <option key={type} value={type}>{type}</option>
-                        ))}
-                    </select>
+                    <div>
+                        <label className="block text-sm font-medium mb-1">Account Type</label>
+                        <select
+                            value={form.accountType || ""}
+                            onChange={(e) => setForm({ ...form, accountType: e.target.value as AccountTypeName })}
+                            className="w-full rounded-lg bg-slate-800 border border-slate-700 px-4 py-2"
+                        >
+                            <option value="">Select Account Type</option>
+                            {availableTypes.map((type) => (
+                                <option key={type} value={type}>{type}</option>
+                            ))}
+                        </select>
+                    </div>
 
-                    <input
-                        placeholder="Initial Balance"
-                        type="number"
-                        value={form.balance ?? 0}
-                        onChange={(e) => setForm({ ...form, balance: Number(e.target.value) })}
-                        className="w-full rounded-lg bg-slate-800 border border-slate-700 px-4 py-2"
-                    />
+                    <div>
+                        <label className="block text-sm font-medium mb-1">Initial Balance</label>
+                        <input
+                            placeholder="Enter initial balance"
+                            type="number"
+                            value={form.balance ?? 0}
+                            onChange={(e) => setForm({ ...form, balance: Number(e.target.value) })}
+                            className="w-full rounded-lg bg-slate-800 border border-slate-700 px-4 py-2"
+                        />
+                    </div>
 
-                    <textarea
-                        placeholder="Notes (optional)"
-                        value={form.notes || ""}
-                        onChange={(e) => setForm({ ...form, notes: e.target.value })}
-                        className="w-full rounded-lg bg-slate-800 border border-slate-700 px-4 py-2"
-                        rows={3}
-                    />
+                    <div>
+                        <label className="block text-sm font-medium mb-1">Notes (optional)</label>
+                        <textarea
+                            placeholder="Enter notes"
+                            value={form.notes || ""}
+                            onChange={(e) => setForm({ ...form, notes: e.target.value })}
+                            className="w-full rounded-lg bg-slate-800 border border-slate-700 px-4 py-2"
+                            rows={3}
+                        />
+                    </div>
                 </div>
 
                 <div className="flex justify-end gap-3 pt-4">
