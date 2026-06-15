@@ -1,10 +1,10 @@
 import { Schema, model, models, Document } from "mongoose";
-import { BankAccountType } from "@/types/others";
+import { AccountTypeName } from "@/types/others";
 
 export interface IWallet extends Document {
     name: string;
     accountNumber: string;
-    type: BankAccountType;
+    type: AccountTypeName;
     balance: number;
     loan: number;
     notes?: string;
