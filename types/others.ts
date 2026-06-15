@@ -11,4 +11,5 @@ export type FilterValues = {
   status: "" | "due" | "paid";
 };
 
-export type BankAccountType = "Checking" | "Savings" | "Business" | "Other";
+export type AccountCategory = "Asset" | "Liability" | "Equity" | "Income" | "Expense";
+export type AccountTypeName = "Cash" | "Bank" | "Inventory" | "Accounts Receivable" | "Accounts Payable" | "Loans" | "Owner Capital" | "Sales" | "Service Income" | "Salary" | "Rent" | "Utilities" | "Wallet";

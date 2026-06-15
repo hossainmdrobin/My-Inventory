@@ -1,5 +1,5 @@
 import { BankAccount } from "@/types/bank";
-import { BankAccountType } from "@/types/others";
+import { AccountTypeName, AccountCategory } from "@/types/others";
 
 interface BankAccountFormProps {
     open: boolean;
@@ -10,39 +10,61 @@ interface BankAccountFormProps {
     onSubmit: () => void;
 }
 
-const accountTypes: BankAccountType[] = ["Checking", "Savings", "Business", "Other"];
+const accountTypeMap: Record<AccountCategory, AccountTypeName[]> = {
+    Asset: ["Cash", "Bank", "Inventory", "Accounts Receivable", "Wallet"],
+    Liability: ["Accounts Payable", "Loans"],
+    Equity: ["Owner Capital"],
+    Income: ["Sales", "Service Income"],
+    Expense: ["Salary", "Rent", "Utilities"],
+};
+
+const categories: AccountCategory[] = ["Asset", "Liability", "Equity", "Income", "Expense"];
 
 export default function BankAccountForm({ open, editing, form, setForm, onClose, onSubmit }: BankAccountFormProps) {
     if (!open) return null;
+
+    const category = form.category || "Asset";
+    const availableTypes = accountTypeMap[category] || [];
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
             <div className="w-full max-w-lg rounded-xl bg-slate-900 p-6 space-y-4">
                 <h2 className="text-xl font-semibold">
-                    {editing ? "Edit Bank Account" : "Add Bank Account"}
+                    {editing ? "Edit Account" : "Add Account"}
                 </h2>
 
                 <div className="space-y-4">
                     <input
-                        placeholder="Bank Name"
+                        placeholder="Account Name"
                         value={form.name || ""}
                         onChange={(e) => setForm({ ...form, name: e.target.value })}
                         className="w-full rounded-lg bg-slate-800 border border-slate-700 px-4 py-2"
                     />
 
                     <input
-                        placeholder="Account Number"
+                        placeholder="Account Number (optional)"
                         value={form.accountNumber || ""}
                         onChange={(e) => setForm({ ...form, accountNumber: e.target.value })}
                         className="w-full rounded-lg bg-slate-800 border border-slate-700 px-4 py-2"
                     />
 
                     <select
-                        value={form.type || "Checking"}
-                        onChange={(e) => setForm({ ...form, type: e.target.value as BankAccountType })}
+                        value={form.category || "Asset"}
+                        onChange={(e) => setForm({ ...form, category: e.target.value as AccountCategory, accountType: undefined })}
                         className="w-full rounded-lg bg-slate-800 border border-slate-700 px-4 py-2"
                     >
-                        {accountTypes.map((type) => (
+                        {categories.map((cat) => (
+                            <option key={cat} value={cat}>{cat}</option>
+                        ))}
+                    </select>
+
+                    <select
+                        value={form.accountType || ""}
+                        onChange={(e) => setForm({ ...form, accountType: e.target.value as AccountTypeName })}
+                        className="w-full rounded-lg bg-slate-800 border border-slate-700 px-4 py-2"
+                    >
+                        <option value="">Select Account Type</option>
+                        {availableTypes.map((type) => (
                             <option key={type} value={type}>{type}</option>
                         ))}
                     </select>

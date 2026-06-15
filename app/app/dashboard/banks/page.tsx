@@ -22,7 +22,7 @@ export default function BanksPage() {
 
     const openAddModal = () => {
         setEditing(null);
-        setForm({ name: "", accountNumber: "", type: "Checking", balance: 0, notes: "" });
+        setForm({ name: "", accountNumber: "", accountType: "Cash", category: "Asset", balance: 0, notes: "" });
         setOpen(true);
     };
 
@@ -48,18 +48,18 @@ export default function BanksPage() {
     return (
         <div className="space-y-6">
             <div className="flex flex-col sm:flex-row justify-between gap-4">
-                <h1 className="text-2xl font-bold">Bank Accounts</h1>
+                <h1 className="text-2xl font-bold">Chart of Accounts</h1>
                 <button
                     onClick={openAddModal}
                     className="rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white hover:bg-blue-700"
                 >
-                    + Add Bank Account
+                    + Add Account
                 </button>
             </div>
 
             <input
                 type="text"
-                placeholder="Search bank accounts..."
+                placeholder="Search accounts..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 className="w-full md:w-64 rounded-lg bg-slate-900 border border-slate-700 px-4 py-2"
