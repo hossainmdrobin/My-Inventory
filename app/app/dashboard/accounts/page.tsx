@@ -12,6 +12,7 @@ import { useGetSuppliersQuery, useGetBanksQuery, useUpdateSupplierMutation, useU
 import SkeletonTable from "@/reusable/skeletone";
 import ErrorState from "@/reusable/ErrorState";
 import { useGetMeQuery } from "@/redux/slices/auth/api.auth";
+import { useGetJournalEntriesQuery, useCreateJournalEntryMutation } from "@/redux/slices/journalEntry/api.entry";
 
 export default function AccountsPage() {
     const [supplierSearch, setSupplierSearch] = useState("");
@@ -23,6 +24,9 @@ export default function AccountsPage() {
     const [updateBank] = useUpdateBankMutation();
     const [deleteBank] = useDeleteBankMutation();
 
+    const { data: journalEntries, isLoading: journalLoading } = useGetJournalEntriesQuery();
+    const [createJournalEntry, { error: journalEntryError }] = useCreateJournalEntryMutation();
+console.log("Journal Entry Error:", journalEntryError);
     const [paymentModalOpen, setPaymentModalOpen] = useState(false);
     const [selectedSupplier, setSelectedSupplier] = useState<Supplier | null>(null);
     const [paymentAmount, setPaymentAmount] = useState(0);
@@ -39,6 +43,12 @@ export default function AccountsPage() {
     const [editingSupplier, setEditingSupplier] = useState<Supplier | null>(null);
     const [supplierPayable, setSupplierPayable] = useState(0);
     const [supplierReceivable, setSupplierReceivable] = useState(0);
+
+    const [journalModalOpen, setJournalModalOpen] = useState(false);
+    const [journalAmount, setJournalAmount] = useState(0);
+    const [journalDescription, setJournalDescription] = useState("");
+    const [journalAccountId, setJournalAccountId] = useState<string>("");
+    const [journalType, setJournalType] = useState<"debit" | "credit">("debit");
 
     const totalCash = banks?.reduce((sum, b) => sum + (b.balance || 0), 0) || 0;
     const totalPayable = suppliers?.reduce((sum, s) => sum + (s.accountPayable || 0), 0) || 0;
@@ -81,11 +91,38 @@ export default function AccountsPage() {
         setSupplierBalanceModalOpen(false);
     };
 
+    const openJournalModal = () => {
+        setJournalAmount(0);
+        setJournalDescription("");
+        setJournalAccountId(banks?.[0]?._id || "");
+        setJournalType("debit");
+        setJournalModalOpen(true);
+    };
+
+    const handleJournalSubmit = async () => {
+        if (!journalAccountId || journalAmount <= 0) return;
+        await createJournalEntry({
+            data: {
+                account: journalAccountId,
+                description: journalDescription,
+                amount: journalAmount,
+                type: journalType,
+            },
+        });
+        setJournalModalOpen(false);
+    };
+
     return (
         <div className="space-y-8">
             <div className="flex flex-col sm:flex-row justify-between gap-4">
                 <h1 className="text-2xl font-bold">Accounts</h1>
                 <div className="flex gap-2">
+                    <button
+                        onClick={openJournalModal}
+                        className="rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white hover:bg-blue-700"
+                    >
+                        Journal Entry
+                    </button>
                     <button
                         onClick={openInflowModal}
                         className="rounded-lg bg-green-600 px-4 py-2 font-semibold text-white hover:bg-green-700"
@@ -155,6 +192,41 @@ export default function AccountsPage() {
                 )}
             </section>
 
+            <section>
+                <h2 className="text-xl font-semibold mb-4">Journal Entries</h2>
+                {journalLoading && <SkeletonTable />}
+                {journalEntries && (
+                    <div className="overflow-x-auto">
+                        <table className="w-full text-sm">
+                            <thead>
+                                <tr className="border-b border-slate-700">
+                                    <th className="p-3 text-left">Account</th>
+                                    <th className="p-3 text-left">Description</th>
+                                    <th className="p-3 text-left">Type</th>
+                                    <th className="p-3 text-right">Amount</th>
+                                    <th className="p-3 text-right">Date</th>
+                                </tr>
+                            </thead>
+                            {/* <tbody>
+                                {journalEntries?.map((entry: any) => (
+                                    <tr key={entry._id} className="border-b border-slate-800">
+                                        <td className="p-3">{entry.account?.name || "N/A"}</td>
+                                        <td className="p-3">{entry.description || "-"}</td>
+                                        <td className="p-3">
+                                            <span className={`px-2 py-1 rounded text-xs ${entry.type === "debit" ? "bg-green-900 text-green-300" : "bg-red-900 text-red-300"}`}>
+                                                {entry.type}
+                                            </span>
+                                        </td>
+                                        <td className="p-3 text-right">{entry.amount.toFixed(2)}</td>
+                                        <td className="p-3 text-right">{new Date(entry.createdAt).toLocaleDateString()}</td>
+                                    </tr>
+                                ))}
+                            </tbody> */}
+                        </table>
+                    </div>
+                )}
+            </section>
+
             <PaymentModal
                 open={paymentModalOpen}
                 supplier={selectedSupplier}
@@ -196,6 +268,78 @@ export default function AccountsPage() {
                 onClose={() => setSupplierBalanceModalOpen(false)}
                 onSubmit={handleSupplierBalanceSubmit}
             />
+
+            {journalModalOpen && (
+                <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+                    <div className="bg-slate-800 rounded-lg p-6 w-full max-w-md">
+                        <h3 className="text-lg font-semibold mb-4">Create Journal Entry</h3>
+                        <div className="space-y-4">
+                            <div>
+                                <label className="block text-sm text-slate-400 mb-1">Account</label>
+                                <select
+                                    value={journalAccountId}
+                                    onChange={(e) => setJournalAccountId(e.target.value)}
+                                    className="w-full rounded-lg bg-slate-900 border border-slate-700 px-4 py-2"
+                                >
+                                    <option value="">Select Account</option>
+                                    {banks?.map((bank) => (
+                                        <option key={bank._id} value={bank._id}>
+                                            {bank.name}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div>
+                                <label className="block text-sm text-slate-400 mb-1">Description</label>
+                                <input
+                                    type="text"
+                                    value={journalDescription}
+                                    onChange={(e) => setJournalDescription(e.target.value)}
+                                    placeholder="Enter description"
+                                    className="w-full rounded-lg bg-slate-900 border border-slate-700 px-4 py-2"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm text-slate-400 mb-1">Type</label>
+                                <select
+                                    value={journalType}
+                                    onChange={(e) => setJournalType(e.target.value as "debit" | "credit")}
+                                    className="w-full rounded-lg bg-slate-900 border border-slate-700 px-4 py-2"
+                                >
+                                    <option value="debit">Debit</option>
+                                    <option value="credit">Credit</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label className="block text-sm text-slate-400 mb-1">Amount</label>
+                                <input
+                                    type="number"
+                                    value={journalAmount}
+                                    onChange={(e) => setJournalAmount(Number(e.target.value))}
+                                    placeholder="Enter amount"
+                                    min="0"
+                                    step="0.01"
+                                    className="w-full rounded-lg bg-slate-900 border border-slate-700 px-4 py-2"
+                                />
+                            </div>
+                        </div>
+                        <div className="flex gap-2 mt-6">
+                            <button
+                                onClick={() => setJournalModalOpen(false)}
+                                className="flex-1 rounded-lg bg-slate-700 px-4 py-2 font-semibold text-white hover:bg-slate-600"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                onClick={handleJournalSubmit}
+                                className="flex-1 rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white hover:bg-blue-700"
+                            >
+                                Save
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
