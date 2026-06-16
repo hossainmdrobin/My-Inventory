@@ -35,7 +35,7 @@ export default function CashInflowModal({
 
                 <div className="space-y-4">
                     <div>
-                        <label className="text-sm text-slate-400 mb-1 block">Destination Bank Account</label>
+                        <label className="text-sm text-slate-400 mb-1 block">Destination Account</label>
                         <select
                             value={selectedBank}
                             onChange={(e) => setSelectedBank(e.target.value)}

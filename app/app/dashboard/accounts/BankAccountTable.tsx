@@ -3,11 +3,11 @@ import BankAccountCard from "./BankAccountCard";
 
 interface BankAccountTableProps {
     accounts: BankAccount[];
-    onEdit?: (bank?: BankAccount) => void;
+    onSave?: (id: string, data: Partial<BankAccount>) => void;
     onDelete?: (id: string) => void;
 }
 
-export default function BankAccountTable({ accounts, onEdit, onDelete }: BankAccountTableProps) {
+export default function BankAccountTable({ accounts, onSave, onDelete }: BankAccountTableProps) {
     if (accounts.length === 0) {
         return (
             <div className="rounded-xl bg-slate-900 p-8 border border-slate-800 text-center">
@@ -22,7 +22,7 @@ export default function BankAccountTable({ accounts, onEdit, onDelete }: BankAcc
                 <BankAccountCard
                     key={account._id}
                     bank={account}
-                    onEdit={onEdit}
+                    onSave={onSave}
                     onDelete={onDelete}
                 />
             ))}

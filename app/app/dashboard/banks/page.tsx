@@ -22,13 +22,7 @@ export default function BanksPage() {
 
     const openAddModal = () => {
         setEditing(null);
-        setForm({ name: "", accountNumber: "", accountType: "Cash", category: "Asset", balance: 0, notes: "" });
-        setOpen(true);
-    };
-
-    const openEditModal = (bank: BankAccount) => {
-        setEditing(bank);
-        setForm(bank);
+        setForm({ name: "", accountNumber: "", type: "Cash", category: "Asset", balance: 0, notes: "" });
         setOpen(true);
     };
 
@@ -73,7 +67,7 @@ export default function BanksPage() {
                         <BankAccountCard
                             key={bank._id}
                             bank={bank}
-                            onEdit={openEditModal}
+                            onSave={(id, data) => updateBank({ id, data })}
                             onDelete={handleDelete}
                         />
                     ))}

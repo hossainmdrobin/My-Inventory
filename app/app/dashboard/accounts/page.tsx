@@ -8,7 +8,7 @@ import CashInflowModal from "./CashInflowModal";
 import CashTransferModal from "./CashOutflowModal";
 import SupplierBalanceModal from "./SupplierBalanceModal";
 import { Supplier } from "@/types/supplier";
-import { useGetSuppliersQuery, useGetBanksQuery, useUpdateSupplierMutation } from "@/redux/slices/api.slices";
+import { useGetSuppliersQuery, useGetBanksQuery, useUpdateSupplierMutation, useUpdateBankMutation, useDeleteBankMutation } from "@/redux/slices/api.slices";
 import SkeletonTable from "@/reusable/skeletone";
 import ErrorState from "@/reusable/ErrorState";
 import { useGetMeQuery } from "@/redux/slices/auth/api.auth";
@@ -20,6 +20,8 @@ export default function AccountsPage() {
     const { data: suppliers, error: supplierError, isLoading: supplierLoading } = useGetSuppliersQuery({ key: supplierSearch });
     const { data: banks, error: bankError, isLoading: bankLoading } = useGetBanksQuery();
     const [updateSupplier] = useUpdateSupplierMutation();
+    const [updateBank] = useUpdateBankMutation();
+    const [deleteBank] = useDeleteBankMutation();
 
     const [paymentModalOpen, setPaymentModalOpen] = useState(false);
     const [selectedSupplier, setSelectedSupplier] = useState<Supplier | null>(null);
@@ -88,13 +90,13 @@ export default function AccountsPage() {
                         onClick={openInflowModal}
                         className="rounded-lg bg-green-600 px-4 py-2 font-semibold text-white hover:bg-green-700"
                     >
-                        + Add Cash
+                        Record Revenue
                     </button>
                     <button
                         onClick={() => setOutflowModalOpen(true)}
                         className="rounded-lg bg-red-600 px-4 py-2 font-semibold text-white hover:bg-red-700"
                     >
-                        + Transfer Cash
+                        Record Expense
                     </button>
                 </div>
             </div>
@@ -127,6 +129,8 @@ export default function AccountsPage() {
                 {banks && (
                     <BankAccountTable
                         accounts={banks}
+                        onSave={(id, data) => updateBank({ id, data })}
+                        onDelete={(id) => deleteBank({ id })}
                     />
                 )}
             </section>

@@ -84,7 +84,7 @@ export default function AccountDetailPage() {
                         <span className={`text-xs px-2 py-1 rounded-full border ${categoryColors[account.category] || "bg-slate-800 text-slate-300 border-slate-600"}`}>
                             {account.category}
                         </span>
-                        <span className="text-sm text-slate-400">{account.accountType}</span>
+                        <span className="text-sm text-slate-400">{account.type}</span>
                     </div>
                 </div>
                 {account.accountNumber && (
