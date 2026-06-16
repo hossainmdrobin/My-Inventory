@@ -7,6 +7,7 @@ import { Schema, model, models, Document } from "mongoose";
 //     Expense: ["Salary", "Rent", "Utilities"],
 
 export interface IWallet extends Document {
+    institute: Schema.Types.ObjectId;
     name: string;
     accountNumber: string;
     type: string;
@@ -18,6 +19,10 @@ export interface IWallet extends Document {
 
 const WalletSchema = new Schema<IWallet>(
     {
+        institute: {
+            type: Schema.Types.ObjectId,
+            ref: "Institute",
+        },
         name: {
             type: String,
             required: true,
