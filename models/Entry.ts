@@ -12,7 +12,7 @@ const JournalEntryLineSchema = new Schema<IJournalEntryLine>(
     {
         account: {
             type: Schema.Types.ObjectId,
-            ref: "Account",
+            ref: "Wallet",
             required: true,
         },
         description: {

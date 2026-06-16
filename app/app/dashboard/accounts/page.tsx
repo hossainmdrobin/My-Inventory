@@ -12,7 +12,8 @@ import { useGetSuppliersQuery, useGetBanksQuery, useUpdateSupplierMutation, useU
 import SkeletonTable from "@/reusable/skeletone";
 import ErrorState from "@/reusable/ErrorState";
 import { useGetMeQuery } from "@/redux/slices/auth/api.auth";
-import { useGetJournalEntriesQuery, useCreateJournalEntryMutation } from "@/redux/slices/journalEntry/api.entry";
+import { useCreateJournalEntryMutation } from "@/redux/slices/journalEntry/api.entry";
+import JournalTable from "./JournalTable";
 
 export default function AccountsPage() {
     const [supplierSearch, setSupplierSearch] = useState("");
@@ -24,9 +25,7 @@ export default function AccountsPage() {
     const [updateBank] = useUpdateBankMutation();
     const [deleteBank] = useDeleteBankMutation();
 
-    const { data: journalEntries, isLoading: journalLoading } = useGetJournalEntriesQuery();
     const [createJournalEntry, { error: journalEntryError }] = useCreateJournalEntryMutation();
-console.log("Journal Entry Error:", journalEntryError);
     const [paymentModalOpen, setPaymentModalOpen] = useState(false);
     const [selectedSupplier, setSelectedSupplier] = useState<Supplier | null>(null);
     const [paymentAmount, setPaymentAmount] = useState(0);
@@ -137,6 +136,7 @@ console.log("Journal Entry Error:", journalEntryError);
                     </button>
                 </div>
             </div>
+            <JournalTable />
 
             <section>
                 <h2 className="text-xl font-semibold mb-4">Financial Overview</h2>
@@ -192,40 +192,7 @@ console.log("Journal Entry Error:", journalEntryError);
                 )}
             </section>
 
-            <section>
-                <h2 className="text-xl font-semibold mb-4">Journal Entries</h2>
-                {journalLoading && <SkeletonTable />}
-                {journalEntries && (
-                    <div className="overflow-x-auto">
-                        <table className="w-full text-sm">
-                            <thead>
-                                <tr className="border-b border-slate-700">
-                                    <th className="p-3 text-left">Account</th>
-                                    <th className="p-3 text-left">Description</th>
-                                    <th className="p-3 text-left">Type</th>
-                                    <th className="p-3 text-right">Amount</th>
-                                    <th className="p-3 text-right">Date</th>
-                                </tr>
-                            </thead>
-                            {/* <tbody>
-                                {journalEntries?.map((entry: any) => (
-                                    <tr key={entry._id} className="border-b border-slate-800">
-                                        <td className="p-3">{entry.account?.name || "N/A"}</td>
-                                        <td className="p-3">{entry.description || "-"}</td>
-                                        <td className="p-3">
-                                            <span className={`px-2 py-1 rounded text-xs ${entry.type === "debit" ? "bg-green-900 text-green-300" : "bg-red-900 text-red-300"}`}>
-                                                {entry.type}
-                                            </span>
-                                        </td>
-                                        <td className="p-3 text-right">{entry.amount.toFixed(2)}</td>
-                                        <td className="p-3 text-right">{new Date(entry.createdAt).toLocaleDateString()}</td>
-                                    </tr>
-                                ))}
-                            </tbody> */}
-                        </table>
-                    </div>
-                )}
-            </section>
+            
 
             <PaymentModal
                 open={paymentModalOpen}

@@ -5,10 +5,9 @@ import JournalEntryLine, { IJournalEntryLine } from "@/models/Entry";
 export async function GET() {
     await connectToDB();
     try {
-        const entries = await JournalEntryLine.find().populate("Wallet").sort({ createdAt: -1 });
-        return NextResponse.json({ data: entries }, { status: 200 });
+        const entries = await JournalEntryLine.find().populate("account").sort({ createdAt: -1 });
+        return NextResponse.json(entries , { status: 200 });
     } catch (error: any) {
-        console.log("Error fetching entries:", error);
         return NextResponse.json({ error: error.message }, { status: 500 });
     }
 }
@@ -18,10 +17,9 @@ export async function POST(req: NextRequest) {
     try {
         const body: IJournalEntryLine = await req.json();
         const entry = await JournalEntryLine.create(body);
-        const populatedEntry = await entry.populate("Wallet");
-        return NextResponse.json({ data: populatedEntry }, { status: 201 });
+        // const populatedEntry = await entry.populate("Wallet");
+        return NextResponse.json({ data: entry }, { status: 201 });
     } catch (error: any) {
-        console.log("Error creating entry:", error);    
         return NextResponse.json({ error: error.message }, { status: 500 });
     }
 }
@@ -43,7 +41,6 @@ export async function PUT(req: NextRequest) {
         }
         return NextResponse.json({ data: entry }, { status: 200 });
     } catch (error: any) {
-        console.log("Error updating entry:", error);
         return NextResponse.json({ error: error.message }, { status: 500 });
     }
 }
