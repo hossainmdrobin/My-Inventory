@@ -12,4 +12,4 @@ export type FilterValues = {
 };
 
 export type AccountCategory = "Asset" | "Liability" | "Equity" | "Income" | "Expense";
-export type AccountTypeName = "Cash" | "Bank" | "Inventory" | "Accounts Receivable" | "Accounts Payable" | "Loans" | "Owner Capital" | "Sales" | "Service Income" | "Salary" | "Rent" | "Utilities" | "Wallet";
+export type AccountTypeName = "Cash" | "Bank" | "Inventory" | "Accounts Receivable" | "Accounts Payable" | "Loans" | "Owner Capital" | "Sales" | "Service Income" | "Salary" | "Rent" | "Utilities" | "Wallet" | "Incentives" | "Damage Claim" | "Extra" | "Supplier Avance";

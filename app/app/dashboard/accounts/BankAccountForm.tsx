@@ -11,10 +11,10 @@ interface BankAccountFormProps {
 }
 
 const accountTypeMap: Record<AccountCategory, AccountTypeName[]> = {
-    Asset: ["Cash", "Bank", "Inventory", "Accounts Receivable", "Wallet"],
+    Asset: ["Cash", "Bank", "Inventory", "Accounts Receivable", "Wallet", "Supplier Avance"],
     Liability: ["Accounts Payable", "Loans"],
     Equity: ["Owner Capital"],
-    Income: ["Sales", "Service Income"],
+    Income: ["Sales", "Incentives","Damage Claim", "Service Income","Extra"],
     Expense: ["Salary", "Rent", "Utilities"],
 };
 
