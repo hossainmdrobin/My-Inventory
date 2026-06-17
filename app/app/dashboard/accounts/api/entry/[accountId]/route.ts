@@ -4,16 +4,27 @@ import JournalEntryLine from "@/models/Entry";
 
 export async function GET(
     req: NextRequest,
-    { params }: { params: { accountId: string } }
+    { params }: { params: Promise<{ accountId: string }> }
 ) {
     await dbConnect();
+
     try {
-        const { accountId } = params;
-        const entries = await JournalEntryLine.find({ account: accountId })
+        const { accountId } = await params;
+
+        const entries = await JournalEntryLine.find({
+            account: accountId,
+        })
             .populate("account")
             .sort({ createdAt: -1 });
-        return NextResponse.json({ data: entries }, { status: 200 });
+
+        return NextResponse.json(
+            { data: entries },
+            { status: 200 }
+        );
     } catch (error: any) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json(
+            { error: error.message },
+            { status: 500 }
+        );
     }
 }
