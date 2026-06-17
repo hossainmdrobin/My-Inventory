@@ -8,6 +8,7 @@ export interface TransactionType {
     destinationWallet?: Schema.Types.ObjectId,
     destinationSupplier?: Schema.Types.ObjectId,
     note?: string,
+    newAmmount?: number,
 }
 
 const TransactionSchema = new Schema<TransactionType>({
@@ -18,6 +19,7 @@ const TransactionSchema = new Schema<TransactionType>({
     destinationWallet: { type: Schema.Types.ObjectId, ref: "Wallet" },
     destinationSupplier: { type: Schema.Types.ObjectId, ref: "Supplier" },
     note: { type: String },
+    newAmmount: { type: Number },
 }, { timestamps: true });
 
 const Transaction = models.Transaction || model<TransactionType>("Transaction", TransactionSchema);

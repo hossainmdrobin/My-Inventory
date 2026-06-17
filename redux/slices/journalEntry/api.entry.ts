@@ -1,0 +1,64 @@
+import apiSlice from "@/redux/api/apiSlice";
+
+type JournalEntryLineResponse = {
+    _id: string;
+    account: {
+        _id: string;
+        name: string;
+        code?: string;
+    };
+    description?: string;
+    amount: number;
+    type: "debit" | "credit";
+    createdAt: string;
+    updatedAt: string;
+};
+
+type JournalEntryLineInput = {
+    account: string;
+    description?: string;
+    amount: number;
+    type: "debit" | "credit";
+};
+
+export const journalEntryEndpoints = apiSlice.injectEndpoints({
+    endpoints: (builder) => ({
+        getJournalEntries: builder.query<JournalEntryLineResponse[], void>({
+            query: () => ({
+                url: `/app/dashboard/accounts/api/entry`,
+                method: "GET",
+            }),
+            providesTags: ["JOURNAL_ENTRIES"],
+        }),
+        createJournalEntry: builder.mutation<JournalEntryLineResponse, { data: JournalEntryLineInput }>({
+            query: ({ data }) => ({
+                url: `/app/dashboard/accounts/api/entry`,
+                method: "POST",
+                body: data,
+            }),
+            invalidatesTags: ["JOURNAL_ENTRIES"],
+        }),
+        updateJournalEntry: builder.mutation<JournalEntryLineResponse, { id: string; data: JournalEntryLineInput }>({
+            query: ({ id, data }) => ({
+                url: `/app/dashboard/accounts/api/entry`,
+                method: "PUT",
+                body: { id, ...data },
+            }),
+            invalidatesTags: ["JOURNAL_ENTRIES"],
+        }),
+        deleteJournalEntry: builder.mutation<{ success: boolean }, { id: string }>({
+            query: ({ id }) => ({
+                url: `/app/dashboard/accounts/api/entry?id=${id}`,
+                method: "DELETE",
+            }),
+            invalidatesTags: ["JOURNAL_ENTRIES"],
+        }),
+    }),
+});
+
+export const {
+    useGetJournalEntriesQuery,
+    useCreateJournalEntryMutation,
+    useUpdateJournalEntryMutation,
+    useDeleteJournalEntryMutation,
+} = journalEntryEndpoints;
