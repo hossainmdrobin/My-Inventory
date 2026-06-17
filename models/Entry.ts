@@ -5,6 +5,7 @@ export interface IJournalEntryLine {
     description?: string;
     amount: number; // positive for debit, negative for credit
     type: "debit" | "credit";
+    newBalance?:number
 }
 
 
@@ -25,6 +26,10 @@ const JournalEntryLineSchema = new Schema<IJournalEntryLine>(
         type: {
             type: String,
             enum: ["debit", "credit"],
+        },
+        newBalance:{
+            type:Number,
+            default:0
         }
 
     }, { timestamps: true }

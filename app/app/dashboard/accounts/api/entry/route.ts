@@ -1,12 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import connectToDB from "@/db";
 import JournalEntryLine, { IJournalEntryLine } from "@/models/Entry";
+import Wallet from "@/models/Wallet";
 
 export async function GET() {
     await connectToDB();
     try {
         const entries = await JournalEntryLine.find().populate("account").sort({ createdAt: -1 });
-        return NextResponse.json(entries , { status: 200 });
+        return NextResponse.json(entries, { status: 200 });
     } catch (error: any) {
         return NextResponse.json({ error: error.message }, { status: 500 });
     }
@@ -16,8 +17,10 @@ export async function POST(req: NextRequest) {
     await connectToDB();
     try {
         const body: IJournalEntryLine = await req.json();
-        const entry = await JournalEntryLine.create(body);
-        // const populatedEntry = await entry.populate("Wallet");
+        const queryObj = body.type == "debit" ? { balance: body.amount * -1 } : { balance: body.amount }
+        const updatedWallet = await Wallet.findByIdAndUpdate(body.account, { $inc: queryObj }, { new: true })
+        const entry = await JournalEntryLine.create({ ...body, newBalance: updatedWallet.balance });
+
         return NextResponse.json({ data: entry }, { status: 201 });
     } catch (error: any) {
         return NextResponse.json({ error: error.message }, { status: 500 });

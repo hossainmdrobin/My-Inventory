@@ -19,7 +19,7 @@ export default function JournalTable() {
                                 <th className="p-3 text-left">Description</th>
                                 <th className="p-3 text-left">Type</th>
                                 <th className="p-3 text-left">Amount</th>
-                                <th className="p-3 text-right">Date</th>
+                                <th className="p-3 text-right">New Balance</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -29,12 +29,12 @@ export default function JournalTable() {
                                     <td className="p-3">{entry.account?.name || "N/A"}</td>
                                     <td className="p-3">{entry.description || "-"}</td>
                                     <td className="p-3">
-                                        <span className={`px-2 py-1 rounded text-xs ${entry.type === "debit" ? "bg-green-900 text-green-300" : "bg-red-900 text-red-300"}`}>
+                                        <span className={`px-2 py-1 rounded text-xs ${entry.type === "credit" ? "bg-green-900 text-green-300" : "bg-red-900 text-red-300"}`}>
                                             {entry.type}
                                         </span>
                                     </td>
-                                    <td className={`p-3 text-left ${entry.type=='debit'?'text-green-300':"text-red-500"}`}>{entry.type=="debit"?"+":"-"} {entry.amount.toFixed(2)}</td>
-                                    <td className="p-3 text-right">{new Date(entry.createdAt).toLocaleDateString()}</td>
+                                    <td className={`p-3 text-left ${entry.type=='credit'?'text-green-300':"text-red-500"}`}>{entry.type=="credit"?"+":"-"} {entry.amount.toFixed(2)}</td>
+                                    <td className="p-3 text-right">{entry.newBalance}</td>
                                 </tr>
                             ))}
                         </tbody>
