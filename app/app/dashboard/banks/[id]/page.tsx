@@ -7,15 +7,6 @@ import ErrorState from "@/reusable/ErrorState";
 import { useState } from "react";
 import { useGetJournalEntriesQuery } from "@/redux/slices/journalEntry/api.entry";
 
-interface Transaction {
-    id: string;
-    date: string;
-    description: string;
-    type: "credit" | "debit";
-    amount: number;
-    reference: string;
-    balance: number;
-}
 
 export default function AccountDetailPage() {
     const params = useParams();
@@ -25,13 +16,12 @@ export default function AccountDetailPage() {
     const { data: banks, error, isLoading } = useGetBanksQuery();
 
     const account = banks?.find((b) => b._id === id);
-    const [walletId, setWalletId] = useState<string>("");
     const [startDate, setStartDate] = useState<string>("");
     const [endDate, setEndDate] = useState<string>("");
     const [limit, setLimit] = useState<number>(5);
 
     const { data: journalEntries, isLoading: journalLoading } = useGetJournalEntriesQuery({
-        wallet_id: walletId || undefined,
+        wallet_id: id || undefined,
         startDate: startDate || undefined,
         endDate: endDate || undefined,
         limit,
@@ -119,10 +109,38 @@ export default function AccountDetailPage() {
             )}
 
             <div className="rounded-xl bg-slate-900 border border-slate-800 overflow-hidden">
-                <div className="p-5 border-b border-slate-800">
-                    <h2 className="text-lg font-semibold">Recent Transactions</h2>
-                </div>
                 <div className="overflow-x-auto">
+                    <h2 className="text-xl font-semibold mb-4">Journal Entries</h2>
+                    <div className="flex flex-wrap gap-4 mb-4">
+                        <div>
+                            <label className="block text-sm text-slate-400 mb-1">From</label>
+                            <input
+                                type="date"
+                                value={startDate}
+                                onChange={(e) => setStartDate(e.target.value)}
+                                className="rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-sm"
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm text-slate-400 mb-1">To</label>
+                            <input
+                                type="date"
+                                value={endDate}
+                                onChange={(e) => setEndDate(e.target.value)}
+                                className="rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-sm"
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm text-slate-400 mb-1">Limit</label>
+                            <input
+                                type="number"
+                                value={limit}
+                                onChange={(e) => setLimit(Number(e.target.value))}
+                                min={1}
+                                className="rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-sm w-24"
+                            />
+                        </div>
+                    </div>
                     <table className="w-full">
                         <thead>
                             <tr className="text-left text-sm text-slate-400 border-b border-slate-800">
