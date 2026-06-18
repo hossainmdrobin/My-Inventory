@@ -37,7 +37,7 @@ export default function AccountDetailPage() {
         limit,
     });
 
-    if (isLoading) return <SkeletonTable />;
+    if (isLoading || journalLoading) return <SkeletonTable />;
     if (error) return <ErrorState />;
     if (!account) {
         return (
