@@ -1,6 +1,7 @@
 import mongoose, { Schema, Types, models, model } from "mongoose";
 
 export interface IJournalEntryLine {
+    user?:Types.ObjectId;
     account: Types.ObjectId; // reference to Chart of Account
     description?: string;
     amount: number; // positive for debit, negative for credit
@@ -12,6 +13,7 @@ export interface IJournalEntryLine {
 
 const JournalEntryLineSchema = new Schema<IJournalEntryLine>(
     {
+        user:{type:Types.ObjectId, ref:"User"},
         institute: { type: Types.ObjectId, ref: "Institute" },
         account: {
             type: Schema.Types.ObjectId,
