@@ -1,4 +1,4 @@
-import { Schema, model, models } from "mongoose";
+import { Schema, model, models,Types } from "mongoose";
 import Product from "./Product";
 import Customer from "./Customer";
 import CustomerLedger from "./CustomerLedger";
@@ -7,6 +7,8 @@ import Institute from "./Institute";
 /* ---------------- Purchase Item Schema ---------------- */
 const SaleItemSchema = new Schema(
   {
+        institute:{type:Types.ObjectId,ref:"Institute"},
+    
     name: {
       type: String,
       required: true,

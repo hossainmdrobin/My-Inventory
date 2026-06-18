@@ -1,7 +1,9 @@
-import { Schema, model, models } from "mongoose";
+import { Schema, model, models,Types } from "mongoose";
 
 const SupplierSchema = new Schema(
     {
+            institute:{type:Types.ObjectId,ref:"Institute"},
+        
         name: {
             type: String,
             required: true,

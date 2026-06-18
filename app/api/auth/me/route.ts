@@ -15,6 +15,7 @@ export async function GET(req: NextRequest) {
 
   try {
     const { payload } = await jwtVerify(token, SECRETKEY);
+    console.log("consoling payload from me",payload)
     const userId = payload.userId as string;
     await connectToDB();
     const user = await User.findById(userId).select("-password").populate("institute").lean();

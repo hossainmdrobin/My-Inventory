@@ -1,6 +1,7 @@
 import { Schema, model, models, Types } from "mongoose";
 
 export interface CustomerType {
+  institute:Types.ObjectId,
   name: string;
   phone?: string;
   email?: string;
@@ -13,6 +14,7 @@ export interface CustomerType {
 
 const CustomerSchema = new Schema<CustomerType>(
   {
+    institute:{type:Types.ObjectId,ref:"Institute"},
     name: { type: String, required: true, trim: true },
     phone: { type: String },
     email: { type: String },

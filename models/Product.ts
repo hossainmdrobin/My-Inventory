@@ -1,14 +1,16 @@
-import { Schema, model, models } from "mongoose";
+import { Schema, model, models,Types } from "mongoose";
 
 const ProductSchema = new Schema(
   {
+    institute: { type: Types.ObjectId, ref: "Institute" },
+
     name: { type: String, required: true },
-    sku: { type: String, required: false ,sparse:true, unique: true},
+    sku: { type: String, required: false, sparse: true, unique: true },
     category: { type: String, required: false },
     stock: { type: Number, default: 0 },
     costPrice: { type: Number, required: false },
     sellingPrice: { type: Number },
-    supplier: {type:Schema.Types.ObjectId, ref: "Supplier", required: false},
+    supplier: { type: Schema.Types.ObjectId, ref: "Supplier", required: false },
     unit: { type: String, default: "unit" },
   },
   { timestamps: true }
