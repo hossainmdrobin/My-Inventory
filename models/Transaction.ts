@@ -1,6 +1,7 @@
 import { model, models, Schema, Types } from "mongoose";
 
 export interface TransactionType {
+    user: Types.ObjectId,
     institute: Types.ObjectId,
     amount: number,
     source: string,
@@ -14,7 +15,7 @@ export interface TransactionType {
 
 const TransactionSchema = new Schema<TransactionType>({
     institute: { type: Types.ObjectId, ref: "Institute" },
-
+    user: { type: Types.ObjectId, ref: "User" },
     source: { type: String, required: true },
     sourceWallet: { type: Schema.Types.ObjectId, ref: "Wallet" },
     sourceSupplier: { type: Schema.Types.ObjectId, ref: "Supplier" },
