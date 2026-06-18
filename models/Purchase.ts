@@ -5,6 +5,8 @@ import Supplier from "./Supplier";
 /* ---------------- Purchase Item Schema ---------------- */
 const PurchaseItemSchema = new Schema(
   {
+        institute:{type:Types.ObjectId,ref:"Institute"},
+    
     name: {
       type: String,
       required: true,

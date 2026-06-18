@@ -28,7 +28,7 @@ export const signupAction = async (formData: FormData) => {
     await newUser.save();
     const token = await generateJWT(email, newUser._id.toString());
     const cookieStore = await cookies();
-    cookieStore.set("token", token, { path: "/", httpOnly: true, secure: process.env.NODE_ENV === "production" });
+    cookieStore.set("token", token, { path: "/", httpOnly: true, secure: process.env.NODE_ENV === "production", maxAge: 60 * 60 * 24 * 30 });
     redirect("/app/dashboard");
 }
 

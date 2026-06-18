@@ -1,4 +1,4 @@
-import { Schema, model, models } from "mongoose";
+import { Schema, model, models, Types } from "mongoose";
 
 /* ---------------- Employee Schema ---------------- */
 
@@ -24,10 +24,12 @@ export interface EmployeeType {
     notes?: string;
     createdAt?: Date;
     updatedAt?: Date;
+    institute:Types.ObjectId,
 }
 
 const EmployeeSchema = new Schema<EmployeeType>(
     {
+    institute:{type:Types.ObjectId,ref:"Institute"},
         token: {
             type: String,
         },
