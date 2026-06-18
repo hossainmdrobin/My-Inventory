@@ -23,11 +23,19 @@ type JournalEntryLineInput = {
 
 export const journalEntryEndpoints = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
-        getJournalEntries: builder.query<JournalEntryLineResponse[], void>({
-            query: () => ({
-                url: `/app/dashboard/accounts/api/entry`,
-                method: "GET",
-            }),
+        getJournalEntries: builder.query<JournalEntryLineResponse[], { wallet_id?: string; startDate?: string; endDate?: string; limit?: number }>({
+            query: (params) => {
+                const searchParams = new URLSearchParams();
+                if (params?.wallet_id) searchParams.set("wallet_id", params.wallet_id);
+                if (params?.startDate) searchParams.set("startDate", params.startDate);
+                if (params?.endDate) searchParams.set("endDate", params.endDate);
+                if (params?.limit) searchParams.set("limit", String(params.limit));
+                const qs = searchParams.toString();
+                return {
+                    url: `/app/dashboard/accounts/api/entry${qs ? `?${qs}` : ""}`,
+                    method: "GET",
+                };
+            },
             providesTags: ["JOURNAL_ENTRIES"],
         }),
         createJournalEntry: builder.mutation<JournalEntryLineResponse, { data: JournalEntryLineInput }>({
