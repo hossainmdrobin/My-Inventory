@@ -12,6 +12,8 @@ type JournalEntryLineResponse = {
     type: "debit" | "credit";
     createdAt: string;
     updatedAt: string;
+    newBalance?: number
+
 };
 
 type JournalEntryLineInput = {

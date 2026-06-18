@@ -16,7 +16,6 @@ export default function JournalTable() {
         endDate: endDate || undefined,
         limit,
     });
-    console.log("Geeting the journalEntries",journalEntries)
 
     return (
         <section>
