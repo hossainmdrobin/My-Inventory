@@ -109,9 +109,9 @@ export default function AccountDetailPage() {
             )}
 
             <div className="rounded-xl bg-slate-900 border border-slate-800 overflow-hidden">
-                <div className="overflow-x-auto">
-                    <h2 className="text-xl font-semibold mb-4">Journal Entries</h2>
-                    <div className="flex flex-wrap gap-4 mb-4">
+                <div className="overflow-x-auto mt-4">
+                    <h2 className="text-xl font-semibold ml-4 mb-4">Journal Entries</h2>
+                    <div className="flex flex-wrap gap-4 mb-4 ml-4">
                         <div>
                             <label className="block text-sm text-slate-400 mb-1">From</label>
                             <input
