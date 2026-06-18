@@ -1,13 +1,68 @@
 import { useGetJournalEntriesQuery } from '@/redux/slices/journalEntry/api.entry';
+import { useGetBanksQuery } from '@/redux/slices/api.slices';
 import SkeletonTable from '@/reusable/skeletone';
-import React from 'react'
+import React, { useState } from 'react'
 
 export default function JournalTable() {
-        const { data: journalEntries, isLoading: journalLoading } = useGetJournalEntriesQuery();
-    
+    const [walletId, setWalletId] = useState<string>("");
+    const [startDate, setStartDate] = useState<string>("");
+    const [endDate, setEndDate] = useState<string>("");
+    const [limit, setLimit] = useState<number>(5);
+
+    const { data: banks } = useGetBanksQuery();
+    const { data: journalEntries, isLoading: journalLoading } = useGetJournalEntriesQuery({
+        wallet_id: walletId || undefined,
+        startDate: startDate || undefined,
+        endDate: endDate || undefined,
+        limit,
+    });
+
     return (
         <section>
             <h2 className="text-xl font-semibold mb-4">Journal Entries</h2>
+            <div className="flex flex-wrap gap-4 mb-4">
+                <div>
+                    <label className="block text-sm text-slate-400 mb-1">Account</label>
+                    <select
+                        value={walletId}
+                        onChange={(e) => setWalletId(e.target.value)}
+                        className="rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-sm"
+                    >
+                        <option value="">All Accounts</option>
+                        {banks?.map((bank: any) => (
+                            <option key={bank._id} value={bank._id}>{bank.name}</option>
+                        ))}
+                    </select>
+                </div>
+                <div>
+                    <label className="block text-sm text-slate-400 mb-1">From</label>
+                    <input
+                        type="date"
+                        value={startDate}
+                        onChange={(e) => setStartDate(e.target.value)}
+                        className="rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-sm"
+                    />
+                </div>
+                <div>
+                    <label className="block text-sm text-slate-400 mb-1">To</label>
+                    <input
+                        type="date"
+                        value={endDate}
+                        onChange={(e) => setEndDate(e.target.value)}
+                        className="rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-sm"
+                    />
+                </div>
+                <div>
+                    <label className="block text-sm text-slate-400 mb-1">Limit</label>
+                    <input
+                        type="number"
+                        value={limit}
+                        onChange={(e) => setLimit(Number(e.target.value))}
+                        min={1}
+                        className="rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-sm w-24"
+                    />
+                </div>
+            </div>
             {journalLoading && <SkeletonTable />}
             {journalEntries && (
                 <div className="overflow-x-auto">

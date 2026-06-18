@@ -3,10 +3,34 @@ import connectToDB from "@/db";
 import JournalEntryLine, { IJournalEntryLine } from "@/models/Entry";
 import Wallet from "@/models/Wallet";
 
-export async function GET() {
+export async function GET(req: NextRequest) {
     await connectToDB();
     try {
-        const entries = await JournalEntryLine.find().populate("account").sort({ createdAt: -1 });
+        const { searchParams } = new URL(req.url);
+        const walletId = searchParams.get("wallet_id");
+        const startDate = searchParams.get("startDate");
+        const endDate = searchParams.get("endDate");
+        const limit = searchParams.get("limit");
+
+        const filter: Record<string, any> = {};
+        if (walletId) {
+            filter.account = walletId;
+        }
+        if (startDate || endDate) {
+            filter.createdAt = {};
+            if (startDate) filter.createdAt.$gte = new Date(startDate);
+            if (endDate) filter.createdAt.$lte = new Date(endDate);
+        }
+
+        let query = JournalEntryLine.find(filter)
+            .populate("account")
+            .sort({ createdAt: -1 });
+
+        if (limit) {
+            query = query.limit(Number(limit));
+        }
+
+        const entries = await query;
         return NextResponse.json(entries, { status: 200 });
     } catch (error: any) {
         return NextResponse.json({ error: error.message }, { status: 500 });
