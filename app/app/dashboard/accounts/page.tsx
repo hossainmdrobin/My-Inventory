@@ -128,12 +128,12 @@ export default function AccountsPage() {
                     >
                         Transfer
                     </button>
-                    {/* <button
+                    <button
                         onClick={() => setOutflowModalOpen(true)}
                         className="rounded-lg bg-red-600 px-4 py-2 font-semibold text-white hover:bg-red-700"
                     >
-                        Record Expense
-                    </button> */}
+                        Transfer
+                    </button>
                 </div>
             </div>
             <JournalTable />
@@ -221,7 +221,6 @@ export default function AccountsPage() {
             <CashTransferModal
                 open={outflowModalOpen}
                 banks={banks || []}
-                suppliers={suppliers || []}
                 onClose={() => setOutflowModalOpen(false)}
             />
 
