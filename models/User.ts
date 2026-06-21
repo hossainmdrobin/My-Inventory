@@ -8,7 +8,8 @@ const UserSchema = new mongoose.Schema({
     phone: { type: String, required: false },
     password: { type: String, required: true },
     createdAt: { type: Date, default: Date.now },
-    role:{type:String,default:"employee", emun:["employee","admin","manager"]}
+    role:{type:String,default:"employee", emun:["employee","admin","manager"]},
+    approved:{type:String, default:false}
 });
 const User = mongoose.models.User || mongoose.model("User", UserSchema);
 
