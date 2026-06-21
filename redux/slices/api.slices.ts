@@ -2,6 +2,16 @@ import { Supplier } from "@/types/supplier";
 import { BankAccount } from "@/types/bank";
 import apiSlice from "../api/apiSlice";
 
+export interface CreateTransactionPayload {
+    amount: number;
+    source: string;
+    sourceWallet?: string;
+    sourceSupplier?: string;
+    destinationWallet?: string;
+    destinationSupplier?: string;
+    note?: string;
+}
+
 
 export const productEndpoints = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
@@ -66,6 +76,14 @@ export const productEndpoints = apiSlice.injectEndpoints({
             }),
             invalidatesTags: ["BANKS"],
         }),
+        createTransaction: builder.mutation<any, CreateTransactionPayload>({
+            query: (data) => ({
+                url: `/app/dashboard/accounts/api/transaction`,
+                method: 'POST',
+                body: data,
+            }),
+            invalidatesTags: ["BANKS", "TRANSACTIONS", "GETALLPOST"],
+        }),
     }),
 });
 
@@ -77,5 +95,6 @@ export const {
     useGetBanksQuery,
     useCreateBankMutation,
     useUpdateBankMutation,
-    useDeleteBankMutation
+    useDeleteBankMutation,
+    useCreateTransactionMutation
 } = productEndpoints;
