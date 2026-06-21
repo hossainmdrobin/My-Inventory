@@ -5,6 +5,7 @@ export interface IInstitute extends Document {
   description?: string;
   salesAccount: Schema.Types.ObjectId;
   salesCostAccount: Schema.Types.ObjectId;
+  returnAccount: Schema.Types.ObjectId;
   totalCashValue: number;
   totalCustomerDue: number;
   NetBusinessWorth: number;
@@ -21,10 +22,16 @@ const InstituteSchema = new Schema<IInstitute>(
       trim: true,
     },
     salesAccount: {
-      type: Schema.Types.ObjectId
+      type: Schema.Types.ObjectId,
+      ref:"Wallet"
+    },
+    returnAccount:{
+      type:Schema.Types.ObjectId,
+      ref:"Wallet"
     },
     salesCostAccount: {
-      type: Schema.Types.ObjectId
+      type: Schema.Types.ObjectId,
+      ref:"Wallet"
     },
     totalCashValue: {
       type: Number,
