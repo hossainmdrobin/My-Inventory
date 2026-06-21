@@ -1,7 +1,7 @@
 
 export type CreateTransactionDTO = {
     amount: number;
-    source: string;
+    source?: string;
     sourceWallet: string;
     sourceSupplier?: string;
     destinationWallet: string;

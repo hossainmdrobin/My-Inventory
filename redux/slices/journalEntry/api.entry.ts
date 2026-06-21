@@ -38,7 +38,7 @@ export const journalEntryEndpoints = apiSlice.injectEndpoints({
                     method: "GET",
                 };
             },
-            providesTags: ["JOURNAL_ENTRIES"],
+            providesTags: ["JOURNAL_ENTRIES","TRANSACTIONS"],
         }),
         createJournalEntry: builder.mutation<JournalEntryLineResponse, { data: JournalEntryLineInput }>({
             query: ({ data }) => ({

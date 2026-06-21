@@ -1,6 +1,6 @@
+import { useCreateTransactionMutation } from "@/redux/slices/transaction/api.transaction";
 import { BankAccount } from "@/types/bank";
-import { Supplier } from "@/types/supplier";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface CashOutflowModalProps {
     open: boolean;
@@ -13,14 +13,19 @@ export default function CashTransferModal({
     banks,
     onClose,
 }: CashOutflowModalProps) {
+    const [createTransaction, { data, error }] = useCreateTransactionMutation()
+    console.log("TRansaction data", data, error)
+
+    useEffect(() => {
+        if (data) {
+            onClose();
+        }
+    }, [data, onClose]);
+
     const [sourceWallet, setSourceWallet] = useState<string>("")
     const [destinationWallet, setDestinationWallet] = useState<string>("")
     const [note, setNote] = useState("");
     const [amount, setAmount] = useState(0);
-
-    const onSubmit = () => {
-        console.log("Submitting cash outflow:")
-    }
 
     if (!open) return null;
 
@@ -94,7 +99,7 @@ export default function CashTransferModal({
                         Cancel
                     </button>
                     <button
-                        onClick={onSubmit}
+                        onClick={() => createTransaction({ sourceWallet, destinationWallet, note, amount })}
                         disabled={!sourceWallet || !destinationWallet || amount <= 0}
                         className="px-4 py-2 rounded-lg bg-red-600 font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
                     >

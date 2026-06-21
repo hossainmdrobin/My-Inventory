@@ -14,7 +14,7 @@ export interface TransactionType {
 
 const TransactionSchema = new Schema<TransactionType>({
     user:{type:Types.ObjectId},
-    source: { type: String, required: true },
+    source: { type: String, required: false },
     sourceWallet: { type: Schema.Types.ObjectId, ref: "Wallet" },
     sourceSupplier: { type: Schema.Types.ObjectId, ref: "Supplier" },
     amount: { type: Number, required: true },
