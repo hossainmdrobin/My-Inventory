@@ -4,22 +4,20 @@ import FinancialSummaryCard from "./FinancialSummaryCard";
 import BankAccountTable from "./BankAccountTable";
 import SupplierAccountSummary from "./SupplierAccountSummary";
 import PaymentModal from "./PaymentModal";
-import CashInflowModal from "./CashInflowModal";
 import CashTransferModal from "./CashOutflowModal";
 import SupplierBalanceModal from "./SupplierBalanceModal";
 import { Supplier } from "@/types/supplier";
 import { useGetSuppliersQuery, useGetBanksQuery, useUpdateSupplierMutation, useUpdateBankMutation, useDeleteBankMutation } from "@/redux/slices/api.slices";
-import SkeletonTable from "@/reusable/skeletone";
-import ErrorState from "@/reusable/ErrorState";
 import { useGetMeQuery } from "@/redux/slices/auth/api.auth";
 import { useCreateJournalEntryMutation } from "@/redux/slices/journalEntry/api.entry";
+import SkeletonTable from "@/reusable/skeletone";
+import ErrorState from "@/reusable/ErrorState";
+
 import JournalTable from "./JournalTable";
 
 export default function AccountsPage() {
-    const [supplierSearch, setSupplierSearch] = useState("");
-
     const { data: profile } = useGetMeQuery()
-    const { data: suppliers, error: supplierError, isLoading: supplierLoading } = useGetSuppliersQuery({ key: supplierSearch });
+    const { data: suppliers, error: supplierError, isLoading: supplierLoading } = useGetSuppliersQuery({});
     const { data: banks, error: bankError, isLoading: bankLoading } = useGetBanksQuery();
     const [updateSupplier] = useUpdateSupplierMutation();
     const [updateBank] = useUpdateBankMutation();
@@ -31,10 +29,7 @@ export default function AccountsPage() {
     const [paymentAmount, setPaymentAmount] = useState(0);
     const [paymentNote, setPaymentNote] = useState("");
 
-    const [inflowModalOpen, setInflowModalOpen] = useState(false);
-    const [inflowAmount, setInflowAmount] = useState(0);
-    const [inflowBank, setInflowBank] = useState<string>("");
-    const [inflowNote, setInflowNote] = useState("");
+
 
     const [outflowModalOpen, setOutflowModalOpen] = useState(false);
 
@@ -53,17 +48,6 @@ export default function AccountsPage() {
     const totalPayable = suppliers?.reduce((sum, s) => sum + (s.accountPayable || 0), 0) || 0;
     const totalAdvance = suppliers?.reduce((sum, s) => sum + (s.advance || 0), 0) || 0;
     const netWorth = totalCash + totalAdvance - totalPayable;
-
-    const openInflowModal = () => {
-        setInflowAmount(0);
-        setInflowBank(banks?.[0]?._id || "");
-        setInflowNote("");
-        setInflowModalOpen(true);
-    };
-
-    const handleInflowSubmit = () => {
-        setInflowModalOpen(false);
-    };
 
     const openPaymentModal = (supplier: Supplier) => {
         setSelectedSupplier(supplier);
@@ -123,21 +107,13 @@ export default function AccountsPage() {
                         Journal Entry
                     </button>
                     <button
-                        onClick={openInflowModal}
-                        className="rounded-lg bg-green-600 px-4 py-2 font-semibold text-white hover:bg-green-700"
-                    >
-                        Transfer
-                    </button>
-                    <button
                         onClick={() => setOutflowModalOpen(true)}
-                        className="rounded-lg bg-red-600 px-4 py-2 font-semibold text-white hover:bg-red-700"
+                        className="rounded-lg bg-green-600 px-4 py-2 font-semibold text-white hover:bg-green-700"
                     >
                         Transfer
                     </button>
                 </div>
             </div>
-            <JournalTable />
-
             <section>
                 <h2 className="text-xl font-semibold mb-4">Financial Overview</h2>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -158,6 +134,7 @@ export default function AccountsPage() {
                     />
                 </div>
             </section>
+            <JournalTable />
 
             <section>
                 <h2 className="text-xl font-semibold mb-4">Bank Accounts</h2>
@@ -174,13 +151,6 @@ export default function AccountsPage() {
 
             <section>
                 <h2 className="text-xl font-semibold mb-4">Supplier Accounts</h2>
-                <input
-                    type="text"
-                    placeholder="Search suppliers..."
-                    value={supplierSearch}
-                    onChange={(e) => setSupplierSearch(e.target.value)}
-                    className="w-full md:w-64 rounded-lg bg-slate-900 border border-slate-700 px-4 py-2 mb-4"
-                />
                 {supplierLoading && <SkeletonTable />}
                 {supplierError && <ErrorState />}
                 {suppliers && (
@@ -191,9 +161,6 @@ export default function AccountsPage() {
                     />
                 )}
             </section>
-
-            
-
             <PaymentModal
                 open={paymentModalOpen}
                 supplier={selectedSupplier}
@@ -203,19 +170,6 @@ export default function AccountsPage() {
                 setNote={setPaymentNote}
                 onClose={() => setPaymentModalOpen(false)}
                 onSubmit={handlePaymentSubmit}
-            />
-
-            <CashInflowModal
-                open={inflowModalOpen}
-                banks={banks || []}
-                amount={inflowAmount}
-                selectedBank={inflowBank}
-                note={inflowNote}
-                setAmount={setInflowAmount}
-                setSelectedBank={setInflowBank}
-                setNote={setInflowNote}
-                onClose={() => setInflowModalOpen(false)}
-                onSubmit={handleInflowSubmit}
             />
 
             <CashTransferModal
