@@ -89,7 +89,7 @@ export default function JournalTable() {
                                         </span>
                                     </td>
                                     <td className={`p-3 text-left ${entry.type=='credit'?'text-green-300':"text-red-500"}`}>{entry.type=="credit"?"+":"-"} {entry.amount.toFixed(2)}</td>
-                                    <td className="p-3 text-right">{entry.newBalance}</td>
+                                    <td className="p-3 text-right">{entry.newBalance?.toFixed(2)}</td>
                                 </tr>
                             ))}
                         </tbody>

@@ -25,4 +25,16 @@ export interface UserWithInstitute {
   phone?: string;
   createdAt?: string;
   updatedAt?: string;
+  role?: string;
+  approved?: boolean;
+}
+
+export interface UserResponse {
+  data: UserWithInstitute[];
+  pagination: {
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+  };
 }
