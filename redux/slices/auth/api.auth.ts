@@ -1,6 +1,15 @@
 import { apiSlice } from "@/redux/api/apiSlice";
 import { UserWithInstitute, UserResponse } from "@/types/user";
 
+export interface UpdateUserData {
+  name?: string;
+  email?: string;
+  phone?: string;
+  role?: string;
+  password?: string;
+  institute?: string;
+}
+
 export const authApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getMe: builder.query<UserWithInstitute | null, void>({
@@ -23,8 +32,20 @@ export const authApi = apiSlice.injectEndpoints({
       },
       providesTags: ["Users"],
     }),
+    getUser: builder.query<UserWithInstitute, string>({
+      query: (id) => `/api/auth/user/${id}`,
+      providesTags: ["Users"],
+    }),
+    updateUser: builder.mutation<UserWithInstitute, { id: string; data: UpdateUserData }>({
+      query: ({ id, data }) => ({
+        url: `/api/auth/user/${id}`,
+        method: "PUT",
+        body: data,
+      }),
+      invalidatesTags: ["Users"],
+    }),
   }),
   overrideExisting: false,
 });
 
-export const { useGetMeQuery, useGetUsersQuery } = authApi;
+export const { useGetMeQuery, useGetUsersQuery, useGetUserQuery, useUpdateUserMutation } = authApi;

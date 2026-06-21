@@ -25,6 +25,8 @@ export interface UserWithInstitute {
   phone?: string;
   createdAt?: string;
   updatedAt?: string;
+  role?: string;
+  approved?: boolean;
 }
 
 export interface UserResponse {
