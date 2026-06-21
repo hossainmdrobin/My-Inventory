@@ -3,19 +3,28 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import Link from "next/link";
+import NavBarSkeleton from "./NavBarSkeleton";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname(); // /dashboard/employees
   const isApp = pathname.split('/').includes('app');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoading, setLoading] = useState(true)
   useEffect(() => {
+    setLoading(true)
     // Check if the user is logged in by calling the /api/auth/me endpoint
     fetch("/api/auth/me")
       .then((res) => res.json())
       .then((data) => {
-        if (data?._id) setIsLoggedIn(true);
-        else setIsLoggedIn(false);
+        if (data?._id) {
+          setIsLoggedIn(true);
+          setLoading(false)
+        }
+        else {
+          setIsLoggedIn(false);
+          setLoading(false)
+        }
       })
       .catch(() => {
         setIsLoggedIn(false)
@@ -27,8 +36,9 @@ export default function Navbar() {
     { name: "About", href: "/about" },
     { name: "Contact", href: "/contact" },
   ];
+  if(isApp) return <></>
 
-  return isApp ? <></> : (
+  return isLoading ? <NavBarSkeleton /> : (
     <header className="fixed top-0 left-0 z-50 w-full">
       <nav className="backdrop-blur-md bg-white/5 border-b border-white/10">
         <div className="mx-auto max-w-7xl px-6">
