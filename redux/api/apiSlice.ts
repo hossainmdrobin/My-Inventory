@@ -17,7 +17,8 @@ export const apiSlice = createApi({
         "Employee",
         "BANKS",
         "SETTINGS",
-        "JOURNAL_ENTRIES"
+        "JOURNAL_ENTRIES",
+        "TRANSACTIONS"
     ],
 });
 
