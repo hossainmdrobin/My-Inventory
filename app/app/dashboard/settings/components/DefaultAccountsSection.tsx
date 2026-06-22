@@ -4,11 +4,7 @@ import { useState } from "react";
 import { useGetMeQuery } from "@/redux/slices/auth/api.auth";
 import { useGetInstitutesQuery, useGetWalletsQuery, useUpdateDefaultAccountsMutation } from "@/redux/slices/settings/api.setting";
 
-type DefaultAccountsSectionProps = {
-  onSaved?: () => void;
-};
-
-export default function DefaultAccountsSection({ onSaved }: DefaultAccountsSectionProps) {
+export default function DefaultAccountsSection() {
   const { data: me } = useGetMeQuery();
   const { data: institutes } = useGetInstitutesQuery();
   const instituteId = me?.institute?._id || institutes?.[0]?._id;
@@ -56,7 +52,6 @@ export default function DefaultAccountsSection({ onSaved }: DefaultAccountsSecti
         salesCostAccount,
         returnAccount,
       }).unwrap();
-      onSaved?.();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to update default accounts");
     }
