@@ -3,6 +3,9 @@ import { Schema, model, models, Document } from "mongoose";
 export interface IInstitute extends Document {
   name: string;
   description?: string;
+  salesAccount: Schema.Types.ObjectId;
+  salesCostAccount: Schema.Types.ObjectId;
+  returnAccount: Schema.Types.ObjectId;
   totalCashValue: number;
   totalCustomerDue: number;
   NetBusinessWorth: number;
@@ -17,6 +20,18 @@ const InstituteSchema = new Schema<IInstitute>(
     description: {
       type: String,
       trim: true,
+    },
+    salesAccount: {
+      type: Schema.Types.ObjectId,
+      ref:"Wallet"
+    },
+    returnAccount:{
+      type:Schema.Types.ObjectId,
+      ref:"Wallet"
+    },
+    salesCostAccount: {
+      type: Schema.Types.ObjectId,
+      ref:"Wallet"
     },
     totalCashValue: {
       type: Number,
