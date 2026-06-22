@@ -6,6 +6,7 @@ import { useGetInstitutesQuery } from "@/redux/slices/settings/api.setting";
 import ProfileSection from "./components/ProfileSection";
 import UsersTable from "./components/UsersTable";
 import CategoriesSection from "./components/CategoriesSection";
+import DefaultAccountsSection from "./components/DefaultAccountsSection";
 
 type Tab = "profile" | "default_accounts" | "others";
 
@@ -48,11 +49,7 @@ export default function SettingsPage() {
 
       {/* Default accounts Tab */}
       {activeTab === "default_accounts" && (
-        <section className="space-y-4">
-          <div className="rounded-lg bg-slate-900 border border-slate-800 p-6 text-slate-400">
-            Default accounts configuration coming soon.
-          </div>
-        </section>
+        <DefaultAccountsSection onSaved={() => {}} />
       )}
 
       {/* Others Tab */}

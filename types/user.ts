@@ -12,6 +12,9 @@ export interface Institute {
   _id: string;
   name: string;
   description?: string;
+  salesAccount?: string;
+  salesCostAccount?: string;
+  returnAccount?: string;
   totalCashValue: number;
   totalCustomerDue: number;
   NetBusinessWorth: number;

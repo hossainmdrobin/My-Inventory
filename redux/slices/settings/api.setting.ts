@@ -1,5 +1,6 @@
 import { apiSlice } from "@/redux/api/apiSlice";
 import { Institute } from "@/types/user";
+import { Wallet } from "@/types/wallet";
 
 export const settingEndpoints = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
@@ -37,6 +38,22 @@ export const settingEndpoints = apiSlice.injectEndpoints({
             }),
             invalidatesTags: ["SETTINGS"],
         }),
+        getWallets: builder.query<Wallet[], { instituteId: string }>({
+            query: ({ instituteId }) => `/api/wallets?instituteId=${instituteId}`,
+            providesTags: ["SETTINGS"],
+        }),
+        updateDefaultAccounts: builder.mutation<Institute, {
+            salesAccount?: string;
+            salesCostAccount?: string;
+            returnAccount?: string;
+        }>({
+            query: (data) => ({
+                url: "/api/settings/default-accounts",
+                method: "PUT",
+                body: data,
+            }),
+            invalidatesTags: ["SETTINGS"],
+        }),
     }),
     overrideExisting: false,
 });
@@ -47,4 +64,6 @@ export const {
     useGetInstituteQuery,
     useUpdateInstituteMutation,
     useDeleteInstituteMutation,
+    useGetWalletsQuery,
+    useUpdateDefaultAccountsMutation,
 } = settingEndpoints;
