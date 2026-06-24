@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { SaleType } from '@/types/sale';
 
 const VANS = ['1', '2', '3', '4'];
@@ -7,6 +7,17 @@ type GroupedSales = {
   [vanNo: string]: {
     [date: string]: SaleType[];
   };
+};
+
+type FlatItem = {
+  saleId: string;
+  saleType: string;
+  note: string;
+  itemId: string;
+  itemName: string;
+  unitPrice: number;
+  quantity: number;
+  totalPrice: number;
 };
 
 function formatDate(dateStr: string): string {
@@ -27,6 +38,31 @@ function getVanColor(van: string): string {
     '4': 'from-rose-500 to-rose-600',
   };
   return colors[van] || 'from-slate-500 to-slate-600';
+}
+
+function flattenSales(sales: SaleType[]): FlatItem[] {
+  const items: FlatItem[] = [];
+  sales.forEach((sale) => {
+    if (sale.items && sale.items.length > 0) {
+      sale.items.forEach((item, idx) => {
+        const productName =
+          typeof item.productId === 'string'
+            ? item.productId
+            : (item.productId as any)?.name || 'Unknown';
+        items.push({
+          saleId: sale._id || '',
+          saleType: sale.type || 'SALE',
+          note: sale.note || '',
+          itemId: `${sale._id}_${idx}`,
+          itemName: productName,
+          unitPrice: item.sellingPrice || item.costPrice || 0,
+          quantity: item.quantity,
+          totalPrice: (item.sellingPrice || item.costPrice || 0) * item.quantity,
+        });
+      });
+    }
+  });
+  return items;
 }
 
 export default function SaleTable({ sales }: { sales: SaleType[] }) {
@@ -65,6 +101,7 @@ export default function SaleTable({ sales }: { sales: SaleType[] }) {
       {VANS.map((van) => {
         const vanData = grouped[van] || {};
         const vanSales = Object.values(vanData).flat();
+        const flatItems = flattenSales(vanSales);
         const totalAmount = vanSales.reduce((sum, s) => sum + s.totalPrice, 0);
         const totalPaid = vanSales.reduce((sum, s) => sum + s.paid, 0);
         const totalDue = vanSales.reduce((sum, s) => sum + s.due, 0);
@@ -83,7 +120,7 @@ export default function SaleTable({ sales }: { sales: SaleType[] }) {
                     </svg>
                   </div>
                   <div>
-                    <h3 className="text-lg font-bold text-white">{van}</h3>
+                    <h3 className="text-lg font-bold text-white">Van {van}</h3>
                     <p className="text-white/70 text-xs">{vanSales.length} sales</p>
                   </div>
                 </div>
@@ -104,6 +141,7 @@ export default function SaleTable({ sales }: { sales: SaleType[] }) {
                 </div>
               ) : (
                 Object.entries(vanData).map(([date, dateSales]) => {
+                  const dayItems = flattenSales(dateSales);
                   const dayTotal = dateSales.reduce((sum, s) => sum + s.totalPrice, 0);
                   return (
                     <div key={date} className="bg-slate-900/50">
@@ -119,19 +157,41 @@ export default function SaleTable({ sales }: { sales: SaleType[] }) {
                         </div>
                       </div>
                       <div className="overflow-x-auto">
-                        <table className="min-w-[600px] w-full text-sm">
+                        <table className="min-w-[500px] w-full text-sm">
                           <thead className="bg-slate-900/30 text-slate-500">
                             <tr>
-                              <th className="px-5 py-2 text-left font-medium">Note</th>
-                              <th className="px-3 py-2 text-left font-medium">Items</th>
+                              <th className="px-5 py-2 text-left font-medium">Item</th>
+                              <th className="px-3 py-2 text-right font-medium">Unit Price</th>
+                              <th className="px-3 py-2 text-right font-medium">Qty</th>
                               <th className="px-3 py-2 text-right font-medium">Total</th>
-                              <th className="px-3 py-2 text-right font-medium">Paid</th>
                               <th className="px-3 py-2 text-center font-medium">Type</th>
                             </tr>
                           </thead>
                           <tbody className="divide-y divide-slate-800/50">
-                            {dateSales.map((sale) => (
-                              <TableRow key={sale._id} sale={sale} />
+                            {dayItems.map((item) => (
+                              <tr key={item.itemId} className="hover:bg-slate-800/30 transition-colors">
+                                <td className="px-5 py-2.5 text-slate-300 text-sm">
+                                  {item.itemName}
+                                </td>
+                                <td className="px-3 py-2.5 text-right text-slate-400">
+                                  ₹{item.unitPrice.toFixed(2)}
+                                </td>
+                                <td className="px-3 py-2.5 text-right text-slate-400">
+                                  {item.quantity}
+                                </td>
+                                <td className="px-3 py-2.5 text-right text-slate-200 font-medium">
+                                  ₹{item.totalPrice.toFixed(2)}
+                                </td>
+                                <td className="px-3 py-2.5 text-center">
+                                  <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
+                                    item.saleType === 'RETURN'
+                                      ? 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
+                                      : 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
+                                  }`}>
+                                    {item.saleType}
+                                  </span>
+                                </td>
+                              </tr>
                             ))}
                           </tbody>
                         </table>
@@ -147,64 +207,3 @@ export default function SaleTable({ sales }: { sales: SaleType[] }) {
     </div>
   );
 }
-
-const TableRow = ({ sale }: { sale: SaleType }) => {
-  const [itemString, setItemString] = useState('');
-
-  useEffect(() => {
-    if (sale.items && sale.items.length > 0) {
-      const str = sale.items
-        .map((item) => {
-          const productName =
-            typeof item.productId === 'string'
-              ? item.productId
-              : (item.productId as any)?.name;
-          return `${productName} (x${item.quantity})`;
-        })
-        .join(', ');
-      setItemString(str);
-    }
-  }, [sale.items]);
-
-  return (
-    <tr className="hover:bg-slate-800/30 transition-colors">
-      <td className="px-5 py-3 text-slate-300 max-w-[150px] truncate">
-        {sale.note || <span className="text-slate-600">—</span>}
-      </td>
-      
-      <td className="px-3 py-3 text-slate-400 max-w-[180px] truncate text-xs">
-        {itemString || <span className="text-slate-600">—</span>}
-      </td>
-      <td className="px-3 py-3 text-right">
-        <span className={sale.type === 'RETURN' ? 'text-red-400' : 'text-slate-200'}>
-          ₹{sale.totalPrice.toFixed(2)}
-        </span>
-      </td>
-      <td className="px-3 py-3 text-right text-slate-400">
-        ₹{sale.paid.toFixed(2)}
-      </td>
-      {/* <td className="px-3 py-3 text-center text-slate-400 text-xs">
-        {sale.vanNo || <span className="text-slate-600">—</span>}
-      </td> */}
-      <td className="px-3 py-3 text-center">
-        <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
-          sale.type === 'RETURN'
-            ? 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
-            : 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
-        }`}>
-          {sale.type || 'SALE'}
-        </span>
-      </td>
-      {/* <td className="px-3 py-3 text-center text-slate-400 text-xs">
-        {sale.createdAt
-          ? new Date(sale.createdAt as any).toLocaleDateString('en-GB', {
-              day: '2-digit',
-              month: 'short',
-              year: 'numeric',
-            })
-          : <span className="text-slate-600">—</span>
-        }
-      </td> */}
-    </tr>
-  );
-};
