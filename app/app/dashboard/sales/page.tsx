@@ -20,6 +20,7 @@ export default function SalesPage() {
     endDate: "",
     limit: 10,
     status: "",
+    dateMode: "range",
   });
 
   // Redux states
