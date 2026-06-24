@@ -26,6 +26,7 @@ export default function SalesPage() {
   // Redux states
   const sale = useSelector((state: any) => state.sale);
   const { data, isLoading, error } = useGetSalesQuery({ key: filters.search, range: { startDate: filters.startDate, endDate: filters.endDate }, limit: filters.limit, page: pageNo, status: filters.status });
+  console.log(data, isLoading)
   useEffect(() => {
     setSelectedId(sale.items.map((item: any) => item.productId));
   }, [sale]);

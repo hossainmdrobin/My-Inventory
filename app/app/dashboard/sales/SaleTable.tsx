@@ -1,80 +1,210 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState, useMemo } from 'react';
 import { SaleType } from '@/types/sale';
 
-export default function PurchaseTable({ sales }: {
-    sales: SaleType[];
-}) {
-    // Redux hooks
-    return (
-        <div className="overflow-x-auto rounded-xl border border-slate-800">
-            <table className="min-w-[900px] w-full text-sm">
-                <thead className="bg-slate-900 text-slate-300">
-                    <tr>
-                        <th className="p-3 text-left">Note</th>
-                        <th className='text-left'>Description</th>
-                        <th className="p-3 text-right">Items</th>
-                        <th className="p-3 text-right">Total Price</th>
-                        <th className='text-right'>Due</th>
-                        <th className='text-center'>Van</th>
-                        <th className="p-3 text-right">Paid</th>
-                        {/* <th className="p-3 text-left">Created By</th> */}
-                        <th className="p-3 text-center">Status</th>
-                    </tr>
-                </thead>
+const VANS = ['1', '2', '3', '4'];
 
-                <tbody>
-                    {sales.length === 0 && (
-                        <tr>
-                            <td colSpan={6} className="p-4 text-center text-slate-400">
-                                No purchases found
-                            </td>
-                        </tr>
-                    )}
+type GroupedSales = {
+  [vanNo: string]: {
+    [date: string]: SaleType[];
+  };
+};
 
-                    {sales.map((sale) => (
-                        <TableRow key={sale._id} sale={sale} />
-                    ))}
-                </tbody>
-            </table>
-        </div>
-    )
+function formatDate(dateStr: string): string {
+  const date = new Date(dateStr);
+  return date.toLocaleDateString('en-GB', {
+    weekday: 'short',
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+  });
 }
 
+function getVanColor(van: string): string {
+  const colors: Record<string, string> = {
+    '1': 'from-blue-500 to-blue-600',
+    '2': 'from-emerald-500 to-emerald-600',
+    '3': 'from-amber-500 to-amber-600',
+    '4': 'from-rose-500 to-rose-600',
+  };
+  return colors[van] || 'from-slate-500 to-slate-600';
+}
+
+export default function SaleTable({ sales }: { sales: SaleType[] }) {
+  const grouped = useMemo(() => {
+    const result: GroupedSales = {};
+    VANS.forEach((van) => {
+      result[van] = {};
+    });
+
+    sales.forEach((sale) => {
+      const vanKey: string = (sale.vanNo as string) || 'Unfilled';
+      const dateKey: string = sale.createdAt ? formatDate(sale.createdAt as any) : 'Unknown';
+
+      if (!result[vanKey]) {
+        result[vanKey] = {};
+      }
+      if (!result[vanKey][dateKey]) {
+        result[vanKey][dateKey] = [];
+      }
+      result[vanKey][dateKey].push(sale);
+    });
+
+    return result;
+  }, [sales]);
+
+  if (sales.length === 0) {
+    return (
+      <div className="rounded-2xl border border-slate-800 bg-slate-900/50 p-12 text-center">
+        <div className="text-slate-500 text-sm">No sales found</div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {VANS.map((van) => {
+        const vanData = grouped[van] || {};
+        const vanSales = Object.values(vanData).flat();
+        const totalAmount = vanSales.reduce((sum, s) => sum + s.totalPrice, 0);
+        const totalPaid = vanSales.reduce((sum, s) => sum + s.paid, 0);
+        const totalDue = vanSales.reduce((sum, s) => sum + s.due, 0);
+
+        return (
+          <div
+            key={van}
+            className="rounded-2xl border border-slate-800 bg-slate-900/30 overflow-hidden"
+          >
+            <div className={`bg-gradient-to-r ${getVanColor(van)} px-5 py-4`}>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center">
+                    <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-bold text-white">{van}</h3>
+                    <p className="text-white/70 text-xs">{vanSales.length} sales</p>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <div className="text-white font-bold">₹{totalAmount.toFixed(2)}</div>
+                  <div className="flex gap-3 text-xs text-white/80">
+                    <span>Paid: ₹{totalPaid.toFixed(2)}</span>
+                    <span>Due: ₹{totalDue.toFixed(2)}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="divide-y divide-slate-800">
+              {Object.entries(vanData).length === 0 ? (
+                <div className="p-6 text-center text-slate-500 text-sm">
+                  No sales recorded
+                </div>
+              ) : (
+                Object.entries(vanData).map(([date, dateSales]) => {
+                  const dayTotal = dateSales.reduce((sum, s) => sum + s.totalPrice, 0);
+                  return (
+                    <div key={date} className="bg-slate-900/50">
+                      <div className="px-5 py-3 bg-slate-800/50 flex items-center justify-between">
+                        <span className="text-sm font-medium text-slate-300">{date}</span>
+                        <div className="flex items-center gap-3">
+                          <span className="text-xs text-slate-500">
+                            {dateSales.length} sale{dateSales.length > 1 ? 's' : ''}
+                          </span>
+                          <span className="text-sm font-semibold text-slate-200">
+                            ₹{dayTotal.toFixed(2)}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="overflow-x-auto">
+                        <table className="min-w-[600px] w-full text-sm">
+                          <thead className="bg-slate-900/30 text-slate-500">
+                            <tr>
+                              <th className="px-5 py-2 text-left font-medium">Note</th>
+                              <th className="px-3 py-2 text-left font-medium">Items</th>
+                              <th className="px-3 py-2 text-right font-medium">Total</th>
+                              <th className="px-3 py-2 text-right font-medium">Paid</th>
+                              <th className="px-3 py-2 text-center font-medium">Type</th>
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-slate-800/50">
+                            {dateSales.map((sale) => (
+                              <TableRow key={sale._id} sale={sale} />
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  );
+                })
+              )}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
 
 const TableRow = ({ sale }: { sale: SaleType }) => {
-    const [itemString, setItemString] = React.useState("");
-    useEffect(() => {
-        if (sale.items && sale.items.length > 0) {
-            const str = sale.items.map((item) => {
-                const productName = typeof item.productId === 'string' ? item.productId : (item.productId as any)?.name;
-                return `${productName} (x${item.quantity})`;
-            }).join(", ");
-            setItemString(str);
+  const [itemString, setItemString] = useState('');
+
+  useEffect(() => {
+    if (sale.items && sale.items.length > 0) {
+      const str = sale.items
+        .map((item) => {
+          const productName =
+            typeof item.productId === 'string'
+              ? item.productId
+              : (item.productId as any)?.name;
+          return `${productName} (x${item.quantity})`;
+        })
+        .join(', ');
+      setItemString(str);
+    }
+  }, [sale.items]);
+
+  return (
+    <tr className="hover:bg-slate-800/30 transition-colors">
+      <td className="px-5 py-3 text-slate-300 max-w-[150px] truncate">
+        {sale.note || <span className="text-slate-600">—</span>}
+      </td>
+      
+      <td className="px-3 py-3 text-slate-400 max-w-[180px] truncate text-xs">
+        {itemString || <span className="text-slate-600">—</span>}
+      </td>
+      <td className="px-3 py-3 text-right">
+        <span className={sale.type === 'RETURN' ? 'text-red-400' : 'text-slate-200'}>
+          ₹{sale.totalPrice.toFixed(2)}
+        </span>
+      </td>
+      <td className="px-3 py-3 text-right text-slate-400">
+        ₹{sale.paid.toFixed(2)}
+      </td>
+      {/* <td className="px-3 py-3 text-center text-slate-400 text-xs">
+        {sale.vanNo || <span className="text-slate-600">—</span>}
+      </td> */}
+      <td className="px-3 py-3 text-center">
+        <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
+          sale.type === 'RETURN'
+            ? 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
+            : 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
+        }`}>
+          {sale.type || 'SALE'}
+        </span>
+      </td>
+      {/* <td className="px-3 py-3 text-center text-slate-400 text-xs">
+        {sale.createdAt
+          ? new Date(sale.createdAt as any).toLocaleDateString('en-GB', {
+              day: '2-digit',
+              month: 'short',
+              year: 'numeric',
+            })
+          : <span className="text-slate-600">—</span>
         }
-
-    }, [sale.items])
-    return (
-        <tr
-            key={sale._id}
-            className="border-t border-slate-800 hover:bg-slate-900/50"
-        >
-            <td className="p-3">{sale.note || "No note"}</td>
-            <td className="p-3 max-w-[150px] truncate hover:whitespace-normal">{sale.description || "No description"}</td>
-            {/* <td className="p-3">{purchase.supplier}</td> */}
-            <td className="p-3 text-right max-w-[100px] truncate hover:whitespace-normal">{itemString}</td>
-            <td className="p-3 text-right"><span className={`${sale.type === 'RETURN' ? 'text-red-500' : 'text-green-500'}`}>₹{sale.totalPrice.toFixed(2)}</span></td>
-            <td className="p-3 text-right">{sale.due}</td>
-            <td className='text-center'>{sale.vanNo || "Unfilled"}</td>
-            <td className="p-3 text-right">{sale.paid}</td>
-            <td className="p-3 text-center">
-                {sale.due === 0 ? (
-                    <span className="bg-green-500 text-white px-2 py-1 rounded-full text-xs">Paid</span>
-                ) : (
-                    <span className="bg-red-500 text-white px-2 py-1 rounded-full text-xs">Due</span>
-                )}
-            </td>
-
-            {/* <td className="p-3">{purchase.createdBy}</td> */}
-        </tr>
-    )
-}
+      </td> */}
+    </tr>
+  );
+};
