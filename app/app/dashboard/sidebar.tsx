@@ -18,12 +18,12 @@ import Link from "next/link";
 
 export const menu = [
     { name: "Dashboard", icon: LayoutDashboard, href: "/app/dashboard" },
+    { name: "Sales", icon: ShoppingBag, href: "/app/dashboard/sales" },
     { name: "Transactions", icon: NotebookTabs, href: "/app/dashboard/accounts" },
     { name: "Chart of Accounts", icon: Landmark, href: "/app/dashboard/banks" },
     { name: "Employees", icon: Users, href: "/app/dashboard/employees" },
     { name: "Products", icon: Package, href: "/app/dashboard/products" },
     { name: "Purchases", icon: ShoppingBasket, href: "/app/dashboard/purchases" },
-    { name: "Sales", icon: ShoppingBag, href: "/app/dashboard/sales" },
     { name: "Suppliers", icon: Handshake, href: "/app/dashboard/suppliers" },
     { name: "Customers", icon: IdCard, href: "/app/dashboard/customers" },
     { name: "Reports", icon: FileChartColumn, href: "/app/dashboard/reports" },
