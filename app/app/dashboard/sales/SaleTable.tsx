@@ -13,11 +13,14 @@ type FlatItem = {
   saleId: string;
   saleType: string;
   note: string;
-  itemId: string;
-  itemName: string;
-  unitPrice: number;
+  sku: string;
+  supplierName: string;
+  productName: string;
+  price: number;
   quantity: number;
-  totalPrice: number;
+  returns: number;
+  totalReturn: number;
+  totalSale: number;
 };
 
 function formatDate(dateStr: string): string {
@@ -45,19 +48,29 @@ function flattenSales(sales: SaleType[]): FlatItem[] {
   sales.forEach((sale) => {
     if (sale.items && sale.items.length > 0) {
       sale.items.forEach((item, idx) => {
-        const productName =
-          typeof item.productId === 'string'
-            ? item.productId
-            : (item.productId as any)?.name || 'Unknown';
+        const productObj = item.productId as any;
+        const isPopulated = typeof productObj === 'object' && productObj !== null;
+        const productName = isPopulated ? productObj?.name || item.name || 'Unknown' : 'Unknown';
+        const sku = isPopulated ? productObj?.sku || '-' : '-';
+        const supplierName = isPopulated ? productObj?.supplier?.name || '-' : '-';
+        const price = item.sellingPrice || item.costPrice || 0;
+        const isReturn = sale.type === 'RETURN';
+        const returns = isReturn ? item.quantity : 0;
+        const totalReturn = returns * price;
+        const totalSale = isReturn ? 0 : item.quantity * price;
+
         items.push({
           saleId: sale._id || '',
-          saleType: sale.type || 'SALE',
+          saleType: (sale.type?.toString() || 'SALE') as string,
           note: sale.note || '',
-          itemId: `${sale._id}_${idx}`,
-          itemName: productName,
-          unitPrice: item.sellingPrice || item.costPrice || 0,
+          sku,
+          supplierName,
+          productName,
+          price,
           quantity: item.quantity,
-          totalPrice: (item.sellingPrice || item.costPrice || 0) * item.quantity,
+          returns,
+          totalReturn,
+          totalSale,
         });
       });
     }
@@ -73,7 +86,7 @@ export default function SaleTable({ sales }: { sales: SaleType[] }) {
     });
 
     sales.forEach((sale) => {
-      const vanKey: string = (sale.vanNo as string) || 'Unfilled';
+      const vanKey: string = (sale.vanNo?.toString() || 'Unfilled') as string;
       const dateKey: string = sale.createdAt ? formatDate(sale.createdAt as any) : 'Unknown';
 
       if (!result[vanKey]) {
@@ -157,39 +170,45 @@ export default function SaleTable({ sales }: { sales: SaleType[] }) {
                         </div>
                       </div>
                       <div className="overflow-x-auto">
-                        <table className="min-w-[500px] w-full text-sm">
+                        <table className="min-w-[900px] w-full text-sm">
                           <thead className="bg-slate-900/30 text-slate-500">
                             <tr>
-                              <th className="px-5 py-2 text-left font-medium">Item</th>
-                              <th className="px-3 py-2 text-right font-medium">Unit Price</th>
-                              <th className="px-3 py-2 text-right font-medium">Qty</th>
-                              <th className="px-3 py-2 text-right font-medium">Total</th>
-                              <th className="px-3 py-2 text-center font-medium">Type</th>
+                              <th className="px-3 py-2 text-left font-medium">SKU</th>
+                              <th className="px-3 py-2 text-left font-medium">Supplier name</th>
+                              <th className="px-3 py-2 text-left font-medium">Product name</th>
+                              <th className="px-3 py-2 text-right font-medium">Price</th>
+                              <th className="px-3 py-2 text-right font-medium">Quantity</th>
+                              <th className="px-3 py-2 text-right font-medium">Returns</th>
+                              <th className="px-3 py-2 text-right font-medium">Total Return</th>
+                              <th className="px-3 py-2 text-right font-medium">Total Sale</th>
                             </tr>
                           </thead>
                           <tbody className="divide-y divide-slate-800/50">
                             {dayItems.map((item) => (
-                              <tr key={item.itemId} className="hover:bg-slate-800/30 transition-colors">
-                                <td className="px-5 py-2.5 text-slate-300 text-sm">
-                                  {item.itemName}
+                              <tr key={item.saleId + item.productName + item.price + item.quantity} className="hover:bg-slate-800/30 transition-colors">
+                                <td className="px-3 py-2.5 text-slate-400 text-xs">
+                                  {item.sku}
+                                </td>
+                                <td className="px-3 py-2.5 text-slate-300 text-sm">
+                                  {item.supplierName}
+                                </td>
+                                <td className="px-3 py-2.5 text-slate-300 text-sm">
+                                  {item.productName}
                                 </td>
                                 <td className="px-3 py-2.5 text-right text-slate-400">
-                                  ₹{item.unitPrice.toFixed(2)}
+                                  ₹{item.price.toFixed(2)}
                                 </td>
                                 <td className="px-3 py-2.5 text-right text-slate-400">
                                   {item.quantity}
                                 </td>
-                                <td className="px-3 py-2.5 text-right text-slate-200 font-medium">
-                                  ₹{item.totalPrice.toFixed(2)}
+                                <td className="px-3 py-2.5 text-right text-slate-400">
+                                  {item.returns}
                                 </td>
-                                <td className="px-3 py-2.5 text-center">
-                                  <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
-                                    item.saleType === 'RETURN'
-                                      ? 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
-                                      : 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
-                                  }`}>
-                                    {item.saleType}
-                                  </span>
+                                <td className="px-3 py-2.5 text-right text-slate-200 font-medium">
+                                  ₹{item.totalReturn.toFixed(2)}
+                                </td>
+                                <td className="px-3 py-2.5 text-right text-slate-200 font-medium">
+                                  ₹{item.totalSale.toFixed(2)}
                                 </td>
                               </tr>
                             ))}
