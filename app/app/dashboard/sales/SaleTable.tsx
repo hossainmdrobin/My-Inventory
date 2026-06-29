@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { SaleType } from '@/types/sale';
+import {vans} from "@/lib/lib_objects/vans"
 
-const VANS = ['1', '2', '3', '4'];
 
 type GroupedSales = {
   [vanNo: string]: {
@@ -81,8 +81,8 @@ function flattenSales(sales: SaleType[]): FlatItem[] {
 export default function SaleTable({ sales }: { sales: SaleType[] }) {
   const grouped = useMemo(() => {
     const result: GroupedSales = {};
-    VANS.forEach((van) => {
-      result[van] = {};
+    vans.forEach((van) => {
+      result[van.vanNo] = {};
     });
 
     sales.forEach((sale) => {
@@ -111,8 +111,8 @@ export default function SaleTable({ sales }: { sales: SaleType[] }) {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-      {VANS.map((van) => {
-        const vanData = grouped[van] || {};
+      {vans.map((van) => {
+        const vanData = grouped[van.vanNo] || {};
         const vanSales = Object.values(vanData).flat();
         const flatItems = flattenSales(vanSales);
         const totalAmount = vanSales.reduce((sum, s) => sum + s.totalPrice, 0);
@@ -121,10 +121,10 @@ export default function SaleTable({ sales }: { sales: SaleType[] }) {
 
         return (
           <div
-            key={van}
+            key={van.vanNo}
             className="rounded-2xl border border-slate-800 bg-slate-900/30 overflow-hidden"
           >
-            <div className={`bg-gradient-to-r ${getVanColor(van)} px-5 py-4`}>
+            <div className={`bg-gradient-to-r ${getVanColor(van.vanNo)} px-5 py-4`}>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center">
@@ -133,7 +133,7 @@ export default function SaleTable({ sales }: { sales: SaleType[] }) {
                     </svg>
                   </div>
                   <div>
-                    <h3 className="text-lg font-bold text-white">Van {van}</h3>
+                    <h3 className="text-lg font-bold text-white">{van.name}</h3>
                     <p className="text-white/70 text-xs">{vanSales.length} sales</p>
                   </div>
                 </div>
