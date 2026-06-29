@@ -69,6 +69,14 @@ console.log(profile, "the profile")
 
                             <span>Please Select a Product</span>
                         </div>}
+                        <div className="flex items-center justify-between">
+                            <div> </div>
+                            <div>Name</div>
+                            <div>Stock</div>
+                            <div>Price</div>
+                            <div>Quentity</div>
+                            <div>Commition</div>
+                        </div>
                         {sale?.items?.map((product) => <SaleCartCard product={product} />)}
 
                     </div>
@@ -110,13 +118,21 @@ function SaleCartCard({ product }: { product: SaleItemType }) {
             <div key={product.productId} className="flex items-center justify-between my-2">
                 <span><X className="text-red-500 cursor-pointer" onClick={() => dispatch(removeItem(product.productId))} /></span>
                 <div>{product.name}</div>
-                <span>Stock:{product.stock}</span>
-                <div>Price: {product.costPrice}</div>
-                <div>Quantity:
+                <span>{product.stock}</span>
+                <div>{product.costPrice}</div>
+                <div>
                     <input type="number"
                         min={1}
                         max={product.stock}
                         defaultValue={1}
+                        onChange={handleOnChange}
+                        className="w-12 bg-slate-700 border border-slate-600 rounded-lg p-1" />
+                </div>
+                <div>
+                    <input type="number"
+                        min={1}
+                        max={product.stock}
+                        defaultValue={0}
                         onChange={handleOnChange}
                         className="w-12 bg-slate-700 border border-slate-600 rounded-lg p-1" />
                 </div>
