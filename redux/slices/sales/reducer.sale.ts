@@ -23,11 +23,10 @@ const saleSlice = createSlice({
             };
             state.items.push({ productId: action.payload.productId, name: action.payload.name, quantity: 1, costPrice: action.payload.costPrice, sellingPrice: action.payload.sellingPrice, stock: action.payload.stock })
             state.totalPrice = calculateTotalPrice(state.items)
-            state.due = state.totalPrice - state.paid
+            state.paid = calculateTotalPrice(state.items)
         },
         removeItem: (state, action: PayloadAction<string>) => {
             state.items = state.items.filter(item => item.productId != action.payload)
-            state.totalPrice = calculateTotalPrice(state.items)
             state.totalPrice = calculateTotalPrice(state.items)
             state.due = state.totalPrice - state.paid
         },
