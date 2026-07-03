@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import SaleCart from "./SaleCart";
 import { useSelector } from "react-redux";
 import SaleTable from "./SaleTable";
+import SalesByProductTable from "./SalesByProductTable";
 import { useGetSalesQuery } from "@/redux/slices/sales/api.sale";
 import PurchaseFilters from "@/reusable/PurchaseAndSaleFilter";
 import { FilterValues } from "@/types/others";
@@ -49,6 +50,7 @@ export default function SalesPage() {
       <hr />
       {/* SALE SEARCH FILTER */}
       <PurchaseFilters filters={filters} setFilters={setFilters} />
+      {data && <SalesByProductTable sales={data.data || []} />}
       {/* Table (scroll X only here) */}
       {isLoading? <SkeletonTable /> : error? <p className="text-red-500">Failed to load sales.</p> : ""}
       {data && <SaleTable sales={data.data || []} />}

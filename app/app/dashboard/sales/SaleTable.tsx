@@ -9,7 +9,7 @@ type GroupedSales = {
   };
 };
 
-type FlatItem = {
+export type FlatItem = {
   saleId: string;
   saleType: string;
   note: string;
@@ -43,7 +43,7 @@ function getVanColor(van: string): string {
   return colors[van] || 'from-slate-500 to-slate-600';
 }
 
-function flattenSales(sales: SaleType[]): FlatItem[] {
+export function flattenSales(sales: SaleType[]): FlatItem[] {
   const items: FlatItem[] = [];
   sales.forEach((sale) => {
     if (sale.items && sale.items.length > 0) {
