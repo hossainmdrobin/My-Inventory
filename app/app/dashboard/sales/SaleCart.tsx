@@ -7,6 +7,7 @@ import { useCreateSaleMutation } from "@/redux/slices/sales/api.sale";
 import SearchProduct from "./SearchProduct";
 import { useGetMeQuery } from "@/redux/slices/auth/api.auth";
 import {vans} from "@/lib/lib_objects/vans"
+import { Product } from "@/types/product";
 
 export default function SaleCart({ selectedIds, sale, setCartOpen }: { selectedIds: string[], sale: SaleType, setCartOpen: (open: boolean) => void }) {
     const { data: profile } = useGetMeQuery()
@@ -79,7 +80,7 @@ console.log(profile, "the profile")
                             <div>Quentity</div>
                             <div>Commition</div>
                         </div>
-                        {sale?.items?.map((product) => <SaleCartCard product={product} />)}
+                        {sale?.items?.map((product:SaleItemType) => <SaleCartCard product={product} />)}
 
                     </div>
                     <hr />
@@ -101,7 +102,6 @@ console.log(profile, "the profile")
                         </button>
                     </div>
                 </div>
-
             </div>
         </>
     )
