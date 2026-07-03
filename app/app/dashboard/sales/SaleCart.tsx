@@ -6,6 +6,7 @@ import { SaleItemType, SaleType } from "@/types/sale";
 import { useCreateSaleMutation } from "@/redux/slices/sales/api.sale";
 import SearchProduct from "./SearchProduct";
 import { useGetMeQuery } from "@/redux/slices/auth/api.auth";
+import {vans} from "@/lib/lib_objects/vans"
 
 export default function SaleCart({ selectedIds, sale, setCartOpen }: { selectedIds: string[], sale: SaleType, setCartOpen: (open: boolean) => void }) {
     const { data: profile } = useGetMeQuery()
@@ -45,10 +46,11 @@ console.log(profile, "the profile")
                         onChange={(e) => dispatch(setVanNo(e.target.value))}
                         className="my-3 w-full text-gray-400 bg-slate-800 border border-slate-700 rounded-lg p-2"
                     >
-                        <option value="1">Van 1</option>
-                        <option value="2">Van 2</option>
-                        <option value="3">Van 3</option>
-                        <option value="4">Van 4</option>
+                        {
+                            vans.map((van) => (
+                                <option key={van.vanNo} value={van.vanNo}>{van.name}</option>
+                            ))
+                        }
                     </select>
                     <input
                         onChange={(e) => dispatch(setNote(e.target.value))}
