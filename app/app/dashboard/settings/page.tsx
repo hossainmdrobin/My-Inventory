@@ -49,7 +49,7 @@ export default function SettingsPage() {
 
       {/* Default accounts Tab */}
       {activeTab === "default_accounts" && (
-        <DefaultAccountsSection onSaved={() => {}} />
+        <DefaultAccountsSection />
       )}
 
       {/* Others Tab */}

@@ -19,6 +19,7 @@ export default function PurchasesPage() {
     endDate: "",
     limit: 10,
     status: "",
+    dateMode: "range",
   });
 
   // Redux states

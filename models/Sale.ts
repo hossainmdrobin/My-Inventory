@@ -14,6 +14,18 @@ const SaleItemSchema = new Schema(
       required: true,
       trim: true,
     },
+    comissionPerUnit:{
+      type: Number,
+      defult:0
+    },
+    totalComission:{
+      type:Number,
+      default:0
+    },
+    date:{
+      type:Date,
+      default: new Date()
+    },
     productId: {
       type: Schema.Types.ObjectId,
       ref: "Product",

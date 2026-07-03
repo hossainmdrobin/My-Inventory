@@ -9,6 +9,7 @@ export type FilterValues = {
   endDate: string;
   limit: number;
   status: "" | "due" | "paid";
+  dateMode: "range" | "single" | "month";
 };
 
 export type AccountCategory = "Asset" | "Liability" | "Equity" | "Income" | "Expense";
