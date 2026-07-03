@@ -28,7 +28,7 @@ const saleSlice = createSlice({
         removeItem: (state, action: PayloadAction<string>) => {
             state.items = state.items.filter(item => item.productId != action.payload)
             state.totalPrice = calculateTotalPrice(state.items)
-            state.due = state.totalPrice - state.paid
+            state.due = calculateTotalPrice(state.items)
         },
 
         increamentQty: (state, action: PayloadAction<string>) => {
@@ -38,7 +38,7 @@ const saleSlice = createSlice({
                 }
             })
             state.totalPrice = calculateTotalPrice(state.items)
-            state.due = state.totalPrice - state.paid
+            state.due = calculateTotalPrice(state.items)
         },
         decreamentQty: (state, action: PayloadAction<string>) => {
             state.items.forEach(item => {
@@ -69,7 +69,6 @@ const saleSlice = createSlice({
         },
         setPaid: (state, action: PayloadAction<number>) => {
             state.paid = action.payload
-            state.due = state.totalPrice - state.paid
             state.due = state.totalPrice - state.paid
         },
         resetSale: (state) => {
