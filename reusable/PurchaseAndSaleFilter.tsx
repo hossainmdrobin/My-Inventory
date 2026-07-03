@@ -8,7 +8,7 @@ import { useState, useEffect } from "react";
 
 export default function PurchaseFilters({ filters, setFilters }: { filters: FilterValues; setFilters: (filters: FilterValues) => void }) {
   const [expanded, setExpanded] = useState(false);
-  const updateFilter = (key: keyof FilterValues, value: any) => {
+  const updateFilter = (key: keyof FilterValues, value: FilterValues[keyof FilterValues]) => {
     const updated = { ...filters, [key]: value };
     setFilters(updated);
   };
