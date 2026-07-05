@@ -154,7 +154,7 @@ export default function SaleTable({ sales }: { sales: SaleType[] }) {
                 </div>
               ) : (
                 Object.entries(vanData).map(([date, dateSales]) => {
-                  const dayItems = flattenSales(dateSales);
+                  const dayItems = flattenSales(dateSales).sort((a, b) => a.productName.localeCompare(b.productName));
                   const dayTotal = dateSales.reduce((sum, s) => sum + s.totalPrice, 0);
                   return (
                     <div key={date} className="bg-slate-900/50">
