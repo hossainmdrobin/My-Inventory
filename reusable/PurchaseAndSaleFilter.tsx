@@ -1,9 +1,8 @@
 "use client";
 
-import { FilterValues } from "@/types/others";
-import { SlidersHorizontal } from "lucide-react";
+import { FilterValues, SortColumn, SortOrder } from "@/types/others";
+import { SlidersHorizontal, ArrowUpDown } from "lucide-react";
 import { useState, useEffect } from "react";
-
 
 
 export default function PurchaseFilters({ filters, setFilters }: { filters: FilterValues; setFilters: (filters: FilterValues) => void }) {
@@ -30,7 +29,6 @@ export default function PurchaseFilters({ filters, setFilters }: { filters: Filt
         className="text-sm font-semibold text-slate-200">Filters <SlidersHorizontal className={`inline ml-2 ${expanded ? 'text-green-400' : 'text-slate-500'}`} /></h2>
       {expanded && <>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          {/* 📅 Date Mode */}
           <div className="flex flex-col">
             <label className="text-xs text-slate-400 mb-1">Filter By</label>
             <select
@@ -44,7 +42,6 @@ export default function PurchaseFilters({ filters, setFilters }: { filters: Filt
             </select>
           </div>
 
-          {/* 📅 Start Date / Single Date / Month */}
           <div className="flex flex-col">
             <label className="text-xs text-slate-400 mb-1">
               {filters.dateMode === "month" ? "Month" : filters.dateMode === "single" ? "Date" : "Start Date"}
@@ -57,7 +54,6 @@ export default function PurchaseFilters({ filters, setFilters }: { filters: Filt
             />
           </div>
 
-          {/* 📅 End Date (only for range mode) */}
           {filters.dateMode === "range" && (
             <div className="flex flex-col">
               <label className="text-xs text-slate-400 mb-1">End Date</label>
@@ -71,7 +67,6 @@ export default function PurchaseFilters({ filters, setFilters }: { filters: Filt
             </div>
           )}
 
-          {/* 🔍 Search */}
           <div className="flex flex-col">
             <label className="text-xs text-slate-400 mb-1">Search</label>
             <input
@@ -79,12 +74,10 @@ export default function PurchaseFilters({ filters, setFilters }: { filters: Filt
               placeholder="Note or description..."
               value={filters.search}
               onChange={(e) => updateFilter("search", e.target.value)}
-              className="bg-slate-950 border border-slate-700 text-slate-200 rounded-xl px-3 py-2
-                       focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="bg-slate-950 border border-slate-700 text-slate-200 rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />
           </div>
 
-          {/* 📊 Status */}
           <div className="flex flex-col">
             <label className="text-xs text-slate-400 mb-1">Status</label>
             <select
@@ -110,6 +103,34 @@ export default function PurchaseFilters({ filters, setFilters }: { filters: Filt
             <option value={25}>25</option>
             <option value={50}>50</option>
           </select>
+        </div>
+        <div className="flex items-center gap-4 pt-3 border-t border-slate-800">
+          <div className="flex items-center gap-2">
+            <ArrowUpDown className="w-4 h-4 text-slate-400" />
+            <span className="text-xs text-slate-400">Sort by:</span>
+            <select
+              value={filters.sortBy}
+              onChange={(e) => updateFilter("sortBy", e.target.value as SortColumn)}
+              className="bg-slate-950 border border-slate-700 text-slate-200 rounded-lg px-2 py-1 text-xs"
+            >
+              <option value="productName">Product Name</option>
+              <option value="supplierName">Supplier Name</option>
+              <option value="quantity">Quantity</option>
+              <option value="totalPrice">Total Price</option>
+              <option value="totalReturn">Total Return</option>
+            </select>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-xs text-slate-400">Order:</span>
+            <select
+              value={filters.sortOrder}
+              onChange={(e) => updateFilter("sortOrder", e.target.value as SortOrder)}
+              className="bg-slate-950 border border-slate-700 text-slate-200 rounded-lg px-2 py-1 text-xs"
+            >
+              <option value="asc">Ascending</option>
+              <option value="desc">Descending</option>
+            </select>
+          </div>
         </div>
       </>}
     </div>

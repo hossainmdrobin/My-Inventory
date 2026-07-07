@@ -31,6 +31,8 @@ export default function SalesPage() {
     limit: 10,
     status: "",
     dateMode: "month",
+    sortBy: "productName",
+    sortOrder: "asc",
   });
 
   // Initialize filters to current month when component mounts
@@ -72,7 +74,7 @@ export default function SalesPage() {
       {data && <SalesByProductTable sales={data.data || []} />}
       {/* Table (scroll X only here) */}
       {isLoading? <SkeletonTable /> : error? <p className="text-red-500">Failed to load sales.</p> : ""}
-      {data && <SaleTable sales={data.data || []} />}
+      {data && <SaleTable sales={data.data || []} sortBy={filters.sortBy} sortOrder={filters.sortOrder} />}
       {/* PAGINATION  */}
       {data?.totalPages && Number(data.totalPages) > 1 && <Pagination pageNo={pageNo} setPageNo={setPageNo} totalPages={Number(data.totalPages)} />}
     </div>

@@ -6,7 +6,7 @@ export interface Product {
   stock: number;
   costPrice?: number;
   sellingPrice?: number;
-  supplier?: string; // This can be the supplier's name or ID depending on how you implement it
+  supplier?: string | { name?: string };
   unit: string;
   createdAt?: string;
   updatedAt?: string;

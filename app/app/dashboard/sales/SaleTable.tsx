@@ -1,12 +1,18 @@
 import React, { useMemo } from 'react';
 import { SaleType } from '@/types/sale';
 import {vans} from "@/lib/lib_objects/vans"
+import { SortColumn, SortOrder } from '@/types/others';
 
 
 type GroupedSales = {
   [vanNo: string]: {
     [date: string]: SaleType[];
   };
+};
+
+type SortConfig = {
+  sortBy: SortColumn;
+  sortOrder: SortOrder;
 };
 
 export type FlatItem = {
@@ -78,7 +84,33 @@ export function flattenSales(sales: SaleType[]): FlatItem[] {
   return items;
 }
 
-export default function SaleTable({ sales }: { sales: SaleType[] }) {
+function sortFlatItems(items: FlatItem[], sortBy: SortColumn, sortOrder: SortOrder): FlatItem[] {
+  return [...items].sort((a, b) => {
+    let comparison = 0;
+    switch (sortBy) {
+      case 'productName':
+        comparison = a.productName.localeCompare(b.productName);
+        break;
+      case 'supplierName':
+        comparison = a.supplierName.localeCompare(b.supplierName);
+        break;
+      case 'quantity':
+        comparison = a.quantity - b.quantity;
+        break;
+      case 'totalPrice':
+        comparison = a.price - b.price;
+        break;
+      case 'totalReturn':
+        comparison = a.totalReturn - b.totalReturn;
+        break;
+    }
+    return sortOrder === 'asc' ? comparison : -comparison;
+  });
+}
+
+export default function SaleTable({ sales, sortBy, sortOrder }: { sales: SaleType[]; sortBy?: SortColumn; sortOrder?: SortOrder }) {
+  const effectiveSortBy = sortBy || 'productName';
+  const effectiveSortOrder = sortOrder || 'asc';
   const grouped = useMemo(() => {
     const result: GroupedSales = {};
     vans.forEach((van) => {
@@ -154,7 +186,7 @@ export default function SaleTable({ sales }: { sales: SaleType[] }) {
                 </div>
               ) : (
                 Object.entries(vanData).map(([date, dateSales]) => {
-                  const dayItems = flattenSales(dateSales).sort((a, b) => a.productName.localeCompare(b.productName));
+                  const dayItems = sortFlatItems(flattenSales(dateSales), effectiveSortBy, effectiveSortOrder);
                   const dayTotal = dateSales.reduce((sum, s) => sum + s.totalPrice, 0);
                   return (
                     <div key={date} className="bg-slate-900/50">
