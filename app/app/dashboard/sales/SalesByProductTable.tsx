@@ -40,7 +40,7 @@ export default function SalesByProductTable({ sales }: { sales: SaleType[] }) {
       map[key].totalSale += item.totalSale;
     });
 
-    return Object.values(map).sort((a, b) => b.quantity - a.quantity);
+    return Object.values(map).sort((a, b) => a.productName.localeCompare(b.productName));
   }, [sales]);
 
   const totalQuantity = aggregatedProducts.reduce((sum, p) => sum + p.quantity, 0);

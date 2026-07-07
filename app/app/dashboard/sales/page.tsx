@@ -15,6 +15,15 @@ export default function SalesPage() {
   const [open, setOpen] = useState(false);
   const [selectedId, setSelectedId] = useState<string[]>([]);
   const [pageNo, setPageNo] = useState(1)
+
+  // Calculate current month boundaries dynamically
+  const getCurrentMonthRange = (): { startDate: string; endDate: string } => {
+    const now = new Date();
+    const startDate = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().split("T")[0];
+    const endDate = new Date(now.getFullYear(), now.getMonth() + 1, 0).toISOString().split("T")[0];
+    return { startDate, endDate };
+  };
+
   const [filters, setFilters] = useState<FilterValues>({
     search: "",
     startDate: "",
@@ -22,9 +31,21 @@ export default function SalesPage() {
     limit: 10,
     status: "",
     dateMode: "month",
+    sortBy: "productName",
+    sortOrder: "asc",
   });
 
-  // Redux states
+  // Initialize filters to current month when component mounts
+  useEffect(() => {
+    const { startDate, endDate } = getCurrentMonthRange();
+    setFilters(prev => ({
+      ...prev,
+      dateMode: "month",
+      startDate,
+      endDate,
+    }));
+  }, []);
+
   const sale = useSelector((state: any) => state.sale);
   const { data, isLoading, error } = useGetSalesQuery({ key: filters.search, range: { startDate: filters.startDate, endDate: filters.endDate }, limit: filters.limit, page: pageNo, status: filters.status });
   console.log(data, isLoading)
@@ -53,7 +74,7 @@ export default function SalesPage() {
       {data && <SalesByProductTable sales={data.data || []} />}
       {/* Table (scroll X only here) */}
       {isLoading? <SkeletonTable /> : error? <p className="text-red-500">Failed to load sales.</p> : ""}
-      {data && <SaleTable sales={data.data || []} />}
+      {data && <SaleTable sales={data.data || []} sortBy={filters.sortBy} sortOrder={filters.sortOrder} />}
       {/* PAGINATION  */}
       {data?.totalPages && Number(data.totalPages) > 1 && <Pagination pageNo={pageNo} setPageNo={setPageNo} totalPages={Number(data.totalPages)} />}
     </div>

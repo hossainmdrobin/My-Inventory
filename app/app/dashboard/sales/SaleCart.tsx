@@ -6,14 +6,13 @@ import { SaleItemType, SaleType } from "@/types/sale";
 import { useCreateSaleMutation } from "@/redux/slices/sales/api.sale";
 import SearchProduct from "./SearchProduct";
 import { useGetMeQuery } from "@/redux/slices/auth/api.auth";
+import {vans} from "@/lib/lib_objects/vans"
 
 export default function SaleCart({ selectedIds, sale, setCartOpen }: { selectedIds: string[], sale: SaleType, setCartOpen: (open: boolean) => void }) {
     const { data: profile } = useGetMeQuery()
-console.log(profile, "the profile")
     const [open, setOpen] = useState(false);
     const [createSale] = useCreateSaleMutation()
     const [validData, setValidData] = useState<{ isValid: boolean, error?: string }>({ isValid: false });
-    console.log(sale, "the sale")
     const dispatch = useDispatch();
     const proceedSale = () => {
         if (sale.items.length === 0) {
@@ -45,10 +44,11 @@ console.log(profile, "the profile")
                         onChange={(e) => dispatch(setVanNo(e.target.value))}
                         className="my-3 w-full text-gray-400 bg-slate-800 border border-slate-700 rounded-lg p-2"
                     >
-                        <option value="1">Van 1</option>
-                        <option value="2">Van 2</option>
-                        <option value="3">Van 3</option>
-                        <option value="4">Van 4</option>
+                        {
+                            vans.map((van) => (
+                                <option key={van.vanNo} value={van.vanNo}>{van.name}</option>
+                            ))
+                        }
                     </select>
                     <input
                         onChange={(e) => dispatch(setNote(e.target.value))}
@@ -77,12 +77,12 @@ console.log(profile, "the profile")
                             <div>Quentity</div>
                             <div>Commition</div>
                         </div>
-                        {sale?.items?.map((product) => <SaleCartCard product={product} />)}
+                        {sale?.items?.map((product:SaleItemType) => <SaleCartCard product={product} />)}
 
                     </div>
                     <hr />
                     Total Cost Price: {sale.totalPrice}<br />
-                    PAID COST: <input onChange={(e) => dispatch(setPaid(Number(e.target.value)))} type="number" placeholder="Paid cost" className=" bg-slate-800 border border-slate-700 rounded-lg p-2 mt-2" /><br />
+                    PAID COST: <input onChange={(e) => dispatch(setPaid(Number(e.target.value)))} defaultValue={sale.totalPrice} type="number" placeholder="Paid cost" className=" bg-slate-800 border border-slate-700 rounded-lg p-2 mt-2" /><br />
                     DUE COST: {sale.totalPrice - sale.paid > 0 ? sale.totalPrice - sale.paid : 0}
                     <div className="flex justify-end gap-3 pt-4">
                         <button
@@ -99,7 +99,6 @@ console.log(profile, "the profile")
                         </button>
                     </div>
                 </div>
-
             </div>
         </>
     )

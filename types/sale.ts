@@ -1,6 +1,7 @@
 
 // Type for a single purchase item
 export type SaleItemType = {
+  supplier?: string; // optional, in case you want to track the supplier for each item
   name:string;
   stock:number;
   productId: string;

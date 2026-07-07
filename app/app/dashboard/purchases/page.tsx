@@ -20,6 +20,8 @@ export default function PurchasesPage() {
     limit: 10,
     status: "",
     dateMode: "range",
+    sortBy: "productName",
+    sortOrder: "asc",
   });
 
   // Redux states

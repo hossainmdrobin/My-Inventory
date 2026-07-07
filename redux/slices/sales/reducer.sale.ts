@@ -15,21 +15,20 @@ const saleSlice = createSlice({
     name: 'sale',
     initialState,
     reducers: {
-        selectItem: (state, action: PayloadAction<{ productId: string, name: string, costPrice: number, sellingPrice: number, stock:number }>) => {
+        selectItem: (state, action: PayloadAction<{ productId: string, name: string, costPrice: number, sellingPrice: number, stock:number, supplier?: string }>) => {
             console.log(action.payload, "action payload")
             if (state.items.find(item => item.productId == action.payload.productId)) {
                 state.items = state.items.filter(item => item.productId != action.payload.productId)
                 return;
             };
-            state.items.push({ productId: action.payload.productId, name: action.payload.name, quantity: 1, costPrice: action.payload.costPrice, sellingPrice: action.payload.sellingPrice, stock: action.payload.stock })
+            state.items.push({ productId: action.payload.productId, name: action.payload.name, quantity: 1, costPrice: action.payload.costPrice, sellingPrice: action.payload.sellingPrice, stock: action.payload.stock, supplier: action.payload.supplier })
             state.totalPrice = calculateTotalPrice(state.items)
-            state.due = state.totalPrice - state.paid
+            state.paid = calculateTotalPrice(state.items)
         },
         removeItem: (state, action: PayloadAction<string>) => {
             state.items = state.items.filter(item => item.productId != action.payload)
             state.totalPrice = calculateTotalPrice(state.items)
-            state.totalPrice = calculateTotalPrice(state.items)
-            state.due = state.totalPrice - state.paid
+            state.due = calculateTotalPrice(state.items)
         },
 
         increamentQty: (state, action: PayloadAction<string>) => {
@@ -39,7 +38,7 @@ const saleSlice = createSlice({
                 }
             })
             state.totalPrice = calculateTotalPrice(state.items)
-            state.due = state.totalPrice - state.paid
+            state.due = calculateTotalPrice(state.items)
         },
         decreamentQty: (state, action: PayloadAction<string>) => {
             state.items.forEach(item => {
@@ -70,7 +69,6 @@ const saleSlice = createSlice({
         },
         setPaid: (state, action: PayloadAction<number>) => {
             state.paid = action.payload
-            state.due = state.totalPrice - state.paid
             state.due = state.totalPrice - state.paid
         },
         resetSale: (state) => {
