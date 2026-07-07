@@ -28,7 +28,7 @@ export default function SalesPage() {
     search: "",
     startDate: "",
     endDate: "",
-    limit: 10,
+    limit: 450,
     status: "",
     dateMode: "month",
     sortBy: "productName",
