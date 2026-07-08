@@ -14,11 +14,16 @@ interface ITEM {
 export default function SaleCartCard({ product }: { product: SaleItemType }) {
 
     const [cost, setCost] = useState<ITEM[]>([{ quantity: 1, price: product.sellingPrice }])
-    console.log(cost)
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(setDetailQuantity({ productId: product.productId, detailQuantity: cost, totalPrice: cost.reduce((acc, item) => acc + item.quantity * item.price, 0), comission: cost.reduce((acc, item) => acc + (item.quantity * (product.sellingPrice ?? product.costPrice) - item.quantity * item.price), 0) }))
+        dispatch(setDetailQuantity({ 
+            productId: product.productId, 
+            quantity: cost.reduce((acc, item) => acc + item.quantity, 0),
+            detailQuantity: cost, 
+            totalPrice: cost.reduce((acc, item) => acc + item.quantity * item.price, 0), 
+            comission: cost.reduce((acc, item) => acc + (item.quantity * (product.sellingPrice ?? product.costPrice) - item.quantity * item.price), 0),
+        }))
     }, [cost])
     return (
         <tr key={product.productId} className="border-b border-gray-700">
@@ -26,7 +31,7 @@ export default function SaleCartCard({ product }: { product: SaleItemType }) {
             <td>{product.name}</td>
             {/* <span>{product.stock}</span> */}
             <td>Supplier</td>
-            <div>{product.costPrice}</div>
+            <td>{product.sellingPrice}</td>
             <td>
                 <table className="w-full">
                     <tbody className="m-2">
@@ -72,7 +77,7 @@ export default function SaleCartCard({ product }: { product: SaleItemType }) {
                 >+Add Row</button>
             </td>
             <td className="text-center">
-                4
+                {cost.reduce((acc, item) => acc + (item.quantity * (product.sellingPrice ?? product.costPrice) - item.quantity * item.price), 0)}
             </td>
         </tr>
 
