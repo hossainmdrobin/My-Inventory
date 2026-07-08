@@ -9,7 +9,7 @@ const initialState: SaleType = {
     description: "",
     note: "",
     vanNo:"1",
-    type:"SALE"
+    type:"SALE",
 }
 const saleSlice = createSlice({
     name: 'sale',
@@ -21,7 +21,7 @@ const saleSlice = createSlice({
                 state.items = state.items.filter(item => item.productId != action.payload.productId)
                 return;
             };
-            state.items.push({ productId: action.payload.productId, name: action.payload.name, quantity: 1, costPrice: action.payload.costPrice, sellingPrice: action.payload.sellingPrice, stock: action.payload.stock, supplier: action.payload.supplier })
+            state.items.push({ productId: action.payload.productId, name: action.payload.name, quantity: 1, detailQuantity: [], costPrice: action.payload.costPrice, sellingPrice: action.payload.sellingPrice, stock: action.payload.stock, supplier: action.payload.supplier })
             state.totalPrice = calculateTotalPrice(state.items)
             state.paid = calculateTotalPrice(state.items)
         },
@@ -81,11 +81,26 @@ const saleSlice = createSlice({
         },
         setSaleType:(state, action: PayloadAction<string>) => {
             state.type = action.payload
+        },
+        setDetailQuantity:(state, action: PayloadAction<{ productId: string,quantity: number, detailQuantity: { quantity: number, price: number }[], totalPrice?: number, comission?: number }>) => {
+            state.items.forEach(item => {
+                if (item.productId == action.payload.productId) {
+                    item.detailQuantity = action.payload.detailQuantity
+                    item.quantity = action.payload.quantity
+                    if (action.payload.totalPrice !== undefined) {
+                        item.totalPrice = action.payload.totalPrice
+                    }
+                    if (action.payload.comission !== undefined) {
+                        item.comission = action.payload.comission
+                    }
+                }
+            })
         }
     },
 })
 
 export const {
+    setDetailQuantity,
     selectItem,
     removeItem,
     increamentQty,

@@ -78,7 +78,7 @@ export default function PurchaseFilters({ filters, setFilters }: { filters: Filt
             />
           </div>
 
-          <div className="flex flex-col">
+          {/* <div className="flex flex-col">
             <label className="text-xs text-slate-400 mb-1">Status</label>
             <select
               value={filters.status}
@@ -89,9 +89,9 @@ export default function PurchaseFilters({ filters, setFilters }: { filters: Filt
               <option value="due">Due</option>
               <option value="paid">Paid</option>
             </select>
-          </div>
+          </div> */}
         </div>
-        <div className="flex items-center gap-3 pt-2">
+        {/* <div className="flex items-center gap-3 pt-2">
           <label className="text-xs text-slate-400">Records per page</label>
           <select
             value={filters.limit}
@@ -103,7 +103,7 @@ export default function PurchaseFilters({ filters, setFilters }: { filters: Filt
             <option value={25}>25</option>
             <option value={50}>50</option>
           </select>
-        </div>
+        </div> */}
         <div className="flex items-center gap-4 pt-3 border-t border-slate-800">
           <div className="flex items-center gap-2">
             <ArrowUpDown className="w-4 h-4 text-slate-400" />

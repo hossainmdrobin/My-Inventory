@@ -28,7 +28,7 @@ export default function SalesPage() {
     search: "",
     startDate: "",
     endDate: "",
-    limit: 10,
+    limit: 450,
     status: "",
     dateMode: "month",
     sortBy: "productName",
@@ -47,8 +47,8 @@ export default function SalesPage() {
   }, []);
 
   const sale = useSelector((state: any) => state.sale);
+  console.log(sale, "sale from sales page");
   const { data, isLoading, error } = useGetSalesQuery({ key: filters.search, range: { startDate: filters.startDate, endDate: filters.endDate }, limit: filters.limit, page: pageNo, status: filters.status });
-  console.log(data, isLoading)
   useEffect(() => {
     setSelectedId(sale.items.map((item: any) => item.productId));
   }, [sale]);

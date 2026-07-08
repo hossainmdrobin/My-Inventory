@@ -6,8 +6,11 @@ export type SaleItemType = {
   stock:number;
   productId: string;
   quantity: number;
+  detailQuantity: { quantity: number; price: number }[]; // array of quantity and price pairs
   costPrice: number;
-  sellingPrice?: number; // optional, in case you want to track selling price as well
+  sellingPrice: number; // optional, in case you want to track selling price as well
+  totalPrice?:number;
+  comission?:number;
 };
 
 // Type for the purchase document

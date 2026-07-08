@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { removeItem, resetSale, setDescription, setNote, setPaid, setQty, setVanNo, setSaleType } from "@/redux/slices/sales/reducer.sale";
-import { MessageCircleWarning, X } from "lucide-react";
+import {resetSale, setDescription, setNote, setPaid, setVanNo, setSaleType } from "@/redux/slices/sales/reducer.sale";
+import { MessageCircleWarning } from "lucide-react";
 import { SaleItemType, SaleType } from "@/types/sale";
 import { useCreateSaleMutation } from "@/redux/slices/sales/api.sale";
 import SearchProduct from "./SearchProduct";
 import { useGetMeQuery } from "@/redux/slices/auth/api.auth";
-import {vans} from "@/lib/lib_objects/vans"
+import { vans } from "@/lib/lib_objects/vans"
+import SaleCartCard from "./SaleCartCard";
 
 export default function SaleCart({ selectedIds, sale, setCartOpen }: { selectedIds: string[], sale: SaleType, setCartOpen: (open: boolean) => void }) {
     const { data: profile } = useGetMeQuery()
@@ -19,7 +20,7 @@ export default function SaleCart({ selectedIds, sale, setCartOpen }: { selectedI
             setValidData({ isValid: false, error: "No products selected" });
             return;
         }
-        const data = {...sale, institute:profile?.institute?._id}
+        const data = { ...sale, institute: profile?.institute?._id }
         setValidData({ isValid: true });
         createSale({ data })
         dispatch(resetSale())
@@ -32,13 +33,14 @@ export default function SaleCart({ selectedIds, sale, setCartOpen }: { selectedI
 
             <div className='bg-slate-900 border border-gray-200 rounded-xl border border-slate-800'>
                 <h1 className='text-center text-lg font-semibold my-2'>Sale Summary</h1> <hr />
-                <div className='p-4 space-y-4 h-[400px] overflow-y-auto'>
+                <div className='p-4 space-y-4 h-[480px] overflow-y-auto'>
                     <select
                         onChange={(e) => dispatch(setSaleType(e.target.value))}
                         className="my-3 w-full text-gray-400 bg-slate-800 border border-slate-700 rounded-lg p-2"
                     >
-                        <option value="SALE">Sale</option>
+                        <option value="SALE">Opening</option>
                         <option value="RETURN">Return</option>
+                        <option value="DAMAGE">Damage</option>
                     </select>
                     <select
                         onChange={(e) => dispatch(setVanNo(e.target.value))}
@@ -69,15 +71,32 @@ export default function SaleCart({ selectedIds, sale, setCartOpen }: { selectedI
 
                             <span>Please Select a Product</span>
                         </div>}
-                        <div className="flex items-center justify-between">
+                        {/* <div className="flex items-center justify-between">
                             <div> </div>
                             <div>Name</div>
                             <div>Stock</div>
                             <div>Price</div>
                             <div>Quentity</div>
                             <div>Commition</div>
-                        </div>
-                        {sale?.items?.map((product:SaleItemType) => <SaleCartCard product={product} />)}
+                        </div> */}
+                        <table className="w-full text-left">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Product</th>
+                                    <th>Supplier</th>
+                                    <th>Selling Price</th>
+                                    {/* <th>Quantity</th> */}
+                                    <th>Quantity and Price</th>
+                                    <th align="center">Total Comission</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {sale?.items?.map((product: SaleItemType) => (
+                                    <SaleCartCard product={product} />
+                                ))}
+                            </tbody>
+                        </table>
 
                     </div>
                     <hr />
@@ -105,39 +124,3 @@ export default function SaleCart({ selectedIds, sale, setCartOpen }: { selectedI
 }
 
 
-function SaleCartCard({ product }: { product: SaleItemType }) {
-    const dispatch = useDispatch()
-
-    const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = Number(e.target.value);
-        if (value > Number(product.quantity)) dispatch(setQty({ productId: product.productId, quantity: value }))
-    }
-    return (
-        <>
-            <div key={product.productId} className="flex items-center justify-between my-2">
-                <span><X className="text-red-500 cursor-pointer" onClick={() => dispatch(removeItem(product.productId))} /></span>
-                <div>{product.name}</div>
-                <span>{product.stock}</span>
-                <div>{product.costPrice}</div>
-                <div>
-                    <input type="number"
-                        min={1}
-                        max={product.stock}
-                        defaultValue={1}
-                        onChange={handleOnChange}
-                        className="w-12 bg-slate-700 border border-slate-600 rounded-lg p-1" />
-                </div>
-                <div>
-                    <input type="number"
-                        min={1}
-                        max={product.stock}
-                        defaultValue={0}
-                        onChange={handleOnChange}
-                        className="w-12 bg-slate-700 border border-slate-600 rounded-lg p-1" />
-                </div>
-            </div>
-            <hr />
-        </>
-
-    )
-}
