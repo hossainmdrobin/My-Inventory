@@ -79,14 +79,16 @@ export default function SaleCart({ selectedIds, sale, setCartOpen }: { selectedI
                             <div>Quentity</div>
                             <div>Commition</div>
                         </div> */}
-                        <table>
+                        <table className="w-full text-left">
                             <thead>
                                 <tr>
+                                    <th></th>
                                     <th>Product</th>
                                     <th>Supplier</th>
                                     <th>Cost Price</th>
-                                    <th>Quantity</th>
-                                    <th>Total</th>
+                                    {/* <th>Quantity</th> */}
+                                    <th>Quantity and Price</th>
+                                    <th>Comission</th>
                                 </tr>
                             </thead>
                             <tbody>
