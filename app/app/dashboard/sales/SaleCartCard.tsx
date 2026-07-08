@@ -3,9 +3,9 @@ import { X } from "lucide-react";
 import { setQty, removeItem } from "@/redux/slices/sales/reducer.sale";
 import { SaleItemType } from "@/types/sale";
 import { useDispatch } from "react-redux";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-interface ITEM{
+interface ITEM {
     quantity: number;
     price: number;
 }
@@ -13,56 +13,69 @@ interface ITEM{
 
 export default function SaleCartCard({ product }: { product: SaleItemType }) {
 
-    const [cost,setCost] = useState<ITEM[]>([{ quantity: 1, price: product.costPrice }])
+    const [cost, setCost] = useState<ITEM[]>([{ quantity: 1, price: product.sellingPrice }])
     console.log(cost)
     const dispatch = useDispatch()
 
-    const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = Number(e.target.value);
-        if (value > Number(product.quantity)) dispatch(setQty({ productId: product.productId, quantity: value }))
-    }
+    useEffect(() => {
+
+
+    }, [cost])
     return (
-            <tr key={product.productId} className="border-b border-gray-700">
-                <td className="w-20"><X className="text-red-500 cursor-pointer" onClick={() => dispatch(removeItem(product.productId))} /></td>
-                <td>{product.name}</td>
-                {/* <span>{product.stock}</span> */}
-                <td>Supplier</td>
-                <div>{product.costPrice}</div>
-                <td>
-                    {cost.map((item, index) => (
-                        <div key={index} className="flex items-center gap-2">
-                            <input className="bg-gray-600" type="number"
-                                min={1}
-                                max={product.stock}
-                                defaultValue={item.quantity}
-                                onChange={(e) => {
-                                    const newCost = [...cost];
-                                    newCost[index] = { ...item, quantity: Number(e.target.value) };
-                                    setCost(newCost);
-                                }}
-                            />
-                            <input type="number"
-                                min={1}
-                                max={product.stock}
-                                defaultValue={item.price}
-                                onChange={(e) => {
-                                    const newCost = [...cost];
-                                    newCost[index] = { ...item, price: Number(e.target.value) };
-                                    setCost(newCost);
-                                }}
-                            />
-                            <span>300</span>
-                        </div>
-                    ))}
-                    <button
-                        onClick={() => setCost([...cost, { quantity: 1, price: product.sellingPrice ?? product.costPrice }])}
-                        className="bg-green-800 my-1"
-                    >Add Row</button>
-                </td>
-                <td>
-                    4
-                </td>
-            </tr>
+        <tr key={product.productId} className="border-b border-gray-700">
+            <td className="w-20"><X className="text-red-500 cursor-pointer" onClick={() => dispatch(removeItem(product.productId))} /></td>
+            <td>{product.name}</td>
+            {/* <span>{product.stock}</span> */}
+            <td>Supplier</td>
+            <div>{product.costPrice}</div>
+            <td>
+                <table className="w-full">
+                    <tbody className="m-2">
+                        <tr className="border-b border-gray-700">
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Total</th>
+                            <th>Comission</th>
+                        </tr>
+                        {cost.map((item, index) => (
+                            <tr key={index} className="hover:bg-gray-600">
+                                <td><input type="number"
+                                    min={1}
+                                    defaultValue={item.price}
+                                    maxLength={8}
+                                    onChange={(e) => {
+                                        const newCost = [...cost];
+                                        newCost[index] = { ...item, price: Number(e.target.value) };
+                                        setCost(newCost);
+                                    }}
+                                /></td>
+                                <td className=""><input className="" type="number"
+                                    min={1}
+                                    max={product.stock}
+                                    defaultValue={item.quantity}
+                                    onChange={(e) => {
+                                        const newCost = [...cost];
+                                        newCost[index] = { ...item, quantity: Number(e.target.value) };
+                                        setCost(newCost);
+                                    }}
+                                /></td>
+                                <td>{item.quantity * item.price}</td>
+                                <td>{item.quantity * (product.sellingPrice) - item.quantity * item.price}</td>
+                            </tr>
+                        ))}
+                        
+                    </tbody>
+                </table>
+
+                <button
+                    onClick={() => setCost([...cost, { quantity: 1, price: product.sellingPrice ?? product.costPrice }])}
+                    className="px-3 py-1 my-2 rounded-lg bg-blue-600 font-semibold"
+                >+Add Row</button>
+            </td>
+            <td className="text-center">
+                4
+            </td>
+        </tr>
 
     )
 }

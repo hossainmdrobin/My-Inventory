@@ -1,4 +1,4 @@
-import { Schema, model, models,Types } from "mongoose";
+import { Schema, model, models, Types } from "mongoose";
 import Product from "./Product";
 import Customer from "./Customer";
 import CustomerLedger from "./CustomerLedger";
@@ -7,23 +7,23 @@ import Institute from "./Institute";
 /* ---------------- Purchase Item Schema ---------------- */
 const SaleItemSchema = new Schema(
   {
-        institute:{type:Types.ObjectId,ref:"Institute"},
-    
+    institute: { type: Types.ObjectId, ref: "Institute" },
+
     name: {
       type: String,
       required: true,
       trim: true,
     },
-    comissionPerUnit:{
+    comissionPerUnit: {
       type: Number,
-      defult:0
+      defult: 0
     },
-    totalComission:{
-      type:Number,
-      default:0
+    totalComission: {
+      type: Number,
+      default: 0
     },
-    date:{
-      type:Date,
+    date: {
+      type: Date,
       default: new Date()
     },
     productId: {
@@ -31,6 +31,9 @@ const SaleItemSchema = new Schema(
       ref: "Product",
       required: true,
     },
+    detailQuantity: [{
+      quantity: Number, price: Number
+    }],
     quantity: {
       type: Number,
       required: true,

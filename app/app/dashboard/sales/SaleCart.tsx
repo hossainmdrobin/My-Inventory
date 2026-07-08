@@ -33,7 +33,7 @@ export default function SaleCart({ selectedIds, sale, setCartOpen }: { selectedI
 
             <div className='bg-slate-900 border border-gray-200 rounded-xl border border-slate-800'>
                 <h1 className='text-center text-lg font-semibold my-2'>Sale Summary</h1> <hr />
-                <div className='p-4 space-y-4 h-[400px] overflow-y-auto'>
+                <div className='p-4 space-y-4 h-[480px] overflow-y-auto'>
                     <select
                         onChange={(e) => dispatch(setSaleType(e.target.value))}
                         className="my-3 w-full text-gray-400 bg-slate-800 border border-slate-700 rounded-lg p-2"
@@ -88,7 +88,7 @@ export default function SaleCart({ selectedIds, sale, setCartOpen }: { selectedI
                                     <th>Cost Price</th>
                                     {/* <th>Quantity</th> */}
                                     <th>Quantity and Price</th>
-                                    <th>Comission</th>
+                                    <th align="center">Total Comission</th>
                                 </tr>
                             </thead>
                             <tbody>

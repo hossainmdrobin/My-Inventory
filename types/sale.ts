@@ -7,7 +7,7 @@ export type SaleItemType = {
   productId: string;
   quantity: number;
   costPrice: number;
-  sellingPrice?: number; // optional, in case you want to track selling price as well
+  sellingPrice: number; // optional, in case you want to track selling price as well
 };
 
 // Type for the purchase document
