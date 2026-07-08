@@ -9,7 +9,7 @@ const initialState: SaleType = {
     description: "",
     note: "",
     vanNo:"1",
-    type:"SALE"
+    type:"SALE",
 }
 const saleSlice = createSlice({
     name: 'sale',
@@ -21,7 +21,7 @@ const saleSlice = createSlice({
                 state.items = state.items.filter(item => item.productId != action.payload.productId)
                 return;
             };
-            state.items.push({ productId: action.payload.productId, name: action.payload.name, quantity: 1, costPrice: action.payload.costPrice, sellingPrice: action.payload.sellingPrice, stock: action.payload.stock, supplier: action.payload.supplier })
+            state.items.push({ productId: action.payload.productId, name: action.payload.name, quantity: 1, detailQuantity: [], costPrice: action.payload.costPrice, sellingPrice: action.payload.sellingPrice, stock: action.payload.stock, supplier: action.payload.supplier })
             state.totalPrice = calculateTotalPrice(state.items)
             state.paid = calculateTotalPrice(state.items)
         },
@@ -81,6 +81,13 @@ const saleSlice = createSlice({
         },
         setSaleType:(state, action: PayloadAction<string>) => {
             state.type = action.payload
+        },
+        setDetailQuantity:(state, action: PayloadAction<{ productId: string, detailQuantity: { quantity: number, price: number }[] }>) => {
+            state.items.forEach(item => {
+                if (item.productId == action.payload.productId) {
+                    item.detailQuantity = action.payload.detailQuantity
+                }
+            })
         }
     },
 })

@@ -14,14 +14,6 @@ const SaleItemSchema = new Schema(
       required: true,
       trim: true,
     },
-    comissionPerUnit: {
-      type: Number,
-      defult: 0
-    },
-    totalComission: {
-      type: Number,
-      default: 0
-    },
     date: {
       type: Date,
       default: new Date()
@@ -48,6 +40,8 @@ const SaleItemSchema = new Schema(
       type: Number,
       min: 0,
     },
+    totalPrice:{ type: Number, default: 0 },
+    comission: { type: Number, default: 0 },
   },
   { _id: false } // prevent auto _id for subdocuments
 );
