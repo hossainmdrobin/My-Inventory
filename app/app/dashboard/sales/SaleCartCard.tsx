@@ -1,6 +1,6 @@
 import { X } from "lucide-react";
 
-import { setQty, removeItem } from "@/redux/slices/sales/reducer.sale";
+import { setQty, removeItem, setDetailQuantity } from "@/redux/slices/sales/reducer.sale";
 import { SaleItemType } from "@/types/sale";
 import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
@@ -18,8 +18,7 @@ export default function SaleCartCard({ product }: { product: SaleItemType }) {
     const dispatch = useDispatch()
 
     useEffect(() => {
-
-
+        dispatch(setDetailQuantity({ productId: product.productId, detailQuantity: cost, totalPrice: cost.reduce((acc, item) => acc + item.quantity * item.price, 0), comission: cost.reduce((acc, item) => acc + (item.quantity * (product.sellingPrice ?? product.costPrice) - item.quantity * item.price), 0) }))
     }, [cost])
     return (
         <tr key={product.productId} className="border-b border-gray-700">

@@ -82,10 +82,16 @@ const saleSlice = createSlice({
         setSaleType:(state, action: PayloadAction<string>) => {
             state.type = action.payload
         },
-        setDetailQuantity:(state, action: PayloadAction<{ productId: string, detailQuantity: { quantity: number, price: number }[] }>) => {
+        setDetailQuantity:(state, action: PayloadAction<{ productId: string, detailQuantity: { quantity: number, price: number }[], totalPrice?: number, comission?: number }>) => {
             state.items.forEach(item => {
                 if (item.productId == action.payload.productId) {
                     item.detailQuantity = action.payload.detailQuantity
+                    if (action.payload.totalPrice !== undefined) {
+                        item.totalPrice = action.payload.totalPrice
+                    }
+                    if (action.payload.comission !== undefined) {
+                        item.comission = action.payload.comission
+                    }
                 }
             })
         }
@@ -93,6 +99,7 @@ const saleSlice = createSlice({
 })
 
 export const {
+    setDetailQuantity,
     selectItem,
     removeItem,
     increamentQty,
