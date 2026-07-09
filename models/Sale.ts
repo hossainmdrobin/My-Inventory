@@ -8,7 +8,10 @@ import Institute from "./Institute";
 const SaleItemSchema = new Schema(
   {
     institute: { type: Types.ObjectId, ref: "Institute" },
-
+    supplier: {
+      type: String, // can be ObjectId or String
+      ref: "Supplier",
+    },
     name: {
       type: String,
       required: true,

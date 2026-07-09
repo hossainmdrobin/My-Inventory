@@ -100,9 +100,9 @@ export default function SaleCart({ selectedIds, sale, setCartOpen }: { selectedI
 
                     </div>
                     <hr />
-                    Total Cost Price: {sale.totalPrice}<br />
+                    {/* Total Cost Price: {sale.totalPrice}<br />
                     PAID COST: <input onChange={(e) => dispatch(setPaid(Number(e.target.value)))} defaultValue={sale.totalPrice} type="number" placeholder="Paid cost" className=" bg-slate-800 border border-slate-700 rounded-lg p-2 mt-2" /><br />
-                    DUE COST: {sale.totalPrice - sale.paid > 0 ? sale.totalPrice - sale.paid : 0}
+                    DUE COST: {sale.totalPrice - sale.paid > 0 ? sale.totalPrice - sale.paid : 0} */}
                     <div className="flex justify-end gap-3 pt-4">
                         <button
                             onClick={() => setCartOpen(false)}

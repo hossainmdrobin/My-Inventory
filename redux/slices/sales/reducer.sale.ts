@@ -16,7 +16,6 @@ const saleSlice = createSlice({
     initialState,
     reducers: {
         selectItem: (state, action: PayloadAction<{ productId: string, name: string, costPrice: number, sellingPrice: number, stock:number, supplier?: string }>) => {
-            console.log(action.payload, "action payload")
             if (state.items.find(item => item.productId == action.payload.productId)) {
                 state.items = state.items.filter(item => item.productId != action.payload.productId)
                 return;

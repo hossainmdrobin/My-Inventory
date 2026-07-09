@@ -26,8 +26,8 @@ export default function SalesPage() {
 
   const [filters, setFilters] = useState<FilterValues>({
     search: "",
-    startDate: "",
-    endDate: "",
+    startDate: getCurrentMonthRange().startDate,
+    endDate: getCurrentMonthRange().endDate,
     limit: 450,
     status: "",
     dateMode: "month",
@@ -47,7 +47,6 @@ export default function SalesPage() {
   }, []);
 
   const sale = useSelector((state: any) => state.sale);
-  console.log(sale, "sale from sales page");
   const { data, isLoading, error } = useGetSalesQuery({ key: filters.search, range: { startDate: filters.startDate, endDate: filters.endDate }, limit: filters.limit, page: pageNo, status: filters.status });
   useEffect(() => {
     setSelectedId(sale.items.map((item: any) => item.productId));

@@ -30,7 +30,7 @@ export default function SaleCartCard({ product }: { product: SaleItemType }) {
             <td className="w-20"><X className="text-red-500 cursor-pointer" onClick={() => dispatch(removeItem(product.productId))} /></td>
             <td>{product.name}</td>
             {/* <span>{product.stock}</span> */}
-            <td>Supplier</td>
+            <td>{product.supplier}</td>
             <td>{product.sellingPrice}</td>
             <td>
                 <table className="w-full">
