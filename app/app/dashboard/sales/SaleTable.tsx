@@ -1,6 +1,6 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { SaleType } from '@/types/sale';
-import {vans} from "@/lib/lib_objects/vans"
+import { vans } from "@/lib/lib_objects/vans"
 import { SortColumn, SortOrder } from '@/types/others';
 
 
@@ -129,7 +129,6 @@ export default function SaleTable({ sales, sortBy, sortOrder }: { sales: SaleTyp
       }
       result[vanKey][dateKey].push(sale);
     });
-
     return result;
   }, [sales]);
 
