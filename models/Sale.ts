@@ -66,7 +66,7 @@ const SaleSchema = new Schema(
       ref: "Customer",
     },
     type: {
-      type: String, enum: ["RETURN", "OPENING", "DAMAGE"], default: "SALE"
+      type: String, enum: ["RETURN", "OPENING", "DAMAGE"], default: "OPENING"
     },
     items: {
       type: [SaleItemSchema],
