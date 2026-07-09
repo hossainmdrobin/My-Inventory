@@ -6,7 +6,6 @@ export default function SearchProduct({ selectedIds, setOpen }: { selectedIds: s
     const [key, setKey] = useState("")
 
     const { data, isLoading } = useGetProductsQuery({ key });
-console.log(data, "search product data")
     return (
         <div className='fixed inset-0 bg-black/50 flex items-center justify-center z-50'>
             <div className='w-full flex flex-col max-w-md rounded-xl bg-slate-900 p-6 space-y-4 h-[600px]'>
