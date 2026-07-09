@@ -66,7 +66,7 @@ const SaleSchema = new Schema(
       ref: "Customer",
     },
     type: {
-      type: String, enum: ["RETURN", "SALE"], default: "SALE"
+      type: String, enum: ["RETURN", "OPENING", "DAMAGE"], default: "SALE"
     },
     items: {
       type: [SaleItemSchema],
@@ -112,7 +112,7 @@ const SaleSchema = new Schema(
 SaleSchema.post("save", async function (doc) {
   try {
     const sale = doc;
-    if (sale.type === "SALE") {
+    if (sale.type === "OPENING") {
       const updated = await Institute.findByIdAndUpdate(sale.institute, { $inc: { totalCashValue: sale.paid } }, { new: true });
     }
     // 🔻 Update product stock (your existing logic)

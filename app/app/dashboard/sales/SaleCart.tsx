@@ -38,7 +38,7 @@ export default function SaleCart({ selectedIds, sale, setCartOpen }: { selectedI
                         onChange={(e) => dispatch(setSaleType(e.target.value))}
                         className="my-3 w-full text-gray-400 bg-slate-800 border border-slate-700 rounded-lg p-2"
                     >
-                        <option value="SALE">Opening</option>
+                        <option value="OPENING">Opening</option>
                         <option value="RETURN">Return</option>
                         <option value="DAMAGE">Damage</option>
                     </select>
