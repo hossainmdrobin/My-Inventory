@@ -23,10 +23,10 @@ export type FlatItem = {
   supplierName: string;
   productName: string;
   price: number;
-  quantity: number;
-  returns: number;
-  totalReturn: number;
-  totalSale: number;
+  openingQty: number;
+  returnQty: number;
+  damageQty: number;
+  totalPrice: number;
 };
 
 function formatDate(dateStr: string): string {
@@ -53,30 +53,32 @@ export function flattenSales(sales: SaleType[]): FlatItem[] {
   const items: FlatItem[] = [];
   sales.forEach((sale) => {
     if (sale.items && sale.items.length > 0) {
-      sale.items.forEach((item, idx) => {
+      sale.items.forEach((item) => {
         const productObj = item.productId as any;
         const isPopulated = typeof productObj === 'object' && productObj !== null;
         const productName = isPopulated ? productObj?.name || item.name || 'Unknown' : 'Unknown';
         const sku = isPopulated ? productObj?.sku || '-' : '-';
-        const supplierName = isPopulated ? productObj?.supplier?.name || '-' : '-';
+        const supplierName = item.supplier || (isPopulated ? productObj?.supplier?.name || '-' : '-');
         const price = item.sellingPrice || item.costPrice || 0;
-        const isReturn = sale.type === 'RETURN';
-        const returns = isReturn ? item.quantity : 0;
-        const totalReturn = returns * price;
-        const totalSale = isReturn ? 0 : item.quantity * price;
+
+        const type = (sale.type?.toString() || 'SALE') as string;
+        const openingQty = (type === 'OPENING' || type === 'SALE') ? item.quantity : 0;
+        const returnQty = (type === 'RETURN') ? item.quantity : 0;
+        const damageQty = (type === 'DAMAGE') ? item.quantity : 0;
+        const totalPrice = (type !== 'DAMAGE' && type !== 'RETURN') ? item.quantity * price : 0;
 
         items.push({
           saleId: sale._id || '',
-          saleType: (sale.type?.toString() || 'SALE') as string,
+          saleType: type,
           note: sale.note || '',
           sku,
           supplierName,
           productName,
           price,
-          quantity: item.quantity,
-          returns,
-          totalReturn,
-          totalSale,
+          openingQty,
+          returnQty,
+          damageQty,
+          totalPrice,
         });
       });
     }
@@ -95,13 +97,13 @@ function sortFlatItems(items: FlatItem[], sortBy: SortColumn, sortOrder: SortOrd
         comparison = a.supplierName.localeCompare(b.supplierName);
         break;
       case 'quantity':
-        comparison = a.quantity - b.quantity;
+        comparison = a.openingQty - b.openingQty;
         break;
       case 'totalPrice':
-        comparison = a.price - b.price;
+        comparison = a.totalPrice - b.totalPrice;
         break;
       case 'totalReturn':
-        comparison = a.totalReturn - b.totalReturn;
+        comparison = a.returnQty - b.returnQty;
         break;
     }
     return sortOrder === 'asc' ? comparison : -comparison;
@@ -147,9 +149,10 @@ export default function SaleTable({ sales, sortBy, sortOrder }: { sales: SaleTyp
         const vanSales = Object.values(vanData).flat();
         console.log(`Van ${van.vanNo} (${van.name}) has ${vanSales} sales.`);
         const flatItems = flattenSales(vanSales);
-        const totalAmount = vanSales.reduce((sum, s) => sum + s.totalPrice, 0);
-        const totalPaid = vanSales.reduce((sum, s) => sum + s.paid, 0);
-        const totalDue = vanSales.reduce((sum, s) => sum + s.due, 0);
+        const nonDamageSales = vanSales.filter(s => s.type !== 'DAMAGE');
+        const totalAmount = nonDamageSales.reduce((sum, s) => sum + s.totalPrice, 0);
+        const totalPaid = nonDamageSales.reduce((sum, s) => sum + s.paid, 0);
+        const totalDue = nonDamageSales.reduce((sum, s) => sum + s.due, 0);
 
         return (
           <div
@@ -187,7 +190,8 @@ export default function SaleTable({ sales, sortBy, sortOrder }: { sales: SaleTyp
               ) : (
                 Object.entries(vanData).map(([date, dateSales]) => {
                   const dayItems = sortFlatItems(flattenSales(dateSales), effectiveSortBy, effectiveSortOrder);
-                  const dayTotal = dateSales.reduce((sum, s) => sum + s.totalPrice, 0);
+                  const nonDamageDaySales = dateSales.filter(s => s.type !== 'DAMAGE');
+                  const dayTotal = nonDamageDaySales.reduce((sum, s) => sum + s.totalPrice, 0);
                   return (
                     <div key={date} className="bg-slate-900/50">
                       <div className="px-5 py-3 bg-slate-800/50 flex items-center justify-between">
@@ -205,42 +209,38 @@ export default function SaleTable({ sales, sortBy, sortOrder }: { sales: SaleTyp
                         <table className="min-w-[900px] w-full text-sm">
                           <thead className="bg-slate-900/30 text-slate-500">
                             <tr>
-                              <th className="px-3 py-2 text-left font-medium">SKU</th>
-                              <th className="px-3 py-2 text-left font-medium">Supplier name</th>
                               <th className="px-3 py-2 text-left font-medium">Product name</th>
-                              <th className="px-3 py-2 text-right font-medium">Price</th>
-                              <th className="px-3 py-2 text-right font-medium">Quantity</th>
-                              <th className="px-3 py-2 text-right font-medium">Returns</th>
-                              <th className="px-3 py-2 text-right font-medium">Total Return</th>
-                              <th className="px-3 py-2 text-right font-medium">Total Sale</th>
+                              <th className="px-3 py-2 text-left font-medium">SKU</th>
+                              <th className="px-3 py-2 text-left font-medium">Company</th>
+                              <th className="px-3 py-2 text-right font-medium">Opening quantity</th>
+                              <th className="px-3 py-2 text-right font-medium">Return quantity</th>
+                              <th className="px-3 py-2 text-right font-medium">Damage quantity</th>
+                              <th className="px-3 py-2 text-right font-medium">Total Price</th>
                             </tr>
                           </thead>
                           <tbody className="divide-y divide-slate-800/50">
                             {dayItems.map((item) => (
-                              <tr key={item.saleId + item.productName + item.price + item.quantity} className="hover:bg-slate-800/30 transition-colors">
+                              <tr key={item.saleId + item.productName + item.price + item.openingQty + item.returnQty + item.damageQty} className="hover:bg-slate-800/30 transition-colors">
+                                <td className="px-3 py-2.5 text-slate-300 text-sm">
+                                  {item.productName}
+                                </td>
                                 <td className="px-3 py-2.5 text-slate-400 text-xs">
                                   {item.sku}
                                 </td>
                                 <td className="px-3 py-2.5 text-slate-300 text-sm">
                                   {item.supplierName}
                                 </td>
-                                <td className="px-3 py-2.5 text-slate-300 text-sm">
-                                  {item.productName}
+                                <td className="px-3 py-2.5 text-right text-slate-200">
+                                  {item.openingQty}
                                 </td>
                                 <td className="px-3 py-2.5 text-right text-slate-400">
-                                  ₹{item.price.toFixed(2)}
+                                  {item.returnQty}
                                 </td>
-                                <td className="px-3 py-2.5 text-right text-slate-400">
-                                  {item.quantity}
-                                </td>
-                                <td className="px-3 py-2.5 text-right text-slate-400">
-                                  {item.returns}
+                                <td className="px-3 py-2.5 text-right text-slate-400 text-red-400/80">
+                                  {item.damageQty}
                                 </td>
                                 <td className="px-3 py-2.5 text-right text-slate-200 font-medium">
-                                  ₹{item.totalReturn.toFixed(2)}
-                                </td>
-                                <td className="px-3 py-2.5 text-right text-slate-200 font-medium">
-                                  ₹{item.totalSale.toFixed(2)}
+                                  ₹{item.totalPrice.toFixed(2)}
                                 </td>
                               </tr>
                             ))}

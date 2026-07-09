@@ -7,10 +7,10 @@ type AggregatedProduct = {
   supplierName: string;
   productName: string;
   price: number;
-  quantity: number;
-  returns: number;
-  totalReturn: number;
-  totalSale: number;
+  openingQty: number;
+  returnQty: number;
+  damageQty: number;
+  totalPrice: number;
 };
 
 export default function SalesByProductTable({ sales }: { sales: SaleType[] }) {
@@ -28,23 +28,23 @@ export default function SalesByProductTable({ sales }: { sales: SaleType[] }) {
           supplierName: item.supplierName,
           productName: item.productName,
           price: item.price,
-          quantity: 0,
-          returns: 0,
-          totalReturn: 0,
-          totalSale: 0,
+          openingQty: 0,
+          returnQty: 0,
+          damageQty: 0,
+          totalPrice: 0,
         };
       }
-      map[key].quantity += item.quantity;
-      map[key].returns += item.returns;
-      map[key].totalReturn += item.totalReturn;
-      map[key].totalSale += item.totalSale;
+      map[key].openingQty += item.openingQty;
+      map[key].returnQty += item.returnQty;
+      map[key].damageQty += item.damageQty;
+      map[key].totalPrice += item.totalPrice;
     });
 
     return Object.values(map).sort((a, b) => a.productName.localeCompare(b.productName));
   }, [sales]);
 
-  const totalQuantity = aggregatedProducts.reduce((sum, p) => sum + p.quantity, 0);
-  const totalSale = aggregatedProducts.reduce((sum, p) => sum + p.totalSale, 0);
+  const totalQuantity = aggregatedProducts.reduce((sum, p) => sum + (p.openingQty + p.returnQty), 0);
+  const totalSale = aggregatedProducts.reduce((sum, p) => sum + p.totalPrice, 0);
 
   if (!sales || sales.length === 0) {
     return (
@@ -79,42 +79,38 @@ export default function SalesByProductTable({ sales }: { sales: SaleType[] }) {
         <table className="min-w-[900px] w-full text-sm">
           <thead className="bg-slate-900/30 text-slate-500">
             <tr>
-              <th className="px-3 py-2 text-left font-medium">SKU</th>
-              <th className="px-3 py-2 text-left font-medium">Supplier name</th>
               <th className="px-3 py-2 text-left font-medium">Product name</th>
-              <th className="px-3 py-2 text-right font-medium">Price</th>
-              <th className="px-3 py-2 text-right font-medium">Quantity</th>
-              <th className="px-3 py-2 text-right font-medium">Returns</th>
-              <th className="px-3 py-2 text-right font-medium">Total Return</th>
-              <th className="px-3 py-2 text-right font-medium">Total Sale</th>
+              <th className="px-3 py-2 text-left font-medium">SKU</th>
+              <th className="px-3 py-2 text-left font-medium">Company</th>
+              <th className="px-3 py-2 text-right font-medium">Opening quantity</th>
+              <th className="px-3 py-2 text-right font-medium">Return quantity</th>
+              <th className="px-3 py-2 text-right font-medium">Damage quantity</th>
+              <th className="px-3 py-2 text-right font-medium">Total Price</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-800/50">
             {aggregatedProducts.map((product) => (
               <tr key={product.sku + product.productName} className="hover:bg-slate-800/30 transition-colors">
+                <td className="px-3 py-2.5 text-slate-300 text-sm">
+                  {product.productName}
+                </td>
                 <td className="px-3 py-2.5 text-slate-400 text-xs">
                   {product.sku}
                 </td>
                 <td className="px-3 py-2.5 text-slate-300 text-sm">
                   {product.supplierName}
                 </td>
-                <td className="px-3 py-2.5 text-slate-300 text-sm">
-                  {product.productName}
+                <td className="px-3 py-2.5 text-right text-slate-200">
+                  {product.openingQty}
                 </td>
                 <td className="px-3 py-2.5 text-right text-slate-400">
-                  ₹{product.price.toFixed(2)}
+                  {product.returnQty}
+                </td>
+                <td className="px-3 py-2.5 text-right text-slate-400 text-red-400/80">
+                  {product.damageQty}
                 </td>
                 <td className="px-3 py-2.5 text-right text-slate-200 font-medium">
-                  {product.quantity}
-                </td>
-                <td className="px-3 py-2.5 text-right text-slate-400">
-                  {product.returns}
-                </td>
-                <td className="px-3 py-2.5 text-right text-slate-200 font-medium">
-                  ₹{product.totalReturn.toFixed(2)}
-                </td>
-                <td className="px-3 py-2.5 text-right text-slate-200 font-medium">
-                  ₹{product.totalSale.toFixed(2)}
+                  ₹{product.totalPrice.toFixed(2)}
                 </td>
               </tr>
             ))}
