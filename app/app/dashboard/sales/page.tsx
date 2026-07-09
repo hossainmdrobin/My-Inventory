@@ -26,8 +26,8 @@ export default function SalesPage() {
 
   const [filters, setFilters] = useState<FilterValues>({
     search: "",
-    startDate: "",
-    endDate: "",
+    startDate: getCurrentMonthRange().startDate,
+    endDate: getCurrentMonthRange().endDate,
     limit: 450,
     status: "",
     dateMode: "month",
