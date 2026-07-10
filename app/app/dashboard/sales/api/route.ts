@@ -93,3 +93,111 @@ export async function GET(req: NextRequest) {
         );
     }
 }
+
+/* ---------------- UPDATE SALE ---------------- */
+export async function PATCH(req: Request) {
+    try {
+        await connectToDB();
+        const body = await req.json();
+        const { id, data } = body;
+
+        if (!id) {
+            return NextResponse.json(
+                { error: "Sale id is required" },
+                { status: 400 }
+            );
+        }
+
+        const existing = await Sale.findById(id);
+        if (!existing) {
+            return NextResponse.json(
+                { error: "Sale not found" },
+                { status: 404 }
+            );
+        }
+
+        // Recalculate derived fields when items or payment change
+        const updateData: any = { ...data };
+
+        if (Array.isArray(updateData.items)) {
+            updateData.items = updateData.items.map((item: any) => ({
+                institute: item.institute,
+                supplier: item.supplier,
+                name: item.name,
+                date: item.date,
+                productId: item.productId,
+                detailQuantity: item.detailQuantity || [],
+                quantity: Number(item.quantity) || 0,
+                costPrice: Number(item.costPrice) || 0,
+                sellingPrice: Number(item.sellingPrice) || 0,
+                totalPrice: Number(item.totalPrice) || 0,
+                comission: Number(item.comission) || 0,
+            }));
+
+            updateData.totalPrice = updateData.items.reduce(
+                (sum: number, item: any) =>
+                    sum + (Number(item.sellingPrice) || 0) * (Number(item.quantity) || 0),
+                0
+            );
+        }
+
+        if (typeof updateData.paid === "number") {
+            updateData.due = Math.max(
+                (updateData.totalPrice ?? existing.totalPrice) - updateData.paid,
+                0
+            );
+        }
+
+        const updated = await Sale.findByIdAndUpdate(
+            id,
+            { $set: updateData },
+            { new: true }
+        )
+            .populate("items.productId", "name sku")
+            .populate("createdBy", "email")
+            .lean();
+
+        return NextResponse.json(updated, { status: 200 });
+    } catch (error: any) {
+        console.error("Error updating sale:", error);
+        return NextResponse.json(
+            { error: error.message },
+            { status: 400 }
+        );
+    }
+}
+
+/* ---------------- DELETE SALE ---------------- */
+export async function DELETE(req: Request) {
+    try {
+        await connectToDB();
+        const body = await req.json();
+        const { id } = body;
+
+        if (!id) {
+            return NextResponse.json(
+                { error: "Sale id is required" },
+                { status: 400 }
+            );
+        }
+
+        const deleted = await Sale.findByIdAndDelete(id);
+        if (!deleted) {
+            return NextResponse.json(
+                { error: "Sale not found" },
+                { status: 404 }
+            );
+        }
+
+        return NextResponse.json(
+            { message: "Sale deleted", _id: id },
+            { status: 200 }
+        );
+    } catch (error: any) {
+        console.error("Error deleting sale:", error);
+        return NextResponse.json(
+            { error: error.message },
+            { status: 400 }
+        );
+    }
+}

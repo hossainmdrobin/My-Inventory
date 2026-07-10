@@ -90,7 +90,7 @@ export default function SalesPage() {
       {open && <SaleCart setCartOpen={setOpen} sale={sale} selectedIds={selectedId} />}
       <hr />
       {/* SALE SEARCH FILTER */}
-      <PurchaseFilters filters={filters} setFilters={setFilters} />
+      <PurchaseFilters filters={filters} setFilters={setFilters} enabled={enabled} />
       {!enabled && data && <SalesByProductTable sales={data.data || []} />}
       {/* Table (scroll X only here) */}
       {isLoading ? <SkeletonTable /> : error ? <p className="text-red-500">Failed to load sales.</p> : ""}

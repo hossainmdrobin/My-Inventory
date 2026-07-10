@@ -147,7 +147,6 @@ export default function SaleTable({ sales, sortBy, sortOrder }: { sales: SaleTyp
       {vans.map((van) => {
         const vanData = grouped[van.vanNo] || {};
         const vanSales = Object.values(vanData).flat();
-        console.log(`Van ${van.vanNo} (${van.name}) has ${vanSales} sales.`);
         const flatItems = flattenSales(vanSales);
         const nonDamageSales = vanSales.filter(s => s.type !== 'DAMAGE');
         const totalAmount = nonDamageSales.reduce((sum, s) => sum + s.totalPrice, 0);

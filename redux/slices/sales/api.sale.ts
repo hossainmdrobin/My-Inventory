@@ -40,10 +40,19 @@ export const saleEndpoints = apiSlice.injectEndpoints({
             },
             invalidatesTags: ["GETALLSALES","GETALLPRODUCTS"],
         }),
+        updateSale: builder.mutation<any, { id: string, data: Partial<SaleType> }>({
+            query: ({ id, data }) => ({
+                url: `/app/dashboard/sales/api`,
+                method: 'PATCH',
+                body: { id, data },
+            }),
+            invalidatesTags: ["GETALLSALES", "GETALLPRODUCTS", "GETALLPURCHASES"],
+        }),
     }),
 })
 
 export const {
     useCreateSaleMutation,
-    useGetSalesQuery
+    useGetSalesQuery,
+    useUpdateSaleMutation
 } = saleEndpoints;
