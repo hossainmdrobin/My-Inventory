@@ -36,7 +36,7 @@ export default function ProductTable({ paginatedProducts, openEditModal }: { pag
                             
                             <td className="p-3">{product.sku}</td>
                             <td className="p-3">{product.name}</td>
-                            <td className="p-3">{`${product?.supplier?.name }` || "N/A"}</td>
+                            <td className="p-3">{`${product?.supplier?.displayName }` || "N/A"}</td>
                             <td className="p-3 text-right">{product.costPrice}</td>
                             <td className="p-3 text-right">{product.sellingPrice}</td>
                             <td className="p-3 text-right">{product.stock}</td>

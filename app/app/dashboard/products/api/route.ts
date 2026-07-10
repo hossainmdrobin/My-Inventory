@@ -30,8 +30,9 @@ export async function GET(req:NextRequest) {
   const key = searchParams.get("key") || "";
   try {
     await connectToDB();
+    const total = await Product.countDocuments({$or: [{ name: { $regex: key, $options: "i" } }, { sku: { $regex: key, $options: "i" } }] });
     const products = await Product.find({$or: [{ name: { $regex: key, $options: "i" } }, { sku: { $regex: key, $options: "i" } }] }).sort({ createdAt: -1 }).lean().populate("supplier").limit(limit).skip((page - 1) * limit);
-    return NextResponse.json(products);
+    return NextResponse.json({data:products, total,page,limit, totalPages:Math.ceil(total / limit)}, { status: 200 });
   } catch(e) {
     console.log("Error fetching products:", e);
     return NextResponse.json(

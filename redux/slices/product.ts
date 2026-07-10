@@ -1,12 +1,20 @@
 import { Product } from "@/types/product";
 import apiSlice from "../api/apiSlice";
 
+export interface ProductState {
+    data: Product[];
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+}
+
 
 export const productEndpoints = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
-        getProducts: builder.query<Product[], { key?: string }>({
-            query: ({ key }) => ({
-                url: `/app/dashboard/products/api?key=${key || ""}`,
+        getProducts: builder.query<ProductState, { key?: string, limit?: number, page?: number }>({
+            query: ({ key, limit, page }) => ({
+                url: `/app/dashboard/products/api?key=${key || ""}&limit=${limit || 50}&page=${page || 1}`,
                 method: 'GET',
             }),
             providesTags: ["GETALLPRODUCTS"],
