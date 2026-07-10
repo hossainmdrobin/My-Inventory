@@ -10,11 +10,13 @@ import PurchaseFilters from "@/reusable/PurchaseAndSaleFilter";
 import { FilterValues } from "@/types/others";
 import Pagination from "@/reusable/Pagination";
 import SkeletonTable from "@/reusable/skeletone";
+import EditableTable from "./EditableTable";
 
 export default function SalesPage() {
   const [open, setOpen] = useState(false);
   const [selectedId, setSelectedId] = useState<string[]>([]);
   const [pageNo, setPageNo] = useState(1)
+  const [enabled, setEnabled] = useState(false);
 
   // Calculate current month boundaries dynamically
   const getCurrentMonthRange = (): { startDate: string; endDate: string } => {
@@ -58,24 +60,44 @@ export default function SalesPage() {
       <div className="flex flex-col sm:flex-row justify-between gap-4">
         <h1 className="text-2xl font-bold">Sales</h1>
 
-        <button
-          onClick={() => setOpen(true)}
-          className="rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white hover:bg-blue-700"
-        >
-          + Add Sale
-        </button>
+        <div className="flex flex-col sm:flex-row items-center gap-8">
+          
+          <div className="flex items-center gap-3">
+            <span className="text-sm font-bold text-gray-500">
+              Edit Mode
+            </span>
+
+            <button
+              onClick={() => setEnabled(!enabled)}
+              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-300 ${enabled ? "bg-green-500" : "bg-gray-300"
+                }`}
+            >
+              <span
+                className={`inline-block h-5 w-5 transform rounded-full bg-white transition-transform duration-300 ${enabled ? "translate-x-5" : "translate-x-1"
+                  }`}
+              />
+            </button>
+          </div>
+          {!enabled && <button
+            onClick={() => setOpen(true)}
+            className="rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white hover:bg-blue-700"
+          >
+            + Add Sale
+          </button>}
+        </div>
       </div>
 
       {open && <SaleCart setCartOpen={setOpen} sale={sale} selectedIds={selectedId} />}
       <hr />
       {/* SALE SEARCH FILTER */}
       <PurchaseFilters filters={filters} setFilters={setFilters} />
-      {data && <SalesByProductTable sales={data.data || []} />}
+      {!enabled && data && <SalesByProductTable sales={data.data || []} />}
       {/* Table (scroll X only here) */}
-      {isLoading? <SkeletonTable /> : error? <p className="text-red-500">Failed to load sales.</p> : ""}
-      {data && <SaleTable sales={data.data || []} sortBy={filters.sortBy} sortOrder={filters.sortOrder} />}
+      {isLoading ? <SkeletonTable /> : error ? <p className="text-red-500">Failed to load sales.</p> : ""}
+      {!enabled && data && <SaleTable sales={data.data || []} sortBy={filters.sortBy} sortOrder={filters.sortOrder} />}
+      {enabled && data && <EditableTable sales={data.data || []} />}
       {/* PAGINATION  */}
-      {data?.totalPages && Number(data.totalPages) > 1 && <Pagination pageNo={pageNo} setPageNo={setPageNo} totalPages={Number(data.totalPages)} />}
+      {!enabled && data?.totalPages && Number(data.totalPages) > 1 && <Pagination pageNo={pageNo} setPageNo={setPageNo} totalPages={Number(data.totalPages)} />}
     </div>
   );
 }
