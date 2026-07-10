@@ -9,9 +9,8 @@ import { Product } from "@/types/product";
 import Pagination from "./Pagination";
 
 
-const ITEMS_PER_PAGE = 5;
-
 export default function ProductsPage() {
+  const [itemsPerPage, setItemsPerPage] = useState(50);
   const [products, setProducts] = useState<Product[]>([]);
   const [search, setSearch] = useState("");
   const [open, setOpen] = useState(false);
@@ -19,7 +18,9 @@ export default function ProductsPage() {
   const [currentPage, setCurrentPage] = useState(1);
 
   const [createProduct, { }] = useCreateProductMutation();
-  const { data: productsData, isLoading } = useGetProductsQuery({ key: search });
+  const { data: productsData, isLoading } = useGetProductsQuery({ key: search, limit: itemsPerPage, page: currentPage });
+  const totalPages = productsData?.totalPages ?? 0;
+  console.log("productsData", productsData)
   const [update,{data:updateData}] = useUpdateProductMutation()
 
 
@@ -31,19 +32,6 @@ export default function ProductsPage() {
     stock: 0,
     unit: "unit",
   });
-
-  const filteredProducts = useMemo(() => {
-    return products.filter((p) =>
-      p.name.toLowerCase().includes(search.toLowerCase())
-    );
-  }, [products, search]);
-
-  const totalPages = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE);
-
-  const paginatedProducts = useMemo(() => {
-    const start = (currentPage - 1) * ITEMS_PER_PAGE;
-    return filteredProducts.slice(start, start + ITEMS_PER_PAGE);
-  }, [filteredProducts, currentPage]);
 
   function openAddModal() {
     setEditing(null);
@@ -100,7 +88,7 @@ export default function ProductsPage() {
 
       {/* Table (Scroll X only here) */}
 
-      {productsData && <ProductTable paginatedProducts={productsData || []} openEditModal={openEditModal} />}
+      {productsData && <ProductTable paginatedProducts={productsData.data || []} openEditModal={openEditModal} />}
       {isLoading && <Seletone />}
       {/* Pagination */}
       {totalPages > 1 && (

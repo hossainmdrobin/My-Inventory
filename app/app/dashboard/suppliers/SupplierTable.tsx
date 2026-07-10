@@ -9,6 +9,7 @@ return (
                 <thead className="bg-slate-900 text-slate-300">
                     <tr>
                         <th className="p-3 text-left">Name</th>
+                        <th className="p-3 text-left">Display Name</th>
                         <th className="p-3 text-left">Phone</th>
                         <th className="p-3 text-left">Address</th>
                         <th className="p-3 text-right">Accounts Payable</th>
@@ -20,7 +21,7 @@ return (
                 <tbody>
                     {paginatedSuppliers.length === 0 && (
                         <tr>
-                            <td colSpan={6} className="p-4 text-center text-slate-400">
+                                <td colSpan={7} className="p-4 text-center text-slate-400">
                                 No suppliers found
                             </td>
                         </tr>
@@ -32,6 +33,7 @@ return (
                             className="border-t border-slate-800 hover:bg-slate-900/50"
                         >
                             <td className="p-3">{supplier.name}</td>
+                            <td className="p-3">{supplier.displayName}</td>
                             <td className="p-3">{supplier.phone}</td>
                             <td className="p-3 max-w-xs truncate">
                                 {supplier.address}

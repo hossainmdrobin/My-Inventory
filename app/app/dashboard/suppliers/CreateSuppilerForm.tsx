@@ -18,6 +18,13 @@ export default function CreateSuppilerForm({ editing, form, setForm, setOpen, ha
                 />
 
                 <input
+                    placeholder="Display Name"
+                    value={form.displayName}
+                    onChange={(e) => setForm({ ...form, displayName: e.target.value })}
+                    className="w-full rounded-lg bg-slate-800 border border-slate-700 px-4 py-2"
+                />
+
+                <input
                     placeholder="Phone"
                     value={form.phone}
                     onChange={(e) => setForm({ ...form, phone: e.target.value })}
