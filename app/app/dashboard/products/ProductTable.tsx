@@ -9,6 +9,7 @@ export default function ProductTable({ paginatedProducts, openEditModal }: { pag
             <table className="min-w-[900px] w-full text-sm">
                 <thead className="bg-slate-900 text-slate-300">
                     <tr>
+                        <th className="p-3 text-left">SKU</th>
                         <th className="p-3 text-left">Name</th>
                         <th className="p-3 text-left">Supplier</th>
                         <th className="p-3 text-right">Cost Price</th>
@@ -32,6 +33,8 @@ export default function ProductTable({ paginatedProducts, openEditModal }: { pag
                             key={product._id}
                             className="border-t border-slate-800 hover:bg-slate-900/50"
                         >
+                            
+                            <td className="p-3">{product.sku}</td>
                             <td className="p-3">{product.name}</td>
                             <td className="p-3">{`${product?.supplier?.name }` || "N/A"}</td>
                             <td className="p-3 text-right">{product.costPrice}</td>

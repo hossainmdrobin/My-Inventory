@@ -20,6 +20,7 @@ export default function ProductsPage() {
 
   const [createProduct, { }] = useCreateProductMutation();
   const { data: productsData, isLoading } = useGetProductsQuery({ key: search });
+  console.log("productsData", productsData)
   const [update,{data:updateData}] = useUpdateProductMutation()
 
 

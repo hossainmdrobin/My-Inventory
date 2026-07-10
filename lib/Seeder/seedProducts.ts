@@ -32,7 +32,8 @@ function transformProduct(raw: RawProduct) {
 
 const seedProducts = async () => {
   try {
-    await connectToDB();
+    await mongoose.connect("mongodb://Anjana:92430@cluster0-shard-00-00.f0fpp.mongodb.net:27017,cluster0-shard-00-01.f0fpp.mongodb.net:27017,cluster0-shard-00-02.f0fpp.mongodb.net:27017/inventory?ssl=true&replicaSet=atlas-51yo8h-shard-0&authSource=admin&retryWrites=true&w=majority&appName=Cluster0");
+
 
     const fileContent = await fs.readFile(JSON_FILE_PATH, "utf-8");
     const rawProducts: RawProduct[] = JSON.parse(fileContent);
