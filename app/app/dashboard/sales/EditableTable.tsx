@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { SaleType } from '@/types/sale'
-import { useUpdateSaleMutation } from '@/redux/slices/sales/api.sale'
+import { useUpdateSaleMutation, useDeleteSaleMutation } from '@/redux/slices/sales/api.sale'
 import { vans } from '@/lib/lib_objects/vans'
-import { Pencil } from 'lucide-react'
+import { Pencil, Trash2 } from 'lucide-react'
 
 type EditableItem = {
     productId: string
@@ -95,6 +95,7 @@ export default function EditableTable({ sales }: { sales: SaleType[] }) {
     const [editingId, setEditingId] = useState<string | null>(null)
     const [draft, setDraft] = useState<EditableSale | null>(null)
     const [updateSale, { isLoading }] = useUpdateSaleMutation()
+    const [deleteSale, { isLoading: isDeleting }] = useDeleteSaleMutation()
 
     const startEdit = (sale: SaleType) => {
         setEditingId(sale._id || null)
@@ -333,13 +334,27 @@ export default function EditableTable({ sales }: { sales: SaleType[] }) {
                                         ₹{(sale.totalPrice || 0).toFixed(2)}
                                     </td>
                                     <td className='px-4 py-3 text-center'>
-                                        <button
-                                            onClick={() => startEdit(sale)}
-                                            className='inline-flex items-center justify-center w-8 h-8 rounded-lg bg-slate-800 hover:bg-blue-600 text-slate-300 hover:text-white transition-colors'
-                                            title='Edit sale'
-                                        >
-                                            <Pencil size={16} />
-                                        </button>
+                                        <div className='flex items-center justify-center gap-2'>
+                                            <button
+                                                onClick={() => startEdit(sale)}
+                                                className='inline-flex items-center justify-center w-8 h-8 rounded-lg bg-slate-800 hover:bg-blue-600 text-slate-300 hover:text-white transition-colors'
+                                                title='Edit sale'
+                                            >
+                                                <Pencil size={16} />
+                                            </button>
+                                            <button
+                                                onClick={() => {
+                                                    if (confirm('Are you sure you want to delete this sale?')) {
+                                                        deleteSale({ id: sale._id || '' })
+                                                    }
+                                                }}
+                                                disabled={isDeleting}
+                                                className='inline-flex items-center justify-center w-8 h-8 rounded-lg bg-slate-800 hover:bg-red-600 text-slate-300 hover:text-white transition-colors disabled:opacity-50'
+                                                title='Delete sale'
+                                            >
+                                                <Trash2 size={16} />
+                                            </button>
+                                        </div>
                                     </td>
                                 </tr>
                             )

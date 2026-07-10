@@ -48,11 +48,20 @@ export const saleEndpoints = apiSlice.injectEndpoints({
             }),
             invalidatesTags: ["GETALLSALES", "GETALLPRODUCTS", "GETALLPURCHASES"],
         }),
+        deleteSale: builder.mutation<any, { id: string }>({
+            query: ({ id }) => ({
+                url: `/app/dashboard/sales/api`,
+                method: 'DELETE',
+                body: { id },
+            }),
+            invalidatesTags: ["GETALLSALES", "GETALLPRODUCTS", "GETALLPURCHASES"],
+        }),
     }),
 })
 
 export const {
     useCreateSaleMutation,
     useGetSalesQuery,
-    useUpdateSaleMutation
+    useUpdateSaleMutation,
+    useDeleteSaleMutation,
 } = saleEndpoints;
