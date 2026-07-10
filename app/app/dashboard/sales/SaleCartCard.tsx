@@ -43,7 +43,8 @@ export default function SaleCartCard({ product }: { product: SaleItemType }) {
                         </tr>
                         {cost.map((item, index) => (
                             <tr key={index} className="hover:bg-gray-600">
-                                <td><input type="number"
+                                <td><input className="w-12"
+                                 type="number"
                                     min={1}
                                     defaultValue={item.price}
                                     maxLength={8}
@@ -53,7 +54,7 @@ export default function SaleCartCard({ product }: { product: SaleItemType }) {
                                         setCost(newCost);
                                     }}
                                 /></td>
-                                <td className=""><input className="" type="number"
+                                <td className=""><input className="w-12" type="number"
                                     min={1}
                                     max={product.stock}
                                     defaultValue={item.quantity}

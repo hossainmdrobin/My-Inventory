@@ -58,7 +58,7 @@ export default function SaleCart({ selectedIds, sale, setCartOpen }: { selectedI
                     <textarea
                         onChange={(e) => dispatch(setDescription(e.target.value))}
                         name="" id="" placeholder='Sale Description' className="w-full bg-slate-800 border border-slate-700 rounded-lg p-2" />
-                    <div className='w-full bg-slate-800 border border-slate-700 rounded-lg p-2'>
+                    <div className='w-full bg-slate-800 border border-slate-700 rounded-lg p-2 overflow-x-auto'>
                         <div className="flex items-center justify-between mt-2 mb-4">
                             <h3 className=' text-lg'>Your selected Products</h3>
                             <button
@@ -71,14 +71,6 @@ export default function SaleCart({ selectedIds, sale, setCartOpen }: { selectedI
 
                             <span>Please Select a Product</span>
                         </div>}
-                        {/* <div className="flex items-center justify-between">
-                            <div> </div>
-                            <div>Name</div>
-                            <div>Stock</div>
-                            <div>Price</div>
-                            <div>Quentity</div>
-                            <div>Commition</div>
-                        </div> */}
                         <table className="w-full text-left">
                             <thead>
                                 <tr>

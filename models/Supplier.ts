@@ -9,6 +9,9 @@ const SupplierSchema = new Schema(
             required: true,
             trim: true,
         },
+        displayName:{
+            type: String,
+        },
         phone: {
             type: String,
             required: true,
