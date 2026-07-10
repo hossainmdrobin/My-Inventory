@@ -22,6 +22,7 @@ export default function SuppliersPage() {
 
   const [form, setForm] = useState({
     name: "",
+    displayName: "",
     phone: "",
     address: "",
   });
@@ -31,6 +32,7 @@ export default function SuppliersPage() {
     setEditing(null);
     setForm({
       name: "",
+      displayName: "",
       phone: "",
       address: "",
     });
@@ -41,6 +43,7 @@ export default function SuppliersPage() {
     setEditing(supplier);
     setForm({
       name: supplier.name,
+      displayName: supplier.displayName || "",
       phone: supplier.phone,
       address: supplier.address || "",
     });

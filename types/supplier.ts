@@ -1,6 +1,7 @@
 export interface Supplier {
   _id?: string;
   name: string;
+  displayName?: string;
   phone: string;
   address?: string;
   addedBy?: string;

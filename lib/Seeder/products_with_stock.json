@@ -1,0 +1,2620 @@
+[
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "H.S",
+    "sku": "1001",
+    "stock": 145,
+    "costPrice": 20.0,
+    "sellingPrice": 25.0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "H.V পেন্সিল",
+    "sku": "1002",
+    "stock": 161,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "H.P সুপার পেন্সিল",
+    "sku": "1003",
+    "stock": 133,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "H.D",
+    "sku": "1004",
+    "stock": 188,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "R.E ২০ পিছ(রিমোট)",
+    "sku": "1005",
+    "stock": 118,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "R.E পাতা",
+    "sku": "1006",
+    "stock": 100,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "G.L গ্যাস লাইট",
+    "sku": "1007",
+    "stock": 173,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "E.G.L",
+    "sku": "1008",
+    "stock": 111,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "ইকোনো লাইট",
+    "sku": "1009",
+    "stock": 199,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "সুপার গ্যাসলাইট",
+    "sku": "1010",
+    "stock": 176,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "1 L গ্যাসলাইট",
+    "sku": "1011",
+    "stock": 190,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "300 M.L",
+    "sku": "1012",
+    "stock": 148,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "150 M.L বডি স্প্রে",
+    "sku": "1013",
+    "stock": 124,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "475 arosol",
+    "sku": "1014",
+    "stock": 168,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "250 গ্যাস",
+    "sku": "1015",
+    "stock": 104,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "200 ফোম",
+    "sku": "1016",
+    "stock": 118,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "330 পানি",
+    "sku": "1018",
+    "stock": 172,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "500 পানি",
+    "sku": "1019",
+    "stock": 195,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "1500 পানি",
+    "sku": "1020",
+    "stock": 103,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "22 গ্রাম চিপস্",
+    "sku": "1021",
+    "stock": 121,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "80 গ্রাম চিপস্",
+    "sku": "1022",
+    "stock": 155,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "100 ঘি",
+    "sku": "1023",
+    "stock": 199,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "200 ঘি",
+    "sku": "1024",
+    "stock": 126,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "400 ঘি",
+    "sku": "1025",
+    "stock": 152,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "900 ঘি",
+    "sku": "1027",
+    "stock": 188,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "শার্প ব্লেড",
+    "sku": "2001",
+    "stock": 151,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "বলাকা ব্লেড",
+    "sku": "2002",
+    "stock": 145,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "চ্যাম্পিয়ান ব্লেড",
+    "sku": "2003",
+    "stock": 175,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "টাইটেনিয়াম ব্লেড",
+    "sku": "2004",
+    "stock": 115,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "ক্লাসিক ব্লেড",
+    "sku": "2005",
+    "stock": 174,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "প্লাটিনিয়াম ব্লেড(১০০ পিস)",
+    "sku": "2006",
+    "stock": 126,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "প্লাটিনিয়াম ব্লেড(৬০ পিস)",
+    "sku": "2007",
+    "stock": 165,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "হাপ ব্লেড",
+    "sku": "2008",
+    "stock": 181,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "2+1 রেজার",
+    "sku": "2009",
+    "stock": 137,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "এডোরা রেজার",
+    "sku": "2010",
+    "stock": 194,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "বডি রেজার",
+    "sku": "2011",
+    "stock": 134,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "সুইপ 3 রেজার",
+    "sku": "2012",
+    "stock": 126,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "কমফোট রেজার",
+    "sku": "2013",
+    "stock": 157,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "5XL",
+    "sku": "2014",
+    "stock": 181,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "3XL",
+    "sku": "2015",
+    "stock": 171,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "কার্টিজ",
+    "sku": "2016",
+    "stock": 141,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "ব্লটু রেজার",
+    "sku": "2017",
+    "stock": 146,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "ম্যাক্স 3 কাটিজ",
+    "sku": "2018",
+    "stock": 134,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "ম্যাক্স 3 রেজার",
+    "sku": "2019",
+    "stock": 164,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "খুর",
+    "sku": "2020",
+    "stock": 175,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "১০০ ফোম",
+    "sku": "2021",
+    "stock": 136,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "২০০ ফোম",
+    "sku": "2022",
+    "stock": 174,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "৫০০ ফোম",
+    "sku": "2023",
+    "stock": 144,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "সেভার",
+    "sku": "3001",
+    "stock": 190,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "ইস্পাহানি মীর্জাপুর বেস্ট লিফ",
+    "sku": "3002",
+    "stock": 175,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "ইস্পাহানি মীর্জাপুর বেস্ট লিফ",
+    "sku": "3003",
+    "stock": 171,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "ইস্পাহানি মীর্জাপুর বেস্ট লিফ",
+    "sku": "3004",
+    "stock": 162,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "ইস্পাহানি মীর্জাপুর বেস্ট লিফ",
+    "sku": "3005",
+    "stock": 199,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "ইস্পাহানি মীর্জাপুর বেস্ট লিফ",
+    "sku": "3006",
+    "stock": 121,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "ইস্পাহানি মীর্জাপুর বেস্ট লিফ",
+    "sku": "3007",
+    "stock": 141,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "ইস্পাহানি মীর্জাপুর টি ব্যাগ",
+    "sku": "3008",
+    "stock": 149,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "ইস্পাহানি মীর্জাপুর টি ব্যাগ",
+    "sku": "3009",
+    "stock": 155,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "ইস্পাহানি মীর্জাপুর বি ও পি",
+    "sku": "3010",
+    "stock": 152,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "ইস্পাহানি মীর্জাপুর পি ডি",
+    "sku": "3011",
+    "stock": 162,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "ব্লেন্ডার'স চয়েজ প্রিমিয়াম গ্রিন টি",
+    "sku": "3012",
+    "stock": 109,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "গ্রিন স্পট",
+    "sku": "3013",
+    "stock": 113,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "হট টি স্টল স্পেশাল",
+    "sku": "3014",
+    "stock": 144,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "সুপিরিয়র টাইগার",
+    "sku": "3015",
+    "stock": 148,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "পার্বণ চিনিগুড়া চাল",
+    "sku": "3018",
+    "stock": 128,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "পার্বণ নাজিরশাইল",
+    "sku": "3019",
+    "stock": 135,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "পার্বণ জিরাশাইল",
+    "sku": "3020",
+    "stock": 141,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "পার্বণ পাঈজাম",
+    "sku": "3021",
+    "stock": 191,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "মাইটি স্টিকস",
+    "sku": "3025",
+    "stock": 168,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "মাইটি চিপস স্পেশাল",
+    "sku": "3026",
+    "stock": 113,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "স্পাইসি ভেজিটেবল চিপস",
+    "sku": "3027",
+    "stock": 124,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "কর্ণেডো চকলেট চিপস",
+    "sku": "3028",
+    "stock": 196,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "মাসাল্কিস",
+    "sku": "3029",
+    "stock": 143,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "মিল্কোস বিস্কুট",
+    "sku": "3030",
+    "stock": 182,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "অরেঞ্জ বিস্কুট",
+    "sku": "3031",
+    "stock": 157,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "বাটারফুল বিস্কুট",
+    "sku": "3034",
+    "stock": 117,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "এনার্জি ম্যাক্স বিস্কুট",
+    "sku": "3036",
+    "stock": 198,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "সেভারি বিস্কুট",
+    "sku": "3038",
+    "stock": 192,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "মিল্ক মেরী বিস্কুট",
+    "sku": "3040",
+    "stock": 182,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "লেস্কাস ভেজিটেবল ক্রেকারস",
+    "sku": "3041",
+    "stock": 200,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "পাপি বাইট লেমন",
+    "sku": "3042",
+    "stock": 198,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "পাপি বাইট চকলেট",
+    "sku": "3043",
+    "stock": 102,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "পাপি বাইট অরেঞ্জ",
+    "sku": "3044",
+    "stock": 134,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "ডেইলি চয়েজ",
+    "sku": "3045",
+    "stock": 145,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "সল্টেজ কুকিজ",
+    "sku": "3046",
+    "stock": 109,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "বাটার কুকিজ",
+    "sku": "3047",
+    "stock": 150,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "কোকোনাট কুকিজ",
+    "sku": "3048",
+    "stock": 128,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "টি টাইম কুকিজ",
+    "sku": "3049",
+    "stock": 172,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "হরলিক্স কুকিজ",
+    "sku": "3050",
+    "stock": 124,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "ওভালটিন কুকিজ",
+    "sku": "3051",
+    "stock": 113,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "বেকারি ফ্রেস ড্রাই কেক",
+    "sku": "3052",
+    "stock": 180,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "বেকারি ফ্রেস সুইট টোষ্ট",
+    "sku": "3053",
+    "stock": 139,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "বাটার বাজ",
+    "sku": "3054",
+    "stock": 193,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "লিটল বাইট",
+    "sku": "3055",
+    "stock": 112,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "নিক্মি বিস্কুট",
+    "sku": "3056",
+    "stock": 178,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "সেমাই",
+    "sku": "3057",
+    "stock": 106,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "ইস্পি মেঙ্গো ড্রিংক",
+    "sku": "3059",
+    "stock": 137,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "ইস্পি মেঙ্গো ড্রিংক",
+    "sku": "3060",
+    "stock": 189,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "ইস্পি মেঙ্গো ড্রিংক",
+    "sku": "3061",
+    "stock": 140,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "ইস্পি মেঙ্গো ড্রিংক",
+    "sku": "3062",
+    "stock": 141,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "ইস্পি মেঙ্গো ড্রিংক",
+    "sku": "3063",
+    "stock": 179,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "ইস্পি মেঙ্গো ড্রিংক",
+    "sku": "3064",
+    "stock": 151,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "ইস্পি মেঙ্গো ড্রিংক",
+    "sku": "3065",
+    "stock": 188,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "ইস্পি মেঙ্গো ড্রিংক",
+    "sku": "3066",
+    "stock": 180,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "ইস্পি মেঙ্গো ড্রিংক",
+    "sku": "3067",
+    "stock": 153,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "ইস্পি অরেঞ্জ ড্রিংক",
+    "sku": "3068",
+    "stock": 114,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "ইস্পি অরেঞ্জ ড্রিংক",
+    "sku": "3069",
+    "stock": 141,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "ইস্পি অরেঞ্জ ড্রিংক",
+    "sku": "3070",
+    "stock": 130,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "ইস্পি অরেঞ্জ ড্রিংক",
+    "sku": "3071",
+    "stock": 160,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "ইস্পি অরেঞ্জ ড্রিংক",
+    "sku": "3072",
+    "stock": 196,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "ইস্পি অরেঞ্জ ড্রিংক",
+    "sku": "3073",
+    "stock": 165,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "ইস্পি অরেঞ্জ ড্রিংক",
+    "sku": "3074",
+    "stock": 129,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "ইস্পি অরেঞ্জ ড্রিংক",
+    "sku": "3075",
+    "stock": 184,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "ইস্পি অরেঞ্জ ড্রিংক",
+    "sku": "3076",
+    "stock": 127,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "কোকোলা",
+    "sku": "4001",
+    "stock": 154,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "শাহী টোস্ট বিস্কুট",
+    "sku": "4002",
+    "stock": 153,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "পিনাট বাটার Mediam",
+    "sku": "4003",
+    "stock": 127,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "পিনাট বাটার Tiki",
+    "sku": "4004",
+    "stock": 188,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "কোকোলা সুইট টোষ্ট  বিস্কুট",
+    "sku": "4005",
+    "stock": 142,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "ড্রাই কেক বিস্কুট",
+    "sku": "4006",
+    "stock": 173,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "হ্যাজেল নাটি বিস্কুট ( টিকি )",
+    "sku": "4007",
+    "stock": 145,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "nocila",
+    "sku": "4008",
+    "stock": 114,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "লেক্সাস ভেজিটেবল বিস্কুট (ফ্যামিলি)",
+    "sku": "4009",
+    "stock": 153,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "tea time",
+    "sku": "4010",
+    "stock": 135,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "ডায়া সল্ট বিস্কুট",
+    "sku": "4011",
+    "stock": 116,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "চকো স্টিক",
+    "sku": "4012",
+    "stock": 167,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "রিয়েল এনার্জি বিস্কুট টিকি",
+    "sku": "4013",
+    "stock": 142,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "মজার ক্রিম পাইনাপেল বিস্কুট",
+    "sku": "4014",
+    "stock": 147,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "creaki",
+    "sku": "4015",
+    "stock": 147,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "super crispi",
+    "sku": "4016",
+    "stock": 124,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "oree oree",
+    "sku": "4017",
+    "stock": 179,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "dip dip",
+    "sku": "4018",
+    "stock": 138,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "cup cake",
+    "sku": "4019",
+    "stock": 199,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "mango bite biscuit",
+    "sku": "4020",
+    "stock": 111,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "dai salt tiki",
+    "sku": "4021",
+    "stock": 124,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "lexus tiki",
+    "sku": "4022",
+    "stock": 110,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "choco time",
+    "sku": "4023",
+    "stock": 136,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "bour born",
+    "sku": "4024",
+    "stock": 190,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "এগ  নুডলস",
+    "sku": "4025",
+    "stock": 121,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "এগ মসলা",
+    "sku": "4026",
+    "stock": 124,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "এগ এন্ড চিকেন মসলা",
+    "sku": "4027",
+    "stock": 162,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "কুক মাসালা নুডলস্",
+    "sku": "4028",
+    "stock": 194,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "২ মি . ইন্সট্যান্ট চিকেন মাসালা ( ৪৮ প্যা )",
+    "sku": "4029",
+    "stock": 130,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "সুপার এগ এন্ড চিকেন নুডলস",
+    "sku": "4030",
+    "stock": 146,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "বিগ বাজার",
+    "sku": "4031",
+    "stock": 191,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "জুনিয়র কাপ নুডলস্ ( চিকেন কারি )",
+    "sku": "4032",
+    "stock": 150,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "চিকেন মাসালা ( ৮ প্যা )  Yello",
+    "sku": "4033",
+    "stock": 138,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "মিল্ক - বানানা ওয়েফার ( বিগ )",
+    "sku": "4034",
+    "stock": 148,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "চকোলেট ওয়েফার রোল ( জার )",
+    "sku": "4035",
+    "stock": 190,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "megic ওয়েফার রোল ( জার )",
+    "sku": "4036",
+    "stock": 122,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "মিল্ক ক্রিম রোল",
+    "sku": "4037",
+    "stock": 115,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "হ্যালো পান্ডা ওয়েফার রোল",
+    "sku": "4038",
+    "stock": 123,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "মজা ক্রিসপি",
+    "sku": "4039",
+    "stock": 191,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "কোকো বাইট ( স্ট্রবেরী ওয়েফার )",
+    "sku": "4040",
+    "stock": 195,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "অরেঞ্জ ক্রিম ওয়েফার বিস্কুট বাটার ক্রিম রোল ( ১০ গ্রা )",
+    "sku": "4041",
+    "stock": 190,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "ক্রিম ওয়েফার বিস্কুট বাটার ক্রিম রোল ( ১০ গ্রা )",
+    "sku": "4042",
+    "stock": 131,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "বাটার ক্রিম রোল ( ১০ গ্রা )",
+    "sku": "4043",
+    "stock": 190,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "cashonut",
+    "sku": "4044",
+    "stock": 100,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "Munchy",
+    "sku": "4045",
+    "stock": 199,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "পটেটো চিপস্",
+    "sku": "4046",
+    "stock": 131,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "caramel corn chips",
+    "sku": "4047",
+    "stock": 193,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "রেসিং কার চিপস",
+    "sku": "4048",
+    "stock": 193,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "কোকো ক্রাঞ্চ",
+    "sku": "4049",
+    "stock": 195,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "রিয়েল ওয়াসাবি চিপস",
+    "sku": "4050",
+    "stock": 176,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "স্পাইসি কর্ণ চিপস",
+    "sku": "4051",
+    "stock": 153,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "পটেটো চিপস্ spicy tomato",
+    "sku": "4052",
+    "stock": 122,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "কোকোলা জেমস্",
+    "sku": "4053",
+    "stock": 188,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "চকোলেট কাপ ( ৫০ পিস )",
+    "sku": "4054",
+    "stock": 129,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "ফান এন্ড জয় ( ১০ পিস )",
+    "sku": "4055",
+    "stock": 162,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "চকো বলস্ (৩০ পিস)",
+    "sku": "4056",
+    "stock": 172,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "চকো Blust  (৩০ পিস)",
+    "sku": "4057",
+    "stock": 188,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "ফান এন্ড জয় (১৬ পিস)",
+    "sku": "4058",
+    "stock": 120,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "ফান এন্ড জয় (30পিস)",
+    "sku": "4059",
+    "stock": 180,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "চকো Blust  (15 পিস)",
+    "sku": "4060",
+    "stock": 144,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "ফুটি ড্রিংকস্ লিচি",
+    "sku": "4061",
+    "stock": 124,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "লিচি জেল ( পাউচ )",
+    "sku": "4062",
+    "stock": 177,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "আইস কুল ( আইস ললি জার )",
+    "sku": "4063",
+    "stock": 162,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "লিচি জেল ( জার65 )",
+    "sku": "4064",
+    "stock": 170,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "জুসি ল্যান্ড",
+    "sku": "4065",
+    "stock": 135,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "জুস ডিজুস ( ২৫০ মিলি )",
+    "sku": "4066",
+    "stock": 178,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "স্টারফ্রেশ ড্রিংকিং ওয়াটার -৩৩০ মি.লি .",
+    "sku": "4067",
+    "stock": 198,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "স্টারফ্রেশ ড্রিংকিং ওয়াটার -৫০০ মি.লি",
+    "sku": "4068",
+    "stock": 182,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "স্টারফ্রেশ ড্রিংকিং ওয়াটার -১50০ মি.লি",
+    "sku": "4069",
+    "stock": 155,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e405"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "৮০০ গ্রাম চানাচুর",
+    "sku": "5001",
+    "stock": 127,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e408"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "৩০০ গ্রাম চানাচুর",
+    "sku": "5002",
+    "stock": 139,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e408"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "১৫০ গ্রাম চানাচুর",
+    "sku": "5003",
+    "stock": 127,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e408"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "২৫ গ্রাম চানাচুর",
+    "sku": "5004",
+    "stock": 189,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e408"
+    },
+    "unit": "unit"
+  },
+  {
+    "institute": {
+      "$oid": "6a25c6f8f819108818e9d485"
+    },
+    "name": "মিনি",
+    "sku": "5005",
+    "stock": 100,
+    "costPrice": 0,
+    "sellingPrice": 0,
+    "supplier": {
+      "$oid": "6a50874788b786ea1586e408"
+    },
+    "unit": "unit"
+  }
+]
