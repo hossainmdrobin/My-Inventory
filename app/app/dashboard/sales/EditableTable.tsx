@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { SaleType } from '@/types/sale'
 import { useUpdateSaleMutation } from '@/redux/slices/sales/api.sale'
 import { vans } from '@/lib/lib_objects/vans'
+import { Pencil } from 'lucide-react'
 
 type EditableItem = {
     productId: string
@@ -67,31 +68,50 @@ function recompute(sale: EditableSale) {
     return { ...sale, totalPrice, due }
 }
 
+function formatDate(date?: Date) {
+    if (!date) return '-'
+    return new Date(date).toLocaleDateString('en-GB', {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric',
+    })
+}
+
+function formatProducts(sale: SaleType) {
+    const items = sale.items || []
+    if (items.length === 0) return '-'
+    return items
+        .map((item) => {
+            const name =
+                typeof item.productId === 'object'
+                    ? (item.productId as { name?: string }).name || item.name
+                    : item.name
+            return `${name}(${item.quantity}x)`
+        })
+        .join(', ')
+}
+
 export default function EditableTable({ sales }: { sales: SaleType[] }) {
-    const [edits, setEdits] = useState<Record<string, EditableSale>>({})
+    const [editingId, setEditingId] = useState<string | null>(null)
+    const [draft, setDraft] = useState<EditableSale | null>(null)
     const [updateSale, { isLoading }] = useUpdateSaleMutation()
 
-    const getDraft = (sale: SaleType): EditableSale =>
-        edits[sale._id || ''] ?? toEditable(sale)
-
-    const updateDraft = (
-        id: string,
-        base: SaleType,
-        updater: (s: EditableSale) => EditableSale
-    ) => {
-        setEdits((prev) => ({
-            ...prev,
-            [id]: updater(edits[id] ?? toEditable(base)),
-        }))
+    const startEdit = (sale: SaleType) => {
+        setEditingId(sale._id || null)
+        setDraft(toEditable(sale))
     }
 
-    const updateItem = (
-        id: string,
-        base: SaleType,
-        index: number,
-        patch: Partial<EditableItem>
-    ) => {
-        updateDraft(id, base, (sale) => {
+    const cancelEdit = () => {
+        setEditingId(null)
+        setDraft(null)
+    }
+
+    const updateDraft = (updater: (s: EditableSale) => EditableSale) => {
+        setDraft((prev) => (prev ? updater(prev) : prev))
+    }
+
+    const updateItem = (index: number, patch: Partial<EditableItem>) => {
+        updateDraft((sale) => {
             const items = sale.items.map((it, i) =>
                 i === index ? { ...it, ...patch } : it
             )
@@ -99,8 +119,8 @@ export default function EditableTable({ sales }: { sales: SaleType[] }) {
         })
     }
 
-    const save = async (sale: SaleType) => {
-        const draft = getDraft(sale)
+    const save = async () => {
+        if (!draft) return
         await updateSale({
             id: draft._id,
             data: {
@@ -114,6 +134,7 @@ export default function EditableTable({ sales }: { sales: SaleType[] }) {
                 items: draft.items,
             },
         })
+        cancelEdit()
     }
 
     if (!sales || sales.length === 0) {
@@ -125,173 +146,207 @@ export default function EditableTable({ sales }: { sales: SaleType[] }) {
     }
 
     return (
-        <div className='space-y-6'>
-            {sales.map((sale) => {
-                const draft = getDraft(sale)
-                return (
-                    <div
-                        key={draft._id}
-                        className='bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-4'
-                    >
-                        <div className='flex flex-wrap items-end gap-4'>
-                            <div className='flex flex-col'>
-                                <label className='text-xs text-slate-400 mb-1'>Van</label>
-                                <select
-                                    value={draft.vanNo}
-                                    onChange={(e) =>
-                                        updateDraft(draft._id, sale, (s) => ({
-                                            ...s,
-                                            vanNo: e.target.value,
-                                        }))
-                                    }
-                                    className='w-32 text-gray-400 bg-slate-800 border border-slate-700 rounded-lg p-2'
-                                >
-                                    {vans.map((van) => (
-                                        <option key={van.vanNo} value={van.vanNo}>
-                                            {van.name}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
-                            <div className='flex flex-col'>
-                                <label className='text-xs text-slate-400 mb-1'>Type</label>
-                                <select
-                                    value={draft.type}
-                                    onChange={(e) =>
-                                        updateDraft(draft._id, sale, (s) => ({
-                                            ...s,
-                                            type: e.target.value,
-                                        }))
-                                    }
-                                    className='w-32 text-gray-400 bg-slate-800 border border-slate-700 rounded-lg p-2'
-                                >
-                                    <option value='OPENING'>Opening</option>
-                                    <option value='RETURN'>Return</option>
-                                    <option value='DAMAGE'>Damage</option>
-                                </select>
-                            </div>
-                            <div className='flex flex-col'>
-                                <label className='text-xs text-slate-400 mb-1'>Paid</label>
-                                <input
-                                    type='number'
-                                    min={0}
-                                    value={draft.paid}
-                                    onChange={(e) =>
-                                        updateDraft(draft._id, sale, (s) =>
-                                            recompute({ ...s, paid: Number(e.target.value) })
-                                        )
-                                    }
-                                    className='w-28 bg-slate-800 border border-slate-700 rounded-lg p-2'
-                                />
-                            </div>
-                            <div className='flex flex-col'>
-                                <label className='text-xs text-slate-400 mb-1'>Due</label>
-                                <input
-                                    type='number'
-                                    min={0}
-                                    value={draft.due}
-                                    onChange={(e) =>
-                                        updateDraft(draft._id, sale, (s) => ({
-                                            ...s,
-                                            due: Number(e.target.value),
-                                        }))
-                                    }
-                                    className='w-28 bg-slate-800 border border-slate-700 rounded-lg p-2'
-                                />
-                            </div>
-                            <div className='flex flex-col'>
-                                <label className='text-xs text-slate-400 mb-1'>Total</label>
-                                <div className='w-28 bg-slate-800 border border-slate-700 rounded-lg p-2 text-slate-300'>
-                                    ₹{draft.totalPrice.toFixed(2)}
-                                </div>
-                            </div>
-                            <button
-                                onClick={() => save(sale)}
-                                disabled={isLoading}
-                                className='px-4 py-2 rounded-lg bg-blue-600 font-semibold disabled:opacity-50'
-                            >
-                                {isLoading ? 'Saving...' : 'Save'}
-                            </button>
-                        </div>
+        <div className='bg-slate-900 border border-slate-800 rounded-xl overflow-hidden'>
+            <div className='overflow-x-auto'>
+                <table className='min-w-full text-sm'>
+                    <thead className='bg-slate-800/50 text-slate-400'>
+                        <tr>
+                            <th className='px-4 py-3 text-left font-medium'>Date</th>
+                            <th className='px-4 py-3 text-left font-medium'>Note</th>
+                            <th className='px-4 py-3 text-left font-medium'>Products</th>
+                            <th className='px-4 py-3 text-right font-medium'>Total Price</th>
+                            <th className='px-4 py-3 text-center font-medium'>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody className='divide-y divide-slate-800'>
+                        {sales.map((sale) => {
+                            const isEditing = editingId === sale._id && draft
 
-                        <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-                            <input
-                                value={draft.note}
-                                placeholder='Note'
-                                onChange={(e) =>
-                                    updateDraft(draft._id, sale, (s) => ({
-                                        ...s,
-                                        note: e.target.value,
-                                    }))
-                                }
-                                className='w-full bg-slate-800 border border-slate-700 rounded-lg p-2'
-                            />
-                            <input
-                                value={draft.description}
-                                placeholder='Description'
-                                onChange={(e) =>
-                                    updateDraft(draft._id, sale, (s) => ({
-                                        ...s,
-                                        description: e.target.value,
-                                    }))
-                                }
-                                className='w-full bg-slate-800 border border-slate-700 rounded-lg p-2'
-                            />
-                        </div>
-
-                        <div className='overflow-x-auto bg-slate-800/40 border border-slate-700 rounded-lg p-2'>
-                            <table className='w-full text-left text-sm'>
-                                <thead className='text-slate-400'>
-                                    <tr>
-                                        <th className='px-2 py-1'>Product</th>
-                                        <th className='px-2 py-1'>Supplier</th>
-                                        <th className='px-2 py-1'>Quantity</th>
-                                        <th className='px-2 py-1'>Selling Price</th>
-                                        <th className='px-2 py-1'>Total</th>
+                            if (isEditing) {
+                                return (
+                                    <tr key={sale._id} className='bg-slate-800/30 align-top'>
+                                        <td className='px-4 py-3 text-slate-300'>
+                                            {formatDate(draft.createdAt)}
+                                        </td>
+                                        <td className='px-4 py-3 space-y-2'>
+                                            <input
+                                                value={draft.note}
+                                                placeholder='Note'
+                                                onChange={(e) =>
+                                                    updateDraft((s) => ({
+                                                        ...s,
+                                                        note: e.target.value,
+                                                    }))
+                                                }
+                                                className='w-full bg-slate-800 border border-slate-700 rounded-lg p-2'
+                                            />
+                                            <input
+                                                value={draft.description}
+                                                placeholder='Description'
+                                                onChange={(e) =>
+                                                    updateDraft((s) => ({
+                                                        ...s,
+                                                        description: e.target.value,
+                                                    }))
+                                                }
+                                                className='w-full bg-slate-800 border border-slate-700 rounded-lg p-2'
+                                            />
+                                        </td>
+                                        <td className='px-4 py-3'>
+                                            <div className='space-y-2'>
+                                                <select
+                                                    value={draft.vanNo}
+                                                    onChange={(e) =>
+                                                        updateDraft((s) => ({
+                                                            ...s,
+                                                            vanNo: e.target.value,
+                                                        }))
+                                                    }
+                                                    className='w-full text-gray-400 bg-slate-800 border border-slate-700 rounded-lg p-2'
+                                                >
+                                                    {vans.map((van) => (
+                                                        <option key={van.vanNo} value={van.vanNo}>
+                                                            {van.name}
+                                                        </option>
+                                                    ))}
+                                                </select>
+                                                <select
+                                                    value={draft.type}
+                                                    onChange={(e) =>
+                                                        updateDraft((s) => ({
+                                                            ...s,
+                                                            type: e.target.value,
+                                                        }))
+                                                    }
+                                                    className='w-full text-gray-400 bg-slate-800 border border-slate-700 rounded-lg p-2'
+                                                >
+                                                    <option value='OPENING'>Opening</option>
+                                                    <option value='RETURN'>Return</option>
+                                                    <option value='DAMAGE'>Damage</option>
+                                                </select>
+                                                <div className='bg-slate-800 border border-slate-700 rounded-lg p-2 space-y-1'>
+                                                    {draft.items.map((item, index) => (
+                                                        <div
+                                                            key={item.productId}
+                                                            className='flex items-center gap-2 text-slate-300'
+                                                        >
+                                                            <span className='flex-1 truncate'>
+                                                                {item.name}
+                                                            </span>
+                                                            <input
+                                                                type='number'
+                                                                min={0}
+                                                                value={item.quantity}
+                                                                onChange={(e) =>
+                                                                    updateItem(index, {
+                                                                        quantity: Number(e.target.value),
+                                                                    })
+                                                                }
+                                                                className='w-16 bg-slate-900 border border-slate-700 rounded-lg p-1'
+                                                            />
+                                                            <span>x</span>
+                                                            <input
+                                                                type='number'
+                                                                min={0}
+                                                                value={item.sellingPrice}
+                                                                onChange={(e) =>
+                                                                    updateItem(index, {
+                                                                        sellingPrice: Number(e.target.value),
+                                                                    })
+                                                                }
+                                                                className='w-20 bg-slate-900 border border-slate-700 rounded-lg p-1'
+                                                            />
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                                <div className='flex gap-2'>
+                                                    <input
+                                                        type='number'
+                                                        min={0}
+                                                        value={draft.paid}
+                                                        onChange={(e) =>
+                                                            updateDraft((s) =>
+                                                                recompute({
+                                                                    ...s,
+                                                                    paid: Number(e.target.value),
+                                                                })
+                                                            )
+                                                        }
+                                                        placeholder='Paid'
+                                                        className='w-1/2 bg-slate-800 border border-slate-700 rounded-lg p-2'
+                                                    />
+                                                    <input
+                                                        type='number'
+                                                        min={0}
+                                                        value={draft.due}
+                                                        onChange={(e) =>
+                                                            updateDraft((s) => ({
+                                                                ...s,
+                                                                due: Number(e.target.value),
+                                                            }))
+                                                        }
+                                                        placeholder='Due'
+                                                        className='w-1/2 bg-slate-800 border border-slate-700 rounded-lg p-2'
+                                                    />
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td className='px-4 py-3 text-right text-slate-200 font-medium'>
+                                            ₹{draft.totalPrice.toFixed(2)}
+                                        </td>
+                                        <td className='px-4 py-3'>
+                                            <div className='flex flex-col items-center gap-2'>
+                                                <button
+                                                    onClick={save}
+                                                    disabled={isLoading}
+                                                    className='px-3 py-1 rounded-lg bg-blue-600 font-semibold text-xs disabled:opacity-50'
+                                                >
+                                                    {isLoading ? 'Saving...' : 'Save'}
+                                                </button>
+                                                <button
+                                                    onClick={cancelEdit}
+                                                    className='px-3 py-1 rounded-lg border border-slate-600 text-xs'
+                                                >
+                                                    Cancel
+                                                </button>
+                                            </div>
+                                        </td>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    {draft.items.map((item, index) => (
-                                        <tr key={item.productId} className='border-t border-slate-700'>
-                                            <td className='px-2 py-1 text-slate-300'>{item.name}</td>
-                                            <td className='px-2 py-1 text-slate-400'>{item.supplier || '-'}</td>
-                                            <td className='px-2 py-1'>
-                                                <input
-                                                    type='number'
-                                                    min={0}
-                                                    value={item.quantity}
-                                                    onChange={(e) =>
-                                                        updateItem(draft._id, sale, index, {
-                                                            quantity: Number(e.target.value),
-                                                        })
-                                                    }
-                                                    className='w-20 bg-slate-800 border border-slate-700 rounded-lg p-1'
-                                                />
-                                            </td>
-                                            <td className='px-2 py-1'>
-                                                <input
-                                                    type='number'
-                                                    min={0}
-                                                    value={item.sellingPrice}
-                                                    onChange={(e) =>
-                                                        updateItem(draft._id, sale, index, {
-                                                            sellingPrice: Number(e.target.value),
-                                                        })
-                                                    }
-                                                    className='w-24 bg-slate-800 border border-slate-700 rounded-lg p-1'
-                                                />
-                                            </td>
-                                            <td className='px-2 py-1 text-slate-300'>
-                                                ₹{(item.sellingPrice * item.quantity).toFixed(2)}
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                )
-            })}
+                                )
+                            }
+
+                            return (
+                                <tr
+                                    key={sale._id}
+                                    className='hover:bg-slate-800/30 transition-colors'
+                                >
+                                    <td className='px-4 py-3 text-slate-300'>
+                                        {formatDate(sale.createdAt)}
+                                    </td>
+                                    <td className='px-4 py-3 text-slate-300'>
+                                        {sale.note || '-'}
+                                    </td>
+                                    <td className='px-4 py-3 text-slate-400'>
+                                        {formatProducts(sale)}
+                                    </td>
+                                    <td className='px-4 py-3 text-right text-slate-200 font-medium'>
+                                        ₹{(sale.totalPrice || 0).toFixed(2)}
+                                    </td>
+                                    <td className='px-4 py-3 text-center'>
+                                        <button
+                                            onClick={() => startEdit(sale)}
+                                            className='inline-flex items-center justify-center w-8 h-8 rounded-lg bg-slate-800 hover:bg-blue-600 text-slate-300 hover:text-white transition-colors'
+                                            title='Edit sale'
+                                        >
+                                            <Pencil size={16} />
+                                        </button>
+                                    </td>
+                                </tr>
+                            )
+                        })}
+                    </tbody>
+                </table>
+            </div>
         </div>
     )
 }
