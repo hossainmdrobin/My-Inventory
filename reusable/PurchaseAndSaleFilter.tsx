@@ -5,7 +5,7 @@ import { SlidersHorizontal, ArrowUpDown } from "lucide-react";
 import { useState, useEffect } from "react";
 
 
-export default function PurchaseFilters({ filters, setFilters,enabled }: { filters: FilterValues; setFilters: (filters: FilterValues) => void; enabled: boolean }) {
+export default function PurchaseFilters({ filters, setFilters }: { filters: FilterValues; setFilters: (filters: FilterValues) => void }) {
   const [expanded, setExpanded] = useState(false);
   const updateFilter = (key: keyof FilterValues, value: FilterValues[keyof FilterValues]) => {
     const updated = { ...filters, [key]: value };
@@ -15,7 +15,6 @@ export default function PurchaseFilters({ filters, setFilters,enabled }: { filte
   console.log(filters, "filters in filter component")
 
   useEffect(() => {
-    // if(enabled) setFilters({...filters, dateMode:"single"})
     if (filters.dateMode === "single" && filters.startDate) {
       updateFilter("endDate", filters.startDate);
     } else if (filters.dateMode === "month" && filters.startDate) {
@@ -23,7 +22,7 @@ export default function PurchaseFilters({ filters, setFilters,enabled }: { filte
       const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0).toISOString().split("T")[0];
       updateFilter("endDate", lastDay);
     }
-  }, [filters.dateMode, filters.startDate, enabled]);
+  }, [filters.dateMode, filters.startDate]);
 
   return (
     <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-lg space-y-4">
@@ -39,9 +38,9 @@ export default function PurchaseFilters({ filters, setFilters,enabled }: { filte
               onChange={(e) => updateFilter("dateMode", e.target.value)}
               className="bg-slate-950 border border-slate-700 text-slate-200 rounded-xl px-3 py-2"
             >
-              {!enabled && <option value="range">Date Range</option>}
+              <option value="range">Date Range</option>
               <option value="single">Single Date</option>
-              {!enabled && <option value="month">Month</option>}
+              <option value="month">Month</option>
             </select>
           </div>
 
