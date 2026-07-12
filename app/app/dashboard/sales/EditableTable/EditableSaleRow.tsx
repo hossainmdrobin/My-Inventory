@@ -4,6 +4,7 @@ import DetailedQuantity from "./DetailedQuantity"
 
 type Props = {
     draft: SaleType
+    setDraft: (draft: SaleType) => void
     isLoading: boolean
     onCancel: () => void
 }
@@ -11,9 +12,9 @@ type Props = {
 export default function EditableSaleRow({
     draft,
     isLoading,
+    setDraft,
     onCancel,
 }: Props) {
-    console.log('draft', draft)
     return (
         <tr className='bg-slate-800/30 align-top'>
             <td className='px-4 py-3 text-slate-300'>
@@ -41,6 +42,8 @@ export default function EditableSaleRow({
                                 key={index}
                                 item={item}
                                 index={index}
+                                draft={draft}
+                                setDraft={setDraft}
                             />
                         ))}
                     </div>

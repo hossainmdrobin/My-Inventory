@@ -14,6 +14,8 @@ export default function EditableTable({ sales }: { sales: SaleType[] }) {
     const [updateSale, { isLoading }] = useUpdateSaleMutation()
     const [deleteSale, { isLoading: isDeleting }] = useDeleteSaleMutation()
 
+    console.log("the drafg", draft)
+
     const startEdit = (sale: SaleType) => {
         setEditingId(sale._id || null)
         setDraft(toEditable(sale))
@@ -61,6 +63,7 @@ export default function EditableTable({ sales }: { sales: SaleType[] }) {
                                     <EditableSaleRow
                                         key={i}
                                         draft={draft}
+                                        setDraft={setDraft}
                                         isLoading={isLoading}
                                         onCancel={cancelEdit}
                                     />
