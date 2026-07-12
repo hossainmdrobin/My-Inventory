@@ -1,7 +1,7 @@
 import type { SaleType } from '@/types/sale';
 import type { SortColumn, SortOrder } from '@/types/others';
 import SaleItemRow from './SaleItemRow';
-import { flattenSales, sortFlatItems } from './utils/saleTable';
+import { flattenSales, sortFlatItems, aggregateSalesProducts } from './utils/saleTable';
 
 export default function DayGroup({
   date,
@@ -14,7 +14,10 @@ export default function DayGroup({
   sortBy: SortColumn;
   sortOrder: SortOrder;
 }) {
+  const aggregatedProducts = aggregateSalesProducts(dateSales);
+  console.log(aggregatedProducts, 'aggregatedProducts');
   const dayItems = sortFlatItems(flattenSales(dateSales), sortBy, sortOrder);
+  console.log(dateSales, 'dayItems');
   const nonDamageDaySales = dateSales.filter((s) => s.type !== 'DAMAGE');
   const dayTotal = nonDamageDaySales.reduce((sum, s) => sum + s.totalPrice, 0);
 
@@ -43,10 +46,10 @@ export default function DayGroup({
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-800/50">
-            {dayItems.map((item) => (
+            {aggregatedProducts.map((item) => (
               <SaleItemRow
                 key={
-                  item.saleId +
+                  item.sku +
                   item.productName +
                   item.price +
                   item.openingQty +

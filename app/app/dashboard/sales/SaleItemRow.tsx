@@ -1,6 +1,6 @@
-import type { FlatItem } from './types/saleTable';
+import { AggregatedProduct } from "@/types/product";
 
-export default function SaleItemRow({ item }: { item: FlatItem }) {
+export default function SaleItemRow({ item }: { item: AggregatedProduct }) {
   return (
     <tr className="hover:bg-slate-800/30 transition-colors">
       <td className="px-3 py-2.5 text-slate-300 text-sm">{item.productName}</td>

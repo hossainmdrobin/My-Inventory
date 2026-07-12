@@ -1,20 +1,11 @@
 import React, { useMemo } from 'react';
 import { SaleType } from '@/types/sale';
 import { flattenSales } from './SaleTable';
+import { AggregatedProduct } from '@/types/product';
 
-type AggregatedProduct = {
-  sku: string;
-  supplierName: string;
-  productName: string;
-  price: number;
-  openingQty: number;
-  returnQty: number;
-  damageQty: number;
-  totalPrice: number;
-};
 
 export default function SalesByProductTable({ sales }: { sales: SaleType[] }) {
-  const aggregatedProducts = useMemo(() => {
+  const aggregatedProducts = useMemo((): AggregatedProduct[] => {
     if (!sales || sales.length === 0) return [];
 
     const flatItems = flattenSales(sales);
