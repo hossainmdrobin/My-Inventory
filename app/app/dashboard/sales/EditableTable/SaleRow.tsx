@@ -1,6 +1,7 @@
 import { SaleType } from '@/types/sale'
 import { Pencil, Trash2 } from 'lucide-react'
 import { formatDate, formatProducts } from './utils'
+import { vans } from '@/lib/lib_objects/vans'
 
 type Props = {
     sale: SaleType
@@ -10,6 +11,7 @@ type Props = {
 }
 
 export default function SaleRow({ sale, isDeleting, onEdit, onDelete }: Props) {
+    const color = (sale.type === 'RETURN') ? 'text-yellow-400' : (sale.type === 'DAMAGE' ? 'text-red-400' : 'text-green-400');
     return (
         <tr className='hover:bg-slate-800/30 transition-colors'>
             <td className='px-4 py-3 text-slate-300'>
@@ -22,7 +24,10 @@ export default function SaleRow({ sale, isDeleting, onEdit, onDelete }: Props) {
                 {formatProducts(sale)}
             </td>
             <td className='px-4 py-3 text-right text-slate-200 font-medium'>
-                ₹{(sale.totalPrice || 0).toFixed(2)}
+                {sale?.vanNo ? vans[Number(sale.vanNo)]?.name ?? '-' : '-'}
+            </td>
+            <td className={`px-4 ${color} py-3 text-right text-slate-200 font-medium`}>
+                {sale.type || '-'}
             </td>
             <td className='px-4 py-3 text-center'>
                 <div className='flex items-center justify-center gap-2'>

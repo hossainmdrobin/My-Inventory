@@ -4,14 +4,13 @@ import {
     useUpdateSaleMutation,
     useDeleteSaleMutation,
 } from '@/redux/slices/sales/api.sale'
-import type { EditableItem, EditableSale } from './types'
 import { toEditable, recompute } from './utils'
 import SaleRow from './SaleRow'
 import EditableSaleRow from './EditableSaleRow'
 
 export default function EditableTable({ sales }: { sales: SaleType[] }) {
     const [editingId, setEditingId] = useState<string | null>(null)
-    const [draft, setDraft] = useState<EditableSale | null>(null)
+    const [draft, setDraft] = useState<SaleType | null>(null)
     const [updateSale, { isLoading }] = useUpdateSaleMutation()
     const [deleteSale, { isLoading: isDeleting }] = useDeleteSaleMutation()
 
@@ -23,37 +22,6 @@ export default function EditableTable({ sales }: { sales: SaleType[] }) {
     const cancelEdit = () => {
         setEditingId(null)
         setDraft(null)
-    }
-
-    const updateDraft = (updater: (s: EditableSale) => EditableSale) => {
-        setDraft((prev) => (prev ? updater(prev) : prev))
-    }
-
-    const updateItem = (index: number, patch: Partial<EditableItem>) => {
-        updateDraft((sale) => {
-            const items = sale.items.map((it, i) =>
-                i === index ? { ...it, ...patch } : it
-            )
-            return recompute({ ...sale, items })
-        })
-    }
-
-    const save = async () => {
-        if (!draft) return
-        await updateSale({
-            id: draft._id,
-            data: {
-                vanNo: draft.vanNo,
-                type: draft.type,
-                note: draft.note,
-                description: draft.description,
-                paid: draft.paid,
-                due: draft.due,
-                totalPrice: draft.totalPrice,
-                items: draft.items,
-            },
-        })
-        cancelEdit()
     }
 
     const handleDelete = (sale: SaleType) => {
@@ -79,23 +47,21 @@ export default function EditableTable({ sales }: { sales: SaleType[] }) {
                             <th className='px-4 py-3 text-left font-medium'>Date</th>
                             <th className='px-4 py-3 text-left font-medium'>Note</th>
                             <th className='px-4 py-3 text-left font-medium'>Products</th>
-                            <th className='px-4 py-3 text-right font-medium'>Total Price</th>
+                            <th className='px-4 py-3 text-right font-medium'>Van</th>
+                            <th className='px-4 py-3 text-right font-medium'>Type</th>
                             <th className='px-4 py-3 text-center font-medium'>Action</th>
                         </tr>
                     </thead>
                     <tbody className='divide-y divide-slate-800'>
-                        {sales.map((sale) => {
+                        {sales.map((sale,i) => {
                             const isEditing = editingId === sale._id && draft
 
                             if (isEditing) {
                                 return (
                                     <EditableSaleRow
-                                        key={sale._id}
+                                        key={i}
                                         draft={draft}
                                         isLoading={isLoading}
-                                        updateDraft={updateDraft}
-                                        updateItem={updateItem}
-                                        onSave={save}
                                         onCancel={cancelEdit}
                                     />
                                 )
