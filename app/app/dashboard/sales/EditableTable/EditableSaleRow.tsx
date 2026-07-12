@@ -44,23 +44,6 @@ export default function EditableSaleRow({
                             />
                         ))}
                     </div>
-                    <div className='flex gap-2'>
-                        <input
-                            type='number'
-                            min={0}
-                            value={draft.paid}
-                            placeholder='Paid'
-                            className='w-1/2 bg-slate-800 border border-slate-700 rounded-lg p-2'
-                        />
-                        <input
-                            type='number'
-                            min={0}
-                            value={draft.due}
-    
-                            placeholder='Due'
-                            className='w-1/2 bg-slate-800 border border-slate-700 rounded-lg p-2'
-                        />
-                    </div>
                 </div>
             </td>
             <td className='px-4 py-3 text-right text-slate-200 font-medium'>

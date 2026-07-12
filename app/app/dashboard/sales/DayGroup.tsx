@@ -1,13 +1,13 @@
 import type { SaleType } from '@/types/sale';
 import type { SortColumn, SortOrder } from '@/types/others';
 import SaleItemRow from './SaleItemRow';
-import { flattenSales, sortFlatItems, aggregateSalesProducts } from './utils/saleTable';
+import { aggregateSalesProducts } from './utils/saleTable';
 
 export default function DayGroup({
   date,
   dateSales,
-  sortBy,
-  sortOrder,
+  // sortBy,
+  // sortOrder,
 }: {
   date: string;
   dateSales: SaleType[];
@@ -15,9 +15,6 @@ export default function DayGroup({
   sortOrder: SortOrder;
 }) {
   const aggregatedProducts = aggregateSalesProducts(dateSales);
-  console.log(aggregatedProducts, 'aggregatedProducts');
-  const dayItems = sortFlatItems(flattenSales(dateSales), sortBy, sortOrder);
-  console.log(dateSales, 'dayItems');
   const nonDamageDaySales = dateSales.filter((s) => s.type !== 'DAMAGE');
   const dayTotal = nonDamageDaySales.reduce((sum, s) => sum + s.totalPrice, 0);
 
