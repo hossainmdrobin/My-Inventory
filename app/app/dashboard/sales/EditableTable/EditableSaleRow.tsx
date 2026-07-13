@@ -1,3 +1,4 @@
+import { useEffect } from "react"
 import { SaleType } from "@/types/sale"
 import { formatDate } from "../utils/saleTable"
 import DetailedQuantity from "./DetailedQuantity"
@@ -16,7 +17,13 @@ export default function EditableSaleRow({
     setDraft,
     onCancel,
 }: Props) {
-    const [updateSale, { isLoading }] = useUpdateSaleMutation()
+    const [updateSale, {data:updatedSale, isLoading }] = useUpdateSaleMutation()
+    useEffect(()=>{
+        if(updatedSale){
+            onCancel()
+        }
+    }, [updatedSale])
+
 
     return (
         <tr className='bg-slate-800/30 align-top'>
@@ -25,12 +32,14 @@ export default function EditableSaleRow({
             </td>
             <td className='px-4 py-3 space-y-2'>
                 <input
+                onChange={(e) => setDraft({ ...draft, note: e.target.value })}
                     value={draft.note}
                     placeholder='Note'
 
                     className='w-full bg-slate-800 border border-slate-700 rounded-lg p-2'
                 />
                 <input
+                    onChange={(e) => setDraft({ ...draft, description: e.target.value })}
                     value={draft.description}
                     placeholder='Description'
 
