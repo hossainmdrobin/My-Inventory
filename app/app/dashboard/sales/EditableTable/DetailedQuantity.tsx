@@ -75,6 +75,8 @@ export default function DetailedQuantity({
 
                             className='w-20 bg-slate-900 border border-slate-700 rounded-lg p-1'
                         />
+                        <span>{(draft.items[detailIndex]?.totalPrice ?? detail.quantity * detail.price).toFixed(2)}</span>
+                        <span>{(draft.items[detailIndex]?.comission ?? detail.quantity * (item.sellingPrice - detail.price)).toFixed(2)}</span>
                     </div>
                 )}
 
