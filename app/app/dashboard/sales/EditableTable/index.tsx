@@ -1,17 +1,15 @@
 import { useState } from 'react'
 import { SaleType } from '@/types/sale'
 import {
-    useUpdateSaleMutation,
     useDeleteSaleMutation,
 } from '@/redux/slices/sales/api.sale'
-import { toEditable, recompute } from './utils'
+import { toEditable } from './utils'
 import SaleRow from './SaleRow'
 import EditableSaleRow from './EditableSaleRow'
 
 export default function EditableTable({ sales }: { sales: SaleType[] }) {
     const [editingId, setEditingId] = useState<string | null>(null)
     const [draft, setDraft] = useState<SaleType | null>(null)
-    const [updateSale, { isLoading }] = useUpdateSaleMutation()
     const [deleteSale, { isLoading: isDeleting }] = useDeleteSaleMutation()
 
     console.log("the drafg", draft)
@@ -64,7 +62,6 @@ export default function EditableTable({ sales }: { sales: SaleType[] }) {
                                         key={i}
                                         draft={draft}
                                         setDraft={setDraft}
-                                        isLoading={isLoading}
                                         onCancel={cancelEdit}
                                     />
                                 )

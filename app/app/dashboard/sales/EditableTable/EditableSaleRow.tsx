@@ -1,20 +1,23 @@
 import { SaleType } from "@/types/sale"
 import { formatDate } from "../utils/saleTable"
 import DetailedQuantity from "./DetailedQuantity"
+import {
+    useUpdateSaleMutation,
+} from '@/redux/slices/sales/api.sale'
 
 type Props = {
     draft: SaleType
     setDraft: (draft: SaleType) => void
-    isLoading: boolean
     onCancel: () => void
 }
 
 export default function EditableSaleRow({
     draft,
-    isLoading,
     setDraft,
     onCancel,
 }: Props) {
+    const [updateSale, { isLoading }] = useUpdateSaleMutation()
+
     return (
         <tr className='bg-slate-800/30 align-top'>
             <td className='px-4 py-3 text-slate-300'>
@@ -24,13 +27,13 @@ export default function EditableSaleRow({
                 <input
                     value={draft.note}
                     placeholder='Note'
-                    
+
                     className='w-full bg-slate-800 border border-slate-700 rounded-lg p-2'
                 />
                 <input
                     value={draft.description}
                     placeholder='Description'
-                    
+
                     className='w-full bg-slate-800 border border-slate-700 rounded-lg p-2'
                 />
             </td>
@@ -55,7 +58,7 @@ export default function EditableSaleRow({
             <td className='px-4 py-3'>
                 <div className='flex flex-col items-center gap-2'>
                     <button
-                        // onClick={onSave}
+                        onClick={()=>updateSale({ id: draft._id || '', data: draft })}
                         disabled={isLoading}
                         className='px-3 py-1 rounded-lg bg-blue-600 font-semibold text-xs disabled:opacity-50'
                     >
