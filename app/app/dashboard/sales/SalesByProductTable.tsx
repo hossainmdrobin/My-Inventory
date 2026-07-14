@@ -5,6 +5,7 @@ import { AggregatedProduct } from '@/types/product';
 
 
 export default function SalesByProductTable({ sales }: { sales: SaleType[] }) {
+  console.log('SalesByProductTable sales', sales);
   const aggregatedProducts = useMemo((): AggregatedProduct[] => {
     if (!sales || sales.length === 0) return [];
 
@@ -23,6 +24,7 @@ export default function SalesByProductTable({ sales }: { sales: SaleType[] }) {
           returnQty: 0,
           damageQty: 0,
           totalPrice: 0,
+          commission: item.commission || 0,
         };
       }
       map[key].openingQty += item.openingQty;
@@ -33,6 +35,8 @@ export default function SalesByProductTable({ sales }: { sales: SaleType[] }) {
 
     return Object.values(map).sort((a, b) => a.productName.localeCompare(b.productName));
   }, [sales]);
+
+  console.log('aggregatedProducts', aggregatedProducts);
 
   const totalQuantity = aggregatedProducts.reduce((sum, p) => sum + (p.openingQty + p.returnQty), 0);
   const totalSale = aggregatedProducts.reduce((sum, p) => sum + p.totalPrice, 0);

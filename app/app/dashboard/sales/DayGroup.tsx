@@ -41,6 +41,7 @@ export default function DayGroup({
               <th className="px-3 py-2 text-right font-medium">Sales </th>
               <th className="px-3 py-2 text-right font-medium">Damage </th>
               <th className="px-3 py-2 text-right font-medium">Total Price</th>
+              <th className="px-3 py-2 text-right font-medium">Commission</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-800/50">

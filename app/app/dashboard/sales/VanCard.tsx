@@ -17,8 +17,10 @@ export default function VanCard({
   const vanSales = Object.values(vanData).flat();
   const nonDamageSales = vanSales.filter((s) => s.type !== 'DAMAGE');
   const totalAmount = nonDamageSales.reduce((sum, s) => sum + s.totalPrice, 0);
-  const totalPaid = nonDamageSales.reduce((sum, s) => sum + s.paid, 0);
-  const totalDue = nonDamageSales.reduce((sum, s) => sum + s.due, 0);
+  const totalCommission = nonDamageSales.reduce(
+    (sum, s) => sum + (s.items || []).reduce((acc, it) => acc + (it.comission || 0), 0),
+    0
+  );
 
   return (
     <div className="rounded-2xl border border-slate-800 bg-slate-900/30 overflow-hidden">
@@ -47,9 +49,8 @@ export default function VanCard({
           </div>
           <div className="text-right">
             <div className="text-white font-bold">₹{totalAmount.toFixed(2)}</div>
-            <div className="flex gap-3 text-xs text-white/80">
-              <span>Paid: ₹{totalPaid.toFixed(2)}</span>
-              <span>Due: ₹{totalDue.toFixed(2)}</span>
+            <div className="text-xs text-white/80">
+              <span>Commission: ₹{totalCommission.toFixed(2)}</span>
             </div>
           </div>
         </div>

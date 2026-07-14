@@ -40,6 +40,7 @@ export function flattenSales(sales: SaleType[]): FlatItem[] {
         const returnQty = (type === 'RETURN') ? item.quantity : 0;
         const damageQty = (type === 'DAMAGE') ? item.quantity : 0;
         const totalPrice = (type !== 'DAMAGE' && type !== 'RETURN') ? item.quantity * price : 0;
+        const commission = (type !== 'DAMAGE' && type !== 'RETURN') ? (item.comission || 0) : 0;
 
         items.push({
           saleId: sale._id || '',
@@ -53,6 +54,7 @@ export function flattenSales(sales: SaleType[]): FlatItem[] {
           returnQty,
           damageQty,
           totalPrice,
+          commission,
         });
       });
     }
@@ -102,12 +104,14 @@ export const aggregateSalesProducts = (sales: SaleType[]): AggregatedProduct[] =
           returnQty: 0,
           damageQty: 0,
           totalPrice: 0,
+          commission: 0,
         };
       }
       map[key].openingQty += item.openingQty;
       map[key].returnQty += item.returnQty;
       map[key].damageQty += item.damageQty;
       map[key].totalPrice += item.totalPrice;
+      map[key].commission += item.commission;
     });
     return Object.values(map).sort((a, b) => a.productName.localeCompare(b.productName));
   };
