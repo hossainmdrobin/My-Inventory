@@ -50,6 +50,7 @@ export default function SalesPage() {
 
   const sale = useSelector((state: any) => state.sale);
   const { data, isLoading, error } = useGetSalesQuery({ key: filters.search, range: { startDate: filters.startDate, endDate: filters.endDate }, limit: filters.limit, page: pageNo, status: filters.status });
+  console.log("the sales data", data, isLoading, error);
   useEffect(() => {
     setSelectedId(sale.items.map((item: any) => item.productId));
   }, [sale]);
