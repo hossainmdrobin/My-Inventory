@@ -17,7 +17,6 @@ export default function DetailedQuantity({
     draft: SaleType
     setDraft: (draft: SaleType) => void
 }) {
-    console.log('item', item.sellingPrice)
     const [newQuantity, setNewQuantity] = useState<quantityDetail[]>(item.detailQuantity)
     useEffect(() => {
         const updatedItems = [...draft.items]
@@ -37,7 +36,7 @@ export default function DetailedQuantity({
             className='flex items-center gap-2 text-slate-300'
         >
             <span className='flex-1 truncate'>
-                {item.name}
+                {`${item.name}`}
             </span>
             <div>{newQuantity.map((detail, detailIndex) =>
                     <div className="flex items-center gap-2" key={detailIndex}>

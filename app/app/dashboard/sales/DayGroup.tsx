@@ -36,9 +36,9 @@ export default function DayGroup({
               <th className="px-3 py-2 text-left font-medium">Product name</th>
               <th className="px-3 py-2 text-left font-medium">SKU</th>
               <th className="px-3 py-2 text-left font-medium">Company</th>
-              <th className="px-3 py-2 text-right font-medium">Opening quantity</th>
-              <th className="px-3 py-2 text-right font-medium">Return quantity</th>
-              <th className="px-3 py-2 text-right font-medium">Damage quantity</th>
+              <th className="px-3 py-2 text-right font-medium">Opening </th>
+              <th className="px-3 py-2 text-right font-medium">Return </th>
+              <th className="px-3 py-2 text-right font-medium">Damage </th>
               <th className="px-3 py-2 text-right font-medium">Total Price</th>
             </tr>
           </thead>

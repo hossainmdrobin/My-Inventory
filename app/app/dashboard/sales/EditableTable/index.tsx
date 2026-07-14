@@ -12,8 +12,6 @@ export default function EditableTable({ sales }: { sales: SaleType[] }) {
     const [draft, setDraft] = useState<SaleType | null>(null)
     const [deleteSale, { isLoading: isDeleting }] = useDeleteSaleMutation()
 
-    console.log("the drafg", draft)
-
     const startEdit = (sale: SaleType) => {
         setEditingId(sale._id || null)
         setDraft(toEditable(sale))
