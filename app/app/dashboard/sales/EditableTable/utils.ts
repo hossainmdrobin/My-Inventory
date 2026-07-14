@@ -1,7 +1,6 @@
 import type { SaleType } from '@/types/sale'
-import type { EditableSale } from './types'
 
-export function toEditable(sale: SaleType): EditableSale {
+export function toEditable(sale: SaleType): SaleType {
     return {
         _id: sale._id || '',
         vanNo: sale.vanNo?.toString() || '1',
@@ -30,14 +29,6 @@ export function toEditable(sale: SaleType): EditableSale {
     }
 }
 
-export function recompute(sale: EditableSale) {
-    const totalPrice = sale.items.reduce(
-        (sum, item) => sum + item.sellingPrice * item.quantity,
-        0
-    )
-    const due = Math.max(totalPrice - sale.paid, 0)
-    return { ...sale, totalPrice, due }
-}
 
 export function formatDate(date?: Date) {
     if (!date) return '-'
