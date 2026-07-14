@@ -109,21 +109,78 @@ const SaleSchema = new Schema(
 );
 
 
+/* ---------------- Stock adjustment helper ----------------
+ * Reduces/ restores product stock based on the DIFFERENCE between the new
+ * and original item quantities. On create the original list is empty, so the
+ * full quantity is applied. On update only the delta is applied, which
+ * prevents stock from being reduced twice.
+ */
+async function applyStockDelta(items: any[], originalItems: any[] = []) {
+  const sumByProduct = (arr: any[]) => {
+    const map = new Map<string, number>();
+    for (const it of arr) {
+      const id = String(it.productId);
+      map.set(id, (map.get(id) || 0) + (Number(it.quantity) || 0));
+    }
+    return map;
+  };
+
+  const original = sumByProduct(originalItems);
+  const next = sumByProduct(items);
+  const ids = new Set<string>([...original.keys(), ...next.keys()]);
+
+  for (const id of ids) {
+    const delta = (next.get(id) || 0) - (original.get(id) || 0);
+    // positive delta => more sold => reduce stock; negative => restore stock
+    if (delta !== 0) {
+      await Product.findByIdAndUpdate(id, { $inc: { stock: -delta } });
+    }
+  }
+}
+
+/* ---------------- Hooks ---------------- */
+
+// Capture original items only when modifying an existing sale so we can
+// compute the quantity delta later.
+SaleSchema.pre("save", async function () {
+  if (this.isNew) {
+    (this as any).$locals.isNewSale = true;
+  } else {
+    const original: any = await Sale.findById(this._id).lean();
+    (this as any).$locals.originalItems = original?.items || [];
+  }
+});
+
+SaleSchema.pre("findOneAndUpdate", async function () {
+  const update = this.getUpdate() as any;
+  const hasItems = !!(update?.items || update?.$set?.items);
+  if (!hasItems) return; // only recompute stock when items change
+
+  const original: any = await Sale.findOne(this.getQuery()).lean();
+  (this as any).$locals.originalItems = original?.items || [];
+});
+
 SaleSchema.post("save", async function (doc) {
   try {
     const sale = doc;
-    if (sale.type === "OPENING") {
-      const updated = await Institute.findByIdAndUpdate(sale.institute, { $inc: { totalCashValue: sale.paid } }, { new: true });
-    }
-    // 🔻 Update product stock (your existing logic)
-    for (const item of sale.items) {
-      await Product.findByIdAndUpdate(item.productId, {
-        $inc: { stock: -item.quantity },
-      });
+    const locals = (this as any).$locals || {};
+    const isNew = locals.isNewSale ?? this.isNew;
+
+    // 🔻 Opening balance adds cash to institute (creation only)
+    if (isNew && sale.type === "OPENING") {
+      await Institute.findByIdAndUpdate(
+        sale.institute,
+        { $inc: { totalCashValue: sale.paid } },
+        { new: true }
+      );
     }
 
-    // 🔻 Adjust customer account
-    if (sale.customerId) {
+    // 🔻 Adjust product stock: full quantity on create, delta on update
+    const originalItems = locals.originalItems || [];
+    await applyStockDelta(sale.items, originalItems);
+
+    // 🔻 Adjust customer account + ledger (creation only to avoid double counting)
+    if (isNew && sale.customerId) {
       await Customer.findByIdAndUpdate(sale.customerId, {
         $inc: {
           totalDue: sale.due,
@@ -142,6 +199,21 @@ SaleSchema.post("save", async function (doc) {
     }
   } catch (error) {
     console.error("Post-sale update failed:", error);
+  }
+});
+
+// 🔻 Adjust product stock when an existing sale's quantity is updated
+// (e.g. PATCH/PUT routes that use findByIdAndUpdate).
+SaleSchema.post("findOneAndUpdate", async function () {
+  const originalItems = (this as any).$locals?.originalItems;
+  if (!originalItems) return; // items were not part of this update
+
+  try {
+    const updated: any = await Sale.findOne(this.getQuery()).lean();
+    if (!updated) return;
+    await applyStockDelta(updated.items, originalItems);
+  } catch (error) {
+    console.error("Stock update (sale update) failed:", error);
   }
 });
 
