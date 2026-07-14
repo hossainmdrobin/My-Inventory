@@ -12,6 +12,8 @@ export default function PurchaseFilters({ filters, setFilters }: { filters: Filt
     setFilters(updated);
   };
 
+  console.log(filters, "filters in filter component")
+
   useEffect(() => {
     if (filters.dateMode === "single" && filters.startDate) {
       updateFilter("endDate", filters.startDate);
@@ -77,33 +79,7 @@ export default function PurchaseFilters({ filters, setFilters }: { filters: Filt
               className="bg-slate-950 border border-slate-700 text-slate-200 rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />
           </div>
-
-          {/* <div className="flex flex-col">
-            <label className="text-xs text-slate-400 mb-1">Status</label>
-            <select
-              value={filters.status}
-              onChange={(e) => updateFilter("status", e.target.value)}
-              className="bg-slate-950 border border-slate-700 text-slate-200 rounded-xl px-3 py-2"
-            >
-              <option value="">All</option>
-              <option value="due">Due</option>
-              <option value="paid">Paid</option>
-            </select>
-          </div> */}
         </div>
-        {/* <div className="flex items-center gap-3 pt-2">
-          <label className="text-xs text-slate-400">Records per page</label>
-          <select
-            value={filters.limit}
-            onChange={(e) => updateFilter("limit", Number(e.target.value))}
-            className="bg-slate-950 border border-slate-700 text-slate-200 rounded-lg px-2 py-1"
-          >
-            <option value={5}>5</option>
-            <option value={10}>10</option>
-            <option value={25}>25</option>
-            <option value={50}>50</option>
-          </select>
-        </div> */}
         <div className="flex items-center gap-4 pt-3 border-t border-slate-800">
           <div className="flex items-center gap-2">
             <ArrowUpDown className="w-4 h-4 text-slate-400" />

@@ -9,7 +9,7 @@ const initialState: SaleType = {
     description: "",
     note: "",
     vanNo:"1",
-    type:"SALE",
+    type:"OPENING",
 }
 const saleSlice = createSlice({
     name: 'sale',

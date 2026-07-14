@@ -11,3 +11,13 @@ export interface Product {
   createdAt?: string;
   updatedAt?: string;
 }
+export type AggregatedProduct = {
+  sku: string;
+  supplierName: string;
+  productName: string;
+  price: number;
+  openingQty: number;
+  returnQty: number;
+  damageQty: number;
+  totalPrice: number;
+};
