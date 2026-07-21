@@ -1,13 +1,11 @@
 import type { SaleType } from '@/types/sale';
 import type { SortColumn, SortOrder } from '@/types/others';
 import SaleItemRow from './SaleItemRow';
-import { aggregateSalesProducts } from './utils/saleTable';
+import { aggregateSalesProducts, calculatedTotals } from './utils/saleTable';
 
 export default function DayGroup({
   date,
   dateSales,
-  // sortBy,
-  // sortOrder,
 }: {
   date: string;
   dateSales: SaleType[];
@@ -18,6 +16,8 @@ export default function DayGroup({
   const nonDamageDaySales = dateSales.filter((s) => s.type !== 'DAMAGE');
   const dayTotal = nonDamageDaySales.reduce((sum, s) => sum + s.totalPrice, 0);
 
+  const { totalCommission, totalPrice, totalDamagePrice } = calculatedTotals(dateSales);
+
   return (
     <div className="bg-slate-900/50">
       <div className="px-5 py-3 bg-slate-800/50 flex items-center justify-between">
@@ -26,7 +26,10 @@ export default function DayGroup({
           <span className="text-xs text-slate-500">
             {dateSales.length} sale{dateSales.length > 1 ? 's' : ''}
           </span>
-          <span className="text-sm font-semibold text-slate-200">₹{dayTotal.toFixed(2)}</span>
+          <span className="text-xs text-slate-500">Sale: {totalPrice.toFixed(2)}</span>
+          <span className="text-xs text-slate-500">Commissaion: {totalCommission.toFixed(2)}</span>
+          <span className="text-xs text-slate-500">Damage: {totalDamagePrice.toFixed(2)}</span>
+          {/* <span className="text-sm font-semibold text-slate-200">₹{dayTotal.toFixed(2)}</span> */}
         </div>
       </div>
       <div className="overflow-x-auto">

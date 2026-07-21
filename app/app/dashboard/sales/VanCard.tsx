@@ -1,7 +1,7 @@
 import type { GroupedSales } from './types/saleTable';
 import type { SortColumn, SortOrder } from '@/types/others';
 import DayGroup from './DayGroup';
-import { getVanColor } from './utils/saleTable';
+import { calculatedTotals, getVanColor } from './utils/saleTable';
 
 export default function VanCard({
   van,
@@ -15,12 +15,8 @@ export default function VanCard({
   sortOrder: SortOrder;
 }) {
   const vanSales = Object.values(vanData).flat();
-  const nonDamageSales = vanSales.filter((s) => s.type !== 'DAMAGE');
-  const totalAmount = nonDamageSales.reduce((sum, s) => sum + s.totalPrice, 0);
-  const totalCommission = nonDamageSales.reduce(
-    (sum, s) => sum + (s.items || []).reduce((acc, it) => acc + (it.comission || 0), 0),
-    0
-  );
+  const { totalCommission, totalPrice:totalAmount, totalDamagePrice } = calculatedTotals(vanSales);
+  
 
   return (
     <div className="rounded-2xl border border-slate-800 bg-slate-900/30 overflow-hidden">
@@ -51,6 +47,7 @@ export default function VanCard({
             <div className="text-white font-bold">₹{totalAmount.toFixed(2)}</div>
             <div className="text-xs text-white/80">
               <span>Commission: ₹{totalCommission.toFixed(2)}</span>
+              <span>Total Damage:DBT {totalDamagePrice.toFixed(2)}</span>
             </div>
           </div>
         </div>

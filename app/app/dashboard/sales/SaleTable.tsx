@@ -41,6 +41,7 @@ export default function SaleTable({
     });
     return result;
   }, [sales]);
+  // console.log(grouped, "Grouped Sales"  )
 
   if (sales.length === 0) {
     return (
