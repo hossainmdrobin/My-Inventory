@@ -24,7 +24,7 @@ export default function SaleRow({ sale, isDeleting, onEdit, onDelete }: Props) {
                 {formatProducts(sale)}
             </td>
             <td className='px-4 py-3 text-right text-slate-200 font-medium'>
-                {sale?.vanNo ? vans[Number(sale.vanNo)]?.name ?? '-' : '-'}
+                {sale?.vanNo ? vans.find(v => v.vanNo == sale.vanNo)?.name ?? '-' : '-'}
             </td>
             <td className={`px-4 ${color} py-3 text-right text-slate-200 font-medium`}>
                 {sale.type || '-'}

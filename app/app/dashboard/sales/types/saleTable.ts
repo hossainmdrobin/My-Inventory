@@ -24,6 +24,7 @@ export type FlatItem = {
   returnQty: number;
   damageQty: number;
   totalPrice: number;
+  commission: number;
 };
 
 export type SaleItemWithProduct = {
@@ -33,4 +34,5 @@ export type SaleItemWithProduct = {
   quantity: number;
   costPrice: number;
   sellingPrice: number;
+  comission?: number;
 };

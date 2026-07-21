@@ -40,6 +40,7 @@ export function flattenSales(sales: SaleType[]): FlatItem[] {
         const returnQty = (type === 'RETURN') ? item.quantity : 0;
         const damageQty = (type === 'DAMAGE') ? item.quantity : 0;
         const totalPrice = (type !== 'DAMAGE' && type !== 'RETURN') ? item.quantity * price : 0;
+        const commission = (type !== 'DAMAGE' && type !== 'RETURN') ? (item.comission || 0) : 0;
 
         items.push({
           saleId: sale._id || '',
@@ -53,6 +54,7 @@ export function flattenSales(sales: SaleType[]): FlatItem[] {
           returnQty,
           damageQty,
           totalPrice,
+          commission,
         });
       });
     }
@@ -85,29 +87,51 @@ export function sortFlatItems(items: FlatItem[], sortBy: SortColumn, sortOrder: 
 }
 
 export const aggregateSalesProducts = (sales: SaleType[]): AggregatedProduct[] => {
-    if (!sales || sales.length === 0) return [];
+  if (!sales || sales.length === 0) return [];
 
-    const flatItems = flattenSales(sales);
-    const map: Record<string, AggregatedProduct> = {};
+  const flatItems = flattenSales(sales);
+  const map: Record<string, AggregatedProduct> = {};
 
-    flatItems.forEach((item) => {
-      const key = item.sku || item.productName;
-      if (!map[key]) {
-        map[key] = {
-          sku: item.sku,
-          supplierName: item.supplierName,
-          productName: item.productName,
-          price: item.price,
-          openingQty: 0,
-          returnQty: 0,
-          damageQty: 0,
-          totalPrice: 0,
-        };
-      }
-      map[key].openingQty += item.openingQty;
-      map[key].returnQty += item.returnQty;
-      map[key].damageQty += item.damageQty;
-      map[key].totalPrice += item.totalPrice;
-    });
-    return Object.values(map).sort((a, b) => a.productName.localeCompare(b.productName));
-  };
+  flatItems.forEach((item) => {
+    const key = item.sku || item.productName;
+    if (!map[key]) {
+      map[key] = {
+        sku: item.sku,
+        supplierName: item.supplierName,
+        productName: item.productName,
+        price: item.price,
+        openingQty: 0,
+        returnQty: 0,
+        damageQty: 0,
+        totalPrice: 0,
+        commission: 0,
+      };
+    }
+    map[key].openingQty += item.openingQty;
+    map[key].returnQty += item.returnQty;
+    map[key].damageQty += item.damageQty;
+    map[key].totalPrice += item.totalPrice;
+    map[key].commission += item.commission;
+  });
+  return Object.values(map).sort((a, b) => a.productName.localeCompare(b.productName));
+};
+
+
+export const calculatedTotals = (sales: SaleType[]): { totalCommission: number; totalPrice: number, totalDamagePrice: number } => {
+  const returns = sales.filter(item => item.type == "RETURN")
+  const damage = sales.filter(item => item.type == "DAMAGE")
+  const opening = sales.filter(item => item.type == "OPENING")
+
+  // COMMISSIONS
+  const openingComission = opening.reduce((sum, s) => sum + (s.items || []).reduce((acc, it) => acc + (it.comission || 0), 0), 0);
+  const returnComission = returns.reduce((sum, s) => sum + (s.items || []).reduce((acc, it) => acc + (it.comission || 0), 0), 0);
+  const totalCommission = openingComission - returnComission
+
+  const openingTotalPrice = opening.reduce((sum, s) => sum + (s.items || []).reduce((acc, it) => acc + (it.totalPrice || 0), 0), 0);
+  const returnTotalPrice = returns.reduce((sum, s) => sum + (s.items || []).reduce((acc, it) => acc + (it.totalPrice || 0), 0), 0);
+  const totalPrice = openingTotalPrice - returnTotalPrice
+
+  const totalDamagePrice = damage.reduce((sum, s) => sum + (s.items || []).reduce((acc, it) => acc + (it.totalPrice || 0), 0), 0);
+
+  return { totalCommission, totalPrice, totalDamagePrice }
+}

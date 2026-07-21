@@ -23,6 +23,7 @@ export default function SalesByProductTable({ sales }: { sales: SaleType[] }) {
           returnQty: 0,
           damageQty: 0,
           totalPrice: 0,
+          commission: item.commission || 0,
         };
       }
       map[key].openingQty += item.openingQty;

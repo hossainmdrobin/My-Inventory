@@ -12,8 +12,6 @@ export default function PurchaseFilters({ filters, setFilters }: { filters: Filt
     setFilters(updated);
   };
 
-  console.log(filters, "filters in filter component")
-
   useEffect(() => {
     if (filters.dateMode === "single" && filters.startDate) {
       updateFilter("endDate", filters.startDate);
