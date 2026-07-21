@@ -13,9 +13,7 @@ export default function DayGroup({
   sortOrder: SortOrder;
 }) {
   const aggregatedProducts = aggregateSalesProducts(dateSales);
-  const nonDamageDaySales = dateSales.filter((s) => s.type !== 'DAMAGE');
-  const dayTotal = nonDamageDaySales.reduce((sum, s) => sum + s.totalPrice, 0);
-
+  
   const { totalCommission, totalPrice, totalDamagePrice } = calculatedTotals(dateSales);
 
   return (
