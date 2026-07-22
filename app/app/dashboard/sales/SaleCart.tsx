@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import {resetSale, setDescription, setNote, setPaid, setVanNo, setSaleType } from "@/redux/slices/sales/reducer.sale";
+import {resetSale, setDescription, setNote, setDate, setVanNo, setSaleType } from "@/redux/slices/sales/reducer.sale";
 import { MessageCircleWarning } from "lucide-react";
 import { SaleItemType, SaleType } from "@/types/sale";
 import { useCreateSaleMutation } from "@/redux/slices/sales/api.sale";
@@ -52,6 +52,7 @@ export default function SaleCart({ selectedIds, sale, setCartOpen }: { selectedI
                             ))
                         }
                     </select>
+                    <input className="my-3 w-full text-gray-400 bg-slate-800 border border-slate-700 rounded-lg p-2" type="date" defaultValue={new Date().toISOString().split("T")[0]} onChange={(e)=>dispatch(setDate(e.target.value))}/>
                     <input
                         onChange={(e) => dispatch(setNote(e.target.value))}
                         type="text" placeholder='Sale Note' className="w-full bg-slate-800 border border-slate-700 rounded-lg p-2" />

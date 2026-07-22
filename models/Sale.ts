@@ -43,7 +43,7 @@ const SaleItemSchema = new Schema(
       type: Number,
       min: 0,
     },
-    totalPrice:{ type: Number, default: 0 },
+    totalPrice: { type: Number, default: 0 },
     comission: { type: Number, default: 0 },
   },
   { _id: false } // prevent auto _id for subdocuments
@@ -98,6 +98,7 @@ const SaleSchema = new Schema(
       trim: true,
     },
     vanNo: { type: String, required: true },
+    date: { type: Date, default: new Date() },
     createdBy: {
       type: Schema.Types.ObjectId,
       ref: "User",
