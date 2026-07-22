@@ -1,4 +1,4 @@
-import type { FlatItem, SaleItemWithProduct } from '../types/saleTable';
+import type { FlatItem } from '../types/saleTable';
 import type { SaleItemType, SaleType } from '@/types/sale';
 import type { SortColumn, SortOrder } from '@/types/others';
 import type { AggregatedProduct } from '@/types/product';
@@ -112,6 +112,7 @@ export const aggregateSalesProducts = (sales: SaleType[]): AggregatedProduct[] =
         damageQty: 0,
         totalPrice: 0,
         commission: 0,
+        return: 0,
       };
     }
     map[key].openingQty += item.openingQty;
@@ -122,7 +123,10 @@ export const aggregateSalesProducts = (sales: SaleType[]): AggregatedProduct[] =
     map[key].totalPrice -= item.returnAmount;
     // CALCULATING COMMISSION
     map[key].commission += item.openingComission;
-    map[key].commission -= item.returnAmount
+    map[key].commission -= item.returnComission;
+
+    // CALCULATING  RETURN
+    map[key].return += item.returnAmount
   });
   return Object.values(map).sort((a, b) => a.productName.localeCompare(b.productName));
 };

@@ -21,5 +21,5 @@ export type AggregatedProduct = {
   damageQty: number;
   totalPrice: number;
   commission: number;
-  return?:number
+  return:number
 };

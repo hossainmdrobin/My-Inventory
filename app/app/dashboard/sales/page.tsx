@@ -36,6 +36,7 @@ export default function SalesPage() {
     sortBy: "productName",
     sortOrder: "asc",
   });
+  console.log(filters, "filter")
 
   // Initialize filters to current month when component mounts
   useEffect(() => {
