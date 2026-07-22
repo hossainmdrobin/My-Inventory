@@ -33,8 +33,8 @@ export default function SalesByProductTable({ sales }: { sales: SaleType[] }) {
           </div>
           <div className="text-right">
             <div className="text-xs text-white/80">Total Sale: ৳ {totalPrice.toFixed(2)}</div>
-            <div className="text-xs text-white/80">Total Commission: {totalCommission.toFixed(2)}</div>
-            <div className="text-xs text-white/80">Total Damage:{totalDamagePrice.toFixed(2)}</div>
+            <div className="text-xs text-white/80">Total Commission:৳  {totalCommission.toFixed(2)}</div>
+            <div className="text-xs text-white/80">Total Damage:৳ {totalDamagePrice.toFixed(2)}</div>
           </div>
         </div>
       </div>
