@@ -27,7 +27,7 @@ export default function DayGroup({
           <span className="text-xs text-slate-500">Sale: {totalPrice.toFixed(2)}</span>
           <span className="text-xs text-slate-500">Commissaion: {totalCommission.toFixed(2)}</span>
           <span className="text-xs text-slate-500">Damage: {totalDamagePrice.toFixed(2)}</span>
-          {/* <span className="text-sm font-semibold text-slate-200">₹{dayTotal.toFixed(2)}</span> */}
+          {/* <span className="text-sm font-semibold text-slate-200">৳ {dayTotal.toFixed(2)}</span> */}
         </div>
       </div>
       <div className="overflow-x-auto">

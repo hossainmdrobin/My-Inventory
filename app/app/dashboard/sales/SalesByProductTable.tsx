@@ -1,42 +1,10 @@
 import React, { useMemo } from 'react';
 import { SaleType } from '@/types/sale';
-import { flattenSales } from './SaleTable';
-import { AggregatedProduct } from '@/types/product';
+import { aggregateSalesProducts, calculatedTotals } from './utils/saleTable';
 
 
 export default function SalesByProductTable({ sales }: { sales: SaleType[] }) {
-  const aggregatedProducts = useMemo((): AggregatedProduct[] => {
-    if (!sales || sales.length === 0) return [];
-
-    const flatItems = flattenSales(sales);
-    const map: Record<string, AggregatedProduct> = {};
-
-    flatItems.forEach((item) => {
-      const key = item.sku || item.productName;
-      if (!map[key]) {
-        map[key] = {
-          sku: item.sku,
-          supplierName: item.supplierName,
-          productName: item.productName,
-          price: item.price,
-          openingQty: 0,
-          returnQty: 0,
-          damageQty: 0,
-          totalPrice: 0,
-          commission: item.commission || 0,
-        };
-      }
-      map[key].openingQty += item.openingQty;
-      map[key].returnQty += item.returnQty;
-      map[key].damageQty += item.damageQty;
-      map[key].totalPrice += item.totalPrice;
-    });
-
-    return Object.values(map).sort((a, b) => a.productName.localeCompare(b.productName));
-  }, [sales]);
-
-  const totalQuantity = aggregatedProducts.reduce((sum, p) => sum + (p.openingQty + p.returnQty), 0);
-  const totalSale = aggregatedProducts.reduce((sum, p) => sum + p.totalPrice, 0);
+  const aggregatedProducts = aggregateSalesProducts(sales)
 
   if (!sales || sales.length === 0) {
     return (
@@ -45,6 +13,8 @@ export default function SalesByProductTable({ sales }: { sales: SaleType[] }) {
       </div>
     );
   }
+
+  const { totalCommission, totalDamagePrice, totalPrice } = calculatedTotals(sales)
 
   return (
     <div className="rounded-2xl border border-slate-800 bg-slate-900/30 overflow-hidden">
@@ -62,8 +32,9 @@ export default function SalesByProductTable({ sales }: { sales: SaleType[] }) {
             </div>
           </div>
           <div className="text-right">
-            <div className="text-white font-bold">Qty: {totalQuantity}</div>
-            <div className="text-xs text-white/80">Total: ₹{totalSale.toFixed(2)}</div>
+            <div className="text-xs text-white/80">Total Sale: ৳ {totalPrice.toFixed(2)}</div>
+            <div className="text-xs text-white/80">Total Commission: {totalCommission.toFixed(2)}</div>
+            <div className="text-xs text-white/80">Total Damage:{totalDamagePrice.toFixed(2)}</div>
           </div>
         </div>
       </div>
@@ -102,7 +73,7 @@ export default function SalesByProductTable({ sales }: { sales: SaleType[] }) {
                   {product.damageQty}
                 </td>
                 <td className="px-3 py-2.5 text-right text-slate-200 font-medium">
-                  ₹{product.totalPrice.toFixed(2)}
+                  ৳ {product.totalPrice.toFixed(2)}
                 </td>
               </tr>
             ))}
