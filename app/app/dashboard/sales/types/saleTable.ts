@@ -23,8 +23,11 @@ export type FlatItem = {
   openingQty: number;
   returnQty: number;
   damageQty: number;
-  totalPrice: number;
-  commission: number;
+  openingAmount:number;
+  returnAmount:number;
+  damageAmount:number;
+  openingComission: number;
+  returnComission:number;
 };
 
 export type SaleItemWithProduct = {
