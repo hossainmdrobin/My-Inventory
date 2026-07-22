@@ -1,7 +1,7 @@
 "use client";
 
-import { FilterValues, SortColumn, SortOrder } from "@/types/others";
-import { SlidersHorizontal, ArrowUpDown } from "lucide-react";
+import { FilterValues } from "@/types/others";
+import { SlidersHorizontal } from "lucide-react";
 import { useState, useEffect } from "react";
 
 
@@ -78,7 +78,7 @@ export default function PurchaseFilters({ filters, setFilters }: { filters: Filt
             />
           </div>
         </div>
-        <div className="flex items-center gap-4 pt-3 border-t border-slate-800">
+        {/* <div className="flex items-center gap-4 pt-3 border-t border-slate-800">
           <div className="flex items-center gap-2">
             <ArrowUpDown className="w-4 h-4 text-slate-400" />
             <span className="text-xs text-slate-400">Sort by:</span>
@@ -105,7 +105,7 @@ export default function PurchaseFilters({ filters, setFilters }: { filters: Filt
               <option value="desc">Descending</option>
             </select>
           </div>
-        </div>
+        </div> */}
       </>}
     </div>
   );
