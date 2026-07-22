@@ -10,6 +10,7 @@ const initialState: SaleType = {
     note: "",
     vanNo:"1",
     type:"OPENING",
+    date:new Date().toISOString().split('T')[0]
 }
 const saleSlice = createSlice({
     name: 'sale',
@@ -81,6 +82,9 @@ const saleSlice = createSlice({
         setSaleType:(state, action: PayloadAction<string>) => {
             state.type = action.payload
         },
+        setDate:(state, action: PayloadAction<string>) => {
+            state.type = action.payload
+        },
         setDetailQuantity:(state, action: PayloadAction<{ productId: string,quantity: number, detailQuantity: { quantity: number, price: number }[], totalPrice?: number, comission?: number }>) => {
             state.items.forEach(item => {
                 if (item.productId == action.payload.productId) {
@@ -110,7 +114,8 @@ export const {
     setPaid,
     resetSale,
     setVanNo,
-    setSaleType
+    setSaleType,
+    setDate
 } = saleSlice.actions;
 
 export default saleSlice.reducer

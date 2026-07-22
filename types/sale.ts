@@ -24,12 +24,13 @@ export type SaleType = {
   paid: number;
   due: number;
   description?: string; // optional, for any additional info about the item
-  note?: string
+  note?: string;
   createdBy?: string;
   createdAt?: Date;           // from timestamps
   updatedAt?: Date;     
-  vanNo:String   ,
-  type?:String   // from timestamps
+  vanNo:String;
+  type?:String;
+  date?:String;   // from timestamps
 };
 
 export type PopulatedSaleType = Omit<SaleType, "items" | "createdBy"> & {
