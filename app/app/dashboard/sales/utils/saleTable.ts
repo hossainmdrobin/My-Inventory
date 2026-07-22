@@ -1,5 +1,5 @@
 import type { FlatItem, SaleItemWithProduct } from '../types/saleTable';
-import type { SaleType } from '@/types/sale';
+import type { SaleItemType, SaleType } from '@/types/sale';
 import type { SortColumn, SortOrder } from '@/types/others';
 import type { AggregatedProduct } from '@/types/product';
 
@@ -27,7 +27,7 @@ export function flattenSales(sales: SaleType[]): FlatItem[] {
   const items: FlatItem[] = [];
   sales.forEach((sale) => {
     if (sale.items && sale.items.length > 0) {
-      sale.items.forEach((item: SaleItemWithProduct) => {
+      sale.items.forEach((item: SaleItemType) => {
         const productObj = item.productId as { name?: string; sku?: string; supplier?: { name?: string } };
         const isPopulated = typeof productObj === 'object' && productObj !== null;
         const productName = isPopulated ? productObj?.name || item.name || 'Unknown' : 'Unknown';
@@ -39,8 +39,12 @@ export function flattenSales(sales: SaleType[]): FlatItem[] {
         const openingQty = (type === 'OPENING') ? item.quantity : 0;
         const returnQty = (type === 'RETURN') ? item.quantity : 0;
         const damageQty = (type === 'DAMAGE') ? item.quantity : 0;
-        const totalPrice = (type !== 'DAMAGE' && type !== 'RETURN') ? item.quantity * price : 0;
-        const commission = (type !== 'DAMAGE' && type !== 'RETURN') ? (item.comission || 0) : 0;
+        const damageAmount = (type === "DAMAGE") ? item.totalPrice || 0 : 0;
+        const returnAmount = type === "RETURN" ? item.totalPrice || 0 : 0;
+        const openingAmount = type == "OPENING" ? item.totalPrice || 0 : 0;
+
+        const openingComission = type === 'OPENING' ? item.comission || 0 : 0;
+        const returnComission = type === 'RETURN' ? item.comission || 0 : 0;
 
         items.push({
           saleId: sale._id || '',
@@ -53,8 +57,11 @@ export function flattenSales(sales: SaleType[]): FlatItem[] {
           openingQty,
           returnQty,
           damageQty,
-          totalPrice,
-          commission,
+          openingAmount,
+          returnAmount,
+          damageAmount,
+          openingComission,
+          returnComission
         });
       });
     }
@@ -75,9 +82,9 @@ export function sortFlatItems(items: FlatItem[], sortBy: SortColumn, sortOrder: 
       case 'quantity':
         comparison = a.openingQty - b.openingQty;
         break;
-      case 'totalPrice':
-        comparison = a.totalPrice - b.totalPrice;
-        break;
+      // case 'totalPrice':
+      //   comparison = a.totalPrice - b.totalPrice;
+      //   break;
       case 'totalReturn':
         comparison = a.returnQty - b.returnQty;
         break;
@@ -110,8 +117,12 @@ export const aggregateSalesProducts = (sales: SaleType[]): AggregatedProduct[] =
     map[key].openingQty += item.openingQty;
     map[key].returnQty += item.returnQty;
     map[key].damageQty += item.damageQty;
-    map[key].totalPrice += item.totalPrice;
-    map[key].commission += item.commission;
+    // CALCULATING TOTALPRICE
+    map[key].totalPrice += item.openingAmount;
+    map[key].totalPrice -= item.returnAmount;
+    // CALCULATING COMMISSION
+    map[key].commission += item.openingComission;
+    map[key].commission -= item.returnAmount
   });
   return Object.values(map).sort((a, b) => a.productName.localeCompare(b.productName));
 };

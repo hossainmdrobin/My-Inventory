@@ -62,7 +62,7 @@ export default function EditableSaleRow({
                 </div>
             </td>
             <td className='px-4 py-3 text-right text-slate-200 font-medium'>
-                ₹{draft.totalPrice.toFixed(2)}
+                ৳ {draft.totalPrice.toFixed(2)}
             </td>
             <td className='px-4 py-3'>
                 <div className='flex flex-col items-center gap-2'>

@@ -44,9 +44,9 @@ export default function VanCard({
             </div>
           </div>
           <div className="text-right">
-            <div className="text-white font-bold">₹{totalAmount.toFixed(2)}</div>
+            <div className="text-white font-bold">৳ {totalAmount.toFixed(2)}</div>
             <div className="text-xs text-white/80">
-              <span>Commission: ₹{totalCommission.toFixed(2)}</span>
+              <span>Commission: ৳ {totalCommission.toFixed(2)}</span>
               <span>Total Damage:DBT {totalDamagePrice.toFixed(2)}</span>
             </div>
           </div>
