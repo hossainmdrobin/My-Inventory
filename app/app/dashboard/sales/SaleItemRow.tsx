@@ -10,8 +10,9 @@ export default function SaleItemRow({ item }: { item: AggregatedProduct }) {
       <td className="px-3 py-2.5 text-right text-slate-400">{item.returnQty}</td>
       <td className="px-3 py-2.5 text-right text-slate-400">{item.openingQty-item.returnQty}</td>
       <td className="px-3 py-2.5 text-right text-slate-400 text-red-400/80">{item.damageQty}</td>
-      <td className="px-3 py-2.5 text-right text-slate-200 font-medium">৳ {item.totalPrice.toFixed(2)}</td>
-      <td className="px-3 py-2.5 text-right text-slate-200">৳ {item.commission.toFixed(2)}</td>
+      <td className="px-3 py-2.5 text-left text-slate-200 font-medium">৳ {item.totalPrice.toFixed(2)}</td>
+      <td className="px-3 py-2.5 text-left text-slate-200 font-medium">৳ {item.return}</td>
+      <td className="px-3 py-2.5 text-left text-slate-200">৳ {item.commission.toFixed(2)}</td>
     </tr>
   );
 }

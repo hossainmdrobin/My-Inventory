@@ -56,17 +56,17 @@ export async function GET(req: NextRequest) {
 
         // 📅 Date range filter
         if (startDate || endDate) {
-            query.createdAt = {};
+            query.date = {};
 
             if (startDate) {
-                query.createdAt.$gte = new Date(startDate);
+                query.date.$gte = new Date(startDate);
             }
 
             if (endDate) {
                 // include full end day
                 const end = new Date(endDate);
                 end.setHours(23, 59, 59, 999);
-                query.createdAt.$lte = end;
+                query.date.$lte = end;
             }
         }
         const total = await Sale.countDocuments(query);
@@ -75,7 +75,7 @@ export async function GET(req: NextRequest) {
             .skip((page - 1) * limit)
             .populate("items.productId", "name sku")
             .populate("createdBy", "email")
-            .sort({ createdAt: -1 })
+            .sort({ date: -1 })
             .lean();
 
         return NextResponse.json({

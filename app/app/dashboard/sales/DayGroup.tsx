@@ -13,7 +13,7 @@ export default function DayGroup({
   sortOrder: SortOrder;
 }) {
   const aggregatedProducts = aggregateSalesProducts(dateSales);
-  
+
   const { totalCommission, totalPrice, totalDamagePrice } = calculatedTotals(dateSales);
 
   return (
@@ -37,11 +37,12 @@ export default function DayGroup({
               <th className="px-3 py-2 text-left font-medium">Product name</th>
               <th className="px-3 py-2 text-left font-medium">SKU</th>
               <th className="px-3 py-2 text-left font-medium">Company</th>
-              <th className="px-3 py-2 text-right font-medium">Opening </th>
-              <th className="px-3 py-2 text-right font-medium">Return </th>
-              <th className="px-3 py-2 text-right font-medium">Sales </th>
-              <th className="px-3 py-2 text-right font-medium">Damage </th>
-              <th className="px-3 py-2 text-right font-medium">Total Price</th>
+              <th className="px-3 py-2 text-right font-medium">Opening</th>
+              <th className="px-3 py-2 text-right font-medium">Return</th>
+              <th className="px-3 py-2 text-right font-medium">Sales</th>
+              <th className="px-3 py-2 text-right font-medium">Damage</th>
+              <th className="px-3 py-2 text-right font-medium">Sale Amount</th>
+              <th className="px-3 py-2 text-right font-medium">Return Amount</th>
               <th className="px-3 py-2 text-right font-medium">Commission</th>
             </tr>
           </thead>
