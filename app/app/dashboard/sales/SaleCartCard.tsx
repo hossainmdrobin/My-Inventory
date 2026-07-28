@@ -1,4 +1,4 @@
-import { X } from "lucide-react";
+import { Trash, X } from "lucide-react";
 
 import { setQty, removeItem, setDetailQuantity } from "@/redux/slices/sales/reducer.sale";
 import { SaleItemType } from "@/types/sale";
@@ -17,11 +17,11 @@ export default function SaleCartCard({ product }: { product: SaleItemType }) {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(setDetailQuantity({ 
-            productId: product.productId, 
+        dispatch(setDetailQuantity({
+            productId: product.productId,
             quantity: cost.reduce((acc, item) => acc + item.quantity, 0),
-            detailQuantity: cost, 
-            totalPrice: cost.reduce((acc, item) => acc + item.quantity * item.price, 0), 
+            detailQuantity: cost,
+            totalPrice: cost.reduce((acc, item) => acc + item.quantity * item.price, 0),
             comission: cost.reduce((acc, item) => acc + (item.quantity * (product.sellingPrice ?? product.costPrice) - item.quantity * item.price), 0),
         }))
     }, [cost])
@@ -36,6 +36,7 @@ export default function SaleCartCard({ product }: { product: SaleItemType }) {
                 <table className="w-full">
                     <tbody className="m-2">
                         <tr className="border-b border-gray-700">
+                            <th> </th>
                             <th>Price</th>
                             <th>Quantity</th>
                             <th>Total</th>
@@ -43,8 +44,11 @@ export default function SaleCartCard({ product }: { product: SaleItemType }) {
                         </tr>
                         {cost.map((item, index) => (
                             <tr key={index} className="hover:bg-gray-600">
+                                <td><button className="text-red-400 hover:text-red-600"
+                                    onClick={() => setCost(cost.filter((_, i) => i !== index))}
+                                ><Trash size={15} /></button></td>
                                 <td><input className="w-12"
-                                 type="number"
+                                    type="number"
                                     min={1}
                                     defaultValue={item.price}
                                     maxLength={8}
@@ -68,7 +72,7 @@ export default function SaleCartCard({ product }: { product: SaleItemType }) {
                                 <td>{item.quantity * (product.sellingPrice) - item.quantity * item.price}</td>
                             </tr>
                         ))}
-                        
+
                     </tbody>
                 </table>
 
